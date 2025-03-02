@@ -13,16 +13,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #000; /* Черный фон на случай, если картинка не закроет всё */
+            background-color: #000;
         }
-        img, video {
-            width: 100vw; /* 100% ширины экрана */
-            height: 100vh; /* 100% высоты экрана */
-            object-fit: cover; /* Подстраивает изображение/гифку под экран без искажений */
+        img {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
             position: absolute;
             top: 0;
             left: 0;
-            z-index: -1; /* Картинка/гифка на заднем плане */
+            z-index: -1;
         }
         .overlay {
             position: relative;
@@ -30,7 +30,7 @@
             text-align: center;
             font-family: Arial, sans-serif;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-            z-index: 1; /* Текст поверх картинки */
+            z-index: 1;
         }
         h1 {
             font-size: 3rem;
@@ -42,13 +42,7 @@
     </style>
 </head>
 <body>
-    <!-- Используй ТОЛЬКО ОДИН из вариантов ниже: либо img для картинки, либо video для гифки -->
-    <!-- Для картинки (раскомментируй и вставь свой путь): -->
     <img src="background.jpg" alt="Background">
-    <!-- Для гифки (раскомментируй и вставь свой путь): -->
-    <video autoplay muted loop>
-        <source src="background.gif" type="video/mp4">
-    <!-- </video>-->
 
     <div class="overlay">
         <h1>SoundTag!</h1>
@@ -63,10 +57,9 @@
     <script>
         window.onload = function() {
             var audio = document.getElementById("sound");
-            audio.volume = 1.0; // Максимальная громкость
+            audio.volume = 1.0;
             audio.play().catch(function(error) {
                 console.log("Автозапуск не сработал: ", error);
-                // Добавляем кнопку, если автозапуск заблокирован
                 document.body.innerHTML += '<button style="position: absolute; top: 10px; left: 10px; z-index: 2;" onclick="document.getElementById(\'sound\').play()">Врубить звук</button>';
             });
         };
