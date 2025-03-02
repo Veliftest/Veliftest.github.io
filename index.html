@@ -15,7 +15,7 @@
             align-items: center;
             background-color: #000;
         }
-        img {
+        img.background {
             width: 100vw;
             height: 100vh;
             object-fit: cover;
@@ -25,27 +25,29 @@
             z-index: -1;
         }
         button {
-            width: 300px; /* Увеличили ширину круга */
-            height: 300px; /* Увеличили высоту круга */
-            border-radius: 50%; /* Остаётся круглой */
-            background-color: #ff6b6b;
-            color: white;
-            font-size: 2rem; /* Чуть увеличили шрифт для пропорций */
-            font-family: Arial, sans-serif;
+            width: 30vw; /* Адаптивный размер: 30% ширины экрана */
+            height: 30vw; /* Круг остаётся пропорциональным */
+            max-width: 300px; /* Максимум 300px для больших экранов */
+            max-height: 300px;
+            min-width: 100px; /* Минимум 100px для маленьких экранов */
+            min-height: 100px;
+            border-radius: 50%;
+            background: url('button-image.png') no-repeat center / cover; /* Изображение кнопки */
             border: none;
             cursor: pointer;
-            transition: background-color 0.3s;
+            position: absolute; /* Для прыгания */
             z-index: 1;
+            transition: all 0.1s ease; /* Плавность движения */
         }
         button:hover {
-            background-color: #ff8787;
+            opacity: 0.9; /* Лёгкий эффект при наведении */
         }
     </style>
 </head>
 <body>
-    <img src="background.jpg" alt="Background">
+    <img class="background" src="background.jpg" alt="Background">
 
-    <button onclick="playSound()">Жми</button>
+    <button onclick="playSoundAndBounce()"></button>
 
     <audio id="sound">
         <source src="sound.mp3" type="audio/mpeg">
@@ -53,10 +55,31 @@
     </audio>
 
     <script>
-        function playSound() {
+        function playSoundAndBounce() {
             var audio = document.getElementById("sound");
+            var button = document.querySelector("button");
             audio.volume = 1.0;
             audio.play();
+
+            // Прыгание кнопки
+            function bounce() {
+                var maxX = window.innerWidth - button.offsetWidth;
+                var maxY = window.innerHeight - button.offsetHeight;
+                var newX = Math.random() * maxX;
+                var newY = Math.random() * maxY;
+                button.style.left = newX + "px";
+                button.style.top = newY + "px";
+            }
+
+            // Запускаем прыгание каждые 100 мс
+            var bounceInterval = setInterval(bounce, 100);
+
+            // Останавливаем прыгание, когда звук закончится
+            audio.onended = function() {
+                clearInterval(bounceInterval);
+                button.style.left = ""; // Возвращаем в центр
+                button.style.top = "";
+            };
         }
     </script>
 </body>
