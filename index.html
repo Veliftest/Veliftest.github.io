@@ -14,7 +14,7 @@
             align-items: center;
             background: linear-gradient(45deg, #3b3b3b, #222323, #404040, #2a2b2c, #3b3b3b);
             background-size: 400% 400%;
-            animation: gradientBG 60s ease infinite; /* Очень-очень-очень плавное переливание */
+            animation: gradientBG 60s ease infinite;
             font-family: 'Roboto', sans-serif;
             overflow: hidden;
         }
@@ -25,75 +25,74 @@
         }
         h1 {
             color: #ffffff;
-            font-size: clamp(24px, 3.33vw, 64px); /* Минимальный 24px, максимальный 64px (1.2 раза от 53px) */
+            font-size: clamp(24px, 3.33vw, 64px);
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: clamp(0.5px, 0.2vw, 2px);
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.3); /* Оптимизированное свечение */
-            margin-bottom: clamp(20px, 4.11vw, 79px); /* Минимальный 20px, максимальный 79px (1.2 раза от 66px) */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.2);
+            margin-bottom: clamp(20px, 4.11vw, 79px);
             z-index: 1;
         }
         .button-container {
             display: flex;
             flex-wrap: wrap;
-            gap: clamp(10px, 1.45vw, 28px); /* Минимальный 10px, максимальный 28px (1.2 раза от 23px) */
+            gap: clamp(10px, 1.45vw, 28px);
             justify-content: center;
             align-items: center;
             z-index: 1;
-            max-width: 95%; /* Увеличено до 95%, чтобы кнопки касались краёв экрана */
+            max-width: 95%;
             flex-direction: column;
-            width: 100%; /* Занимает всю доступную ширину */
+            width: 100%;
         }
         .main-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: clamp(10px, 1.45vw, 28px); /* Минимальный 10px, максимальный 28px (1.2 раза от 23px) */
+            gap: clamp(10px, 1.45vw, 28px);
             justify-content: center;
-            width: 100%; /* Занимает всю доступную ширину */
+            width: 100%;
         }
         a {
             text-decoration: none;
-            width: 100%; /* Распределяем кнопки по ширине */
+            width: 100%;
         }
         button {
-            padding: clamp(10px, 1.11vw, 19px) clamp(20px, 2.38vw, 41px); /* Минимальный 10px 20px, максимальный 19px 41px (1.2 раза от 16px 34px) */
-            font-size: clamp(12px, 1.16vw, 20px); /* Минимальный 12px, максимальный 20px (1.2 раза от 17px) */
+            padding: clamp(10px, 1.11vw, 19px) clamp(20px, 2.38vw, 41px);
+            font-size: clamp(12px, 1.16vw, 20px);
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             color: #ffffff;
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
-            border-radius: clamp(20px, 3.08vw, 53px); /* Минимальный 20px, максимальный 53px (1.2 раза от 44px) */
+            border-radius: clamp(20px, 3.08vw, 53px);
             cursor: pointer;
-            box-shadow: 0 clamp(10px, 0.93vw, 16px) clamp(20px, 2.33vw, 40px) rgba(60, 110, 49, 0.6); /* Минимальный 10px 20px, максимальный 16px 40px (1.2 раза от 13px 33px) */
+            box-shadow: 0 clamp(10px, 0.93vw, 16px) clamp(20px, 2.33vw, 40px) rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: clamp(0.5px, 0.06vw, 1px);
-            width: 100%; /* Кнопки занимают всю доступную ширину */
-            max-width: 300px; /* Ограничение максимальной ширины для читаемости */
+            width: 100%;
+            max-width: 300px;
         }
         button:hover {
             background: linear-gradient(45deg, #5a9e4b, #3c6e31);
-            transform: translateY(clamp(-10px, -0.93vw, -16px)); /* Минимальный -10px, максимальный -16px (1.2 раза от -13px) */
-            box-shadow: 0 clamp(15px, 1.39vw, 24px) clamp(30px, 3.08vw, 53px) rgba(60, 110, 49, 0.8); /* Минимальный 15px 30px, максимальный 24px 53px (1.2 раза от 20px 44px) */
+            transform: translateY(clamp(-10px, -0.93vw, -16px));
+            box-shadow: 0 clamp(15px, 1.39vw, 24px) clamp(30px, 3.08vw, 53px) rgba(60, 110, 49, 0.8);
         }
         button:active {
-            transform: translateY(clamp(5px, 0.41vw, 7px)); /* Минимальный 5px, максимальный 7px (1.2 раза от 6px) */
-            box-shadow: 0 clamp(5px, 0.41vw, 7px) clamp(10px, 1.39vw, 24px) rgba(60, 110, 49, 0.4); /* Минимальный 5px 10px, максимальный 7px 24px (1.2 раза от 6px 20px) */
+            transform: translateY(clamp(5px, 0.41vw, 7px));
+            box-shadow: 0 clamp(5px, 0.41vw, 7px) clamp(10px, 1.39vw, 24px) rgba(60, 110, 49, 0.4);
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&family=Montserrat:wght@700&family=Oswald:wght@700&display=swap" rel="stylesheet">
     <script>
-        // Опциональная анимация: кнопки "убегают" при наведении с шансом 1 из 4
         document.addEventListener('DOMContentLoaded', () => {
             const buttons = document.querySelectorAll('button');
             const container = document.querySelector('.main-buttons');
 
             buttons.forEach(button => {
                 button.addEventListener('mouseover', (e) => {
-                    const randomChance = Math.random(); // Случайное число от 0 до 1
-                    if (randomChance < 0.25) { // Шанс 1 из 4 (25%)
+                    const randomChance = Math.random();
+                    if (randomChance < 0.25) {
                         const containerRect = container.getBoundingClientRect();
                         const maxX = containerRect.width - button.offsetWidth;
                         const maxY = containerRect.height - button.offsetHeight;
@@ -105,7 +104,6 @@
                         button.style.top = `${newY}px`;
                         button.style.transition = 'transform 0.3s ease, left 0.3s ease, top 0.3s ease';
 
-                        // Возвращаем кнопку на место через 1.5 секунды
                         setTimeout(() => {
                             button.style.position = '';
                             button.style.left = '';
