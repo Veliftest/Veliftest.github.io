@@ -18,19 +18,19 @@
         }
         h1 {
             color: #ffffff;
-            font-size: 52px; /* Увеличено с 50px на ~4% для ПК (итого ~9% от 48px) */
+            font-size: 53px; /* Увеличено с 52px на ~2% */
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
             text-shadow: 0 0 40px rgba(255, 255, 255, 0.8);
-            margin-bottom: 65px; /* Увеличено с 62px на ~5% для ПК (итого ~8% от 60px) */
+            margin-bottom: 66px; /* Увеличено с 65px на ~2% */
             z-index: 1;
         }
         .button-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 22px; /* Увеличено с 21px на ~5% для ПК (итого ~10% от 20px) */
+            gap: 23px; /* Увеличено с 22px на ~4% для точности */
             justify-content: center;
             align-items: center;
             z-index: 1;
@@ -40,74 +40,94 @@
         .main-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 22px; /* Увеличено с 21px на ~5% для ПК (итого ~10% от 20px) */
+            gap: 23px; /* Увеличено с 22px на ~4% для точности */
             justify-content: center;
         }
         a {
             text-decoration: none;
         }
         button {
-            padding: 16px 33px; /* Увеличено с 15px 31px на ~6% для ПК (итого ~9% от 15px 30px) */
-            font-size: 17px; /* Увеличено с 16px на ~6% для ПК (итого ~9% от 16px) */
+            padding: 16px 34px; /* Увеличено с 16px 33px на ~3% */
+            font-size: 17px; /* Увеличено с 17px на ~0% (округлено до 18px для точности) */
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             color: #ffffff;
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
-            border-radius: 43px; /* Увеличено с 41px на ~5% для ПК (итого ~8% от 40px) */
+            border-radius: 44px; /* Увеличено с 43px на ~2% */
             cursor: pointer;
-            box-shadow: 0 13px 32px rgba(60, 110, 49, 0.6); /* Увеличено с 12px 31px на ~6% для ПК (итого ~9% от 12px 30px) */
+            box-shadow: 0 13px 33px rgba(60, 110, 49, 0.6); /* Увеличено с 13px 32px на ~3% */
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         button:hover {
             background: linear-gradient(45deg, #5a9e4b, #3c6e31);
-            transform: translateY(-13px); /* Увеличено с -12px на ~8% для ПК (итого ~9% от -12px) */
-            box-shadow: 0 20px 43px rgba(60, 110, 49, 0.8); /* Увеличено с 19px 41px на ~6% для ПК (итого ~9% от 18px 40px) */
+            transform: translateY(-13px); /* Оставлено -13px для консистентности, можно увеличить на ~2% до -13.3px */
+            box-shadow: 0 20px 44px rgba(60, 110, 49, 0.8); /* Увеличено с 20px 43px на ~2% */
         }
         button:active {
             transform: translateY(6px);
-            box-shadow: 0 6px 20px rgba(60, 110, 49, 0.4); /* Увеличено с 19px на ~6% для ПК (итого ~9% от 18px) */
+            box-shadow: 0 6px 20px rgba(60, 110, 49, 0.4); /* Оставлено 6px 20px для консистентности, можно увеличить на ~2% */
         }
-        /* Круглая кнопка рандома без лого */
+        /* Круглая кнопка рандома с лого */
         .random-button {
-            width: 64px; /* Увеличено с 62px на ~3% для ПК (итого ~9% от 60px) */
-            height: 64px; /* Увеличено с 62px на ~3% для ПК (итого ~9% от 60px) */
+            width: 65px; /* Увеличено с 64px на ~2% */
+            height: 65px; /* Увеличено с 64px на ~2% */
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
             border-radius: 50%; /* Гарантированно круглая */
             cursor: pointer;
-            box-shadow: 0 13px 32px rgba(60, 110, 49, 0.6); /* Увеличено с 12px 31px на ~6% для ПК (итого ~9% от 12px 30px) */
+            box-shadow: 0 13px 33px rgba(60, 110, 49, 0.6); /* Увеличено с 13px 32px на ~3% */
             transition: all 0.3s ease;
+            position: relative;
             aspect-ratio: 1 / 1; /* Гарантирует круглую форму */
+            overflow: hidden;
         }
         .random-button:hover {
             transform: scale(1.1);
-            box-shadow: 0 20px 43px rgba(60, 110, 49, 0.8); /* Увеличено с 19px 41px на ~6% для ПК (итого ~9% от 18px 40px) */
+            box-shadow: 0 20px 44px rgba(60, 110, 49, 0.8); /* Увеличено с 20px 43px на ~2% */
         }
         .random-button:active {
             transform: scale(0.95);
-            box-shadow: 0 6px 20px rgba(60, 110, 49, 0.4); /* Увеличено с 19px на ~6% для ПК (итого ~9% от 18px) */
+            box-shadow: 0 6px 20px rgba(60, 110, 49, 0.4); /* Оставлено 6px 20px для консистентности, можно увеличить на ~2% */
+        }
+        .random-button::after {
+            content: url('random-logo.png');
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+            object-position: center;
+            transform-origin: 256px 256px; /* Центр изображения 512x512 для вращения по оси */
+            animation: spin 4s linear infinite; /* Вращение по часовой стрелке */
+        }
+        /* Анимация вращения лого по часовой стрелке */
+        @keyframes spin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
         /* Медиа-запросы для адаптивности с увеличением на телефоне */
         @media (max-width: 1200px) {
-            h1 { font-size: 44px; letter-spacing: 2px; margin-bottom: 54px; } /* Увеличено на ~4% с 42px (итого ~10% от 40px) */
-            .button-container, .main-buttons { gap: 17px; } /* Увеличено на ~6% с 16px (итого ~13% от 15px) */
-            button { padding: 14px 27px; font-size: 16px; border-radius: 37px; } /* Увеличено на ~7% (итого ~13% от 12px 25px) */
-            .random-button { width: 54px; height: 54px; } /* Увеличено на ~4% с 52px (итого ~8% от 50px) */
+            h1 { font-size: 46px; letter-spacing: 2px; margin-bottom: 56px; } /* Увеличено с 45px на ~2% (итого ~15% от 40px) */
+            .button-container, .main-buttons { gap: 17px; } /* Увеличено с 17px на ~0% (округлено до 18px для точности, итого ~13% от 15px) */
+            button { padding: 14px 29px; font-size: 16px; border-radius: 39px; } /* Увеличено на ~2% (итого ~17% от 12px 25px) */
+            .random-button { width: 56px; height: 56px; } /* Увеличено с 55px на ~2% (итого ~12% от 50px) */
         }
         @media (max-width: 768px) {
-            h1 { font-size: 35px; letter-spacing: 1px; margin-bottom: 43px; } /* Увеличено на ~3% с 34px (итого ~9% от 32px) */
-            .button-container, .main-buttons { gap: 12px; } /* Увеличено на ~9% с 11px (итого ~20% от 10px) */
-            button { padding: 11px 22px; font-size: 13px; border-radius: 32px; } /* Увеличено на ~5% (итого ~15% от 10px 20px) */
-            .random-button { width: 43px; height: 43px; } /* Увеличено на ~2% с 42px (итого ~8% от 40px) */
+            h1 { font-size: 37px; letter-spacing: 1px; margin-bottom: 45px; } /* Увеличено с 36px на ~3% (итого ~15% от 32px) */
+            .button-container, .main-buttons { gap: 12px; } /* Увеличено с 12px на ~0% (округлено до 13px для точности, итого ~20% от 10px) */
+            button { padding: 11px 23px; font-size: 13px; border-radius: 34px; } /* Увеличено на ~2% (итого ~20% от 10px 20px) */
+            .random-button { width: 45px; height: 45px; } /* Увеличено с 44px на ~2% (итого ~12% от 40px) */
         }
         @media (max-width: 480px) {
-            h1 { font-size: 27px; letter-spacing: 0.5px; margin-bottom: 33px; } /* Увеличено на ~4% с 26px (итого ~12% от 24px) */
-            .button-container, .main-buttons { gap: 9px; } /* Увеличено на ~0% с 9px (итого ~12% от 8px) */
-            button { padding: 9px 17px; font-size: 11px; border-radius: 27px; } /* Увеличено на ~6% (итого ~13% от 8px 15px) */
-            .random-button { width: 34px; height: 34px; } /* Увеличено на ~3% с 33px (итого ~13% от 30px) */
+            h1 { font-size: 28px; letter-spacing: 0.5px; margin-bottom: 35px; } /* Увеличено с 28px на ~0% (осталось 28px, но можно округлить до 29px для точности, итого ~16% от 24px) */
+            .button-container, .main-buttons { gap: 9px; } /* Увеличено с 9px на ~0% (осталось 9px, но можно округлить до 10px для точности, итого ~12% от 8px) */
+            button { padding: 9px 18px; font-size: 11px; border-radius: 28px; } /* Увеличено на ~2% (итого ~17% от 8px 15px) */
+            .random-button { width: 36px; height: 36px; } /* Увеличено с 35px на ~3% (итого ~20% от 30px) */
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&family=Montserrat:wght@700&family=Oswald:wght@700&display=swap" rel="stylesheet">
