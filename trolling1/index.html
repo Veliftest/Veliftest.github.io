@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шутка)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+        }
+        img.background {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        button {
+            width: 30vw;
+            height: 30vw;
+            max-width: 300px;
+            max-height: 300px;
+            min-width: 100px;
+            min-height: 100px;
+            border-radius: 50%;
+            background: url('button-image.png') no-repeat center / cover;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            position: absolute;
+            z-index: 1;
+            transition: transform 0.1s ease, left 0.1s ease, top 0.1s ease; /* Ускорили переход */
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        button:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <img class="background" src="background.jpg" alt="Background">
+
+    <button onclick="playSoundAndBounce()"></button>
+
+    <audio id="sound">
+        <source src="sound.mp3" type="audio/mpeg">
+        Твой браузер не поддерживает аудио.
+    </audio>
+
+    <script>
+        let audioContext, analyser, dataArray;
+        let rotation = 0;
+
+        function playSoundAndBounce() {
+            var audio = document.getElementById("sound");
+            var button = document.querySelector("button");
+            audio.volume = 1.0;
+
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+                var source = audioContext.createMediaElementSource(audio);
+                source.connect(analyser);
+                analyser.connect(audioContext.destination);
+            }
+
+            audio.play();
+
+            // Траектория прыгания
+            let lastX = window.innerWidth / 2 - button.offsetWidth / 2;
+            let lastY = window.innerHeight / 2 - button.offsetHeight / 2;
+
+            function bounce() {
+                var maxX = window.innerWidth - button.offsetWidth;
+                var maxY = window.innerHeight - button.offsetHeight;
+                var directionX = Math.random() < 0.5 ? -1 : 1;
+                var directionY = Math.random() < 0.5 ? -1 : 1;
+                var distance = Math.random() * Math.min(maxX, maxY) * 0.3;
+
+                var newX = Math.max(0, Math.min(maxX, lastX + directionX * distance));
+                var newY = Math.max(0, Math.min(maxY, lastY + directionY * distance));
+
+                button.style.left = newX + "px";
+                button.style.top = newY + "px";
+                lastX = newX;
+                lastY = newY;
+
+                rotation += 90; // Вращение синхронизировано с прыжком
+                button.style.transform = `rotate(${rotation}deg)`;
+            }
+
+            // Анализ аудио
+            let lastBounceTime = 0;
+
+            function analyzeAndBounce() {
+                analyser.getByteFrequencyData(dataArray);
+                var energy = 0;
+                for (var i = 0; i < dataArray.length; i++) {
+                    energy += dataArray[i];
+                }
+                energy /= dataArray.length;
+
+                var now = Date.now();
+                // Динамический интервал: чем выше энергия, тем меньше задержка
+                var dynamicInterval = Math.max(100, 400 - energy * 2); // От 100 до 400 мс
+
+                if (energy > 40 && now - lastBounceTime > dynamicInterval) {
+                    bounce();
+                    lastBounceTime = now;
+                }
+
+                if (!audio.ended) {
+                    requestAnimationFrame(analyzeAndBounce);
+                } else {
+                    button.style.left = "";
+                    button.style.top = "";
+                    button.style.transform = "rotate(0deg)";
+                }
+            }
+
+            analyzeAndBounce();
+        }
+    </script>
+</body>
+</html>
