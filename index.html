@@ -70,7 +70,7 @@
             transform: translateY(7px); /* Увеличено с 6px в 1.2 раза */
             box-shadow: 0 7px 24px rgba(60, 110, 49, 0.4); /* Увеличено с 6px 20px в 1.2 раза */
         }
-        /* Круглая кнопка рандома с лого */
+        /* Круглая кнопка рандома с лого поверх */
         .random-button {
             width: 78px; /* Увеличено с 65px в 1.2 раза */
             height: 78px; /* Увеличено с 65px в 1.2 раза */
@@ -83,6 +83,7 @@
             position: relative;
             aspect-ratio: 1 / 1; /* Гарантирует круглую форму */
             overflow: hidden;
+            z-index: 0; /* Установлен нижний z-index для кнопки, чтобы лого было поверх */
         }
         .random-button:hover {
             transform: scale(1.1);
@@ -104,6 +105,7 @@
             object-position: center;
             transform-origin: 256px 256px; /* Центр изображения 512x512 для вращения по оси */
             animation: spin 4s linear infinite; /* Вращение по часовой стрелке */
+            z-index: 1; /* Установлен верхний z-index для лого, чтобы оно было поверх кнопки */
         }
         /* Анимация вращения лого по часовой стрелке */
         @keyframes spin {
