@@ -70,6 +70,32 @@
             transform: translateY(6px);
             box-shadow: 0 6px 18px rgba(60, 110, 49, 0.4);
         }
+        /* Круглая кнопка рандома */
+        .random-button {
+            width: clamp(50px, 15vw, 70px);
+            height: clamp(50px, 15vw, 70px);
+            min-width: clamp(50px, 15vw, 70px);
+            min-height: clamp(50px, 15vw, 70px);
+            max-width: clamp(50px, 15vw, 70px);
+            max-height: clamp(50px, 15vw, 70px);
+            background: linear-gradient(45deg, #3c6e31, #5a9e4b);
+            border: none;
+            border-radius: 50%; /* Гарантированно круглая */
+            cursor: pointer;
+            box-shadow: 0 12px 30px rgba(60, 110, 49, 0.6);
+            transition: all 0.3s ease;
+            position: relative;
+            aspect-ratio: 1 / 1; /* Гарантирует круглую форму */
+            overflow: hidden;
+        }
+        .random-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 18px 40px rgba(60, 110, 49, 0.8);
+        }
+        .random-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 6px 18px rgba(60, 110, 49, 0.4);
+        }
         @media (max-width: 600px) {
             .button-container, .main-buttons {
                 flex-direction: column;
@@ -90,6 +116,15 @@
             <a href="/trolling2/"><button>Прикольчик №2</button></a>
             <a href="/trolling3/"><button>Прикольчик №3</button></a>
         </div>
+        <button class="random-button" onclick="goRandom()"></button>
     </div>
+
+    <script>
+        function goRandom() {
+            const pages = ['/trolling1/', '/trolling2/', '/trolling3/'];
+            const randomPage = pages[Math.floor(Math.random() * pages.length)];
+            window.location.href = randomPage;
+        }
+    </script>
 </body>
 </html>
