@@ -33,8 +33,8 @@
             min-height: 100px;
             border-radius: 50%;
             background: url('button-image.png') no-repeat center / cover;
-            border: none; /* Убираем обводку */
-            outline: none; /* Убираем фокусную обводку */
+            border: none;
+            outline: none;
             cursor: pointer;
             position: absolute;
             z-index: 1;
@@ -44,7 +44,7 @@
             opacity: 0.9;
         }
         button:focus {
-            outline: none; /* Убираем обводку при клике */
+            outline: none;
         }
     </style>
 </head>
@@ -80,31 +80,33 @@
 
             audio.play();
 
-            // Новая траектория прыгания
+            // Траектория прыгания
             let lastX = window.innerWidth / 2 - button.offsetWidth / 2;
             let lastY = window.innerHeight / 2 - button.offsetHeight / 2;
 
             function bounce() {
                 var maxX = window.innerWidth - button.offsetWidth;
                 var maxY = window.innerHeight - button.offsetHeight;
-
-                // Делаем прыжки дальше от центра
-                var directionX = Math.random() < 0.5 ? -1 : 1; // Случайное направление
+                var directionX = Math.random() < 0.5 ? -1 : 1;
                 var directionY = Math.random() < 0.5 ? -1 : 1;
-                var distance = Math.random() * Math.min(maxX, maxY) * 0.3; // Ограниченная дистанция
+                var distance = Math.random() * Math.min(maxX, maxY) * 0.3;
 
                 var newX = Math.max(0, Math.min(maxX, lastX + directionX * distance));
                 var newY = Math.max(0, Math.min(maxY, lastY + directionY * distance));
 
                 button.style.left = newX + "px";
                 button.style.top = newY + "px";
-                lastX = newX; // Обновляем последнюю позицию
+                lastX = newX;
                 lastY = newY;
+
+                // Вращение синхронизируется с прыжком
+                rotation += 90; // Каждый прыжок — поворот на 90 градусов
+                button.style.transform = `rotate(${rotation}deg)`;
             }
 
             // Анализ и управление
             let lastBounceTime = 0;
-            const minBounceInterval = 200; // Увеличили до 300 мс для плавности
+            const minBounceInterval = 300; // Основа для синхронизации
 
             function analyzeAndBounce() {
                 analyser.getByteFrequencyData(dataArray);
@@ -115,10 +117,8 @@
                 energy /= dataArray.length;
 
                 var now = Date.now();
-                if (energy > 40 && now - lastBounceTime > minBounceInterval) {
+                if (energy > 50 && now - lastBounceTime > minBounceInterval) {
                     bounce();
-                    rotation += energy / 2;
-                    button.style.transform = `rotate(${rotation}deg)`;
                     lastBounceTime = now;
                 }
 
