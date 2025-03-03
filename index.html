@@ -70,7 +70,7 @@
             transform: translateY(7px); /* Увеличено с 6px в 1.2 раза */
             box-shadow: 0 7px 24px rgba(60, 110, 49, 0.4); /* Увеличено с 6px 20px в 1.2 раза */
         }
-        /* Круглая кнопка рандома с лого поверх */
+        /* Круглая кнопка рандома с лого внутри и поверх */
         .random-button {
             width: 78px; /* Увеличено с 65px в 1.2 раза */
             height: 78px; /* Увеличено с 65px в 1.2 раза */
@@ -99,10 +99,10 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(0deg);
-            max-width: 80%;
-            max-height: 80%;
-            object-fit: contain;
-            object-position: center;
+            width: 100%; /* Автоматическое масштабирование под размер кнопки */
+            height: 100%; /* Автоматическое масштабирование под размер кнопки */
+            object-fit: contain; /* Сохраняет пропорции и подгоняет под круг */
+            object-position: center; /* Центрирует лого */
             transform-origin: 256px 256px; /* Центр изображения 512x512 для вращения по оси */
             animation: spin 4s linear infinite; /* Вращение по часовой стрелке */
             z-index: 1; /* Установлен верхний z-index для лого, чтобы оно было поверх кнопки */
