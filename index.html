@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Забайчен</title>
+    <title>Шутка)</title>
     <style>
         body {
             margin: 0;
@@ -33,14 +33,18 @@
             min-height: 100px;
             border-radius: 50%;
             background: url('button-image.png') no-repeat center / cover;
-            border: none;
+            border: none; /* Убираем обводку */
+            outline: none; /* Убираем фокусную обводку */
             cursor: pointer;
             position: absolute;
             z-index: 1;
-            transition: transform 0.2s ease, left 0.2s ease, top 0.2s ease; /* Плавность вращения и прыжков */
+            transition: transform 0.2s ease, left 0.2s ease, top 0.2s ease;
         }
         button:hover {
             opacity: 0.9;
+        }
+        button:focus {
+            outline: none; /* Убираем обводку при клике */
         }
     </style>
 </head>
@@ -56,14 +60,13 @@
 
     <script>
         let audioContext, analyser, dataArray;
-        let rotation = 0; // Текущий угол вращения
+        let rotation = 0;
 
         function playSoundAndBounce() {
             var audio = document.getElementById("sound");
             var button = document.querySelector("button");
             audio.volume = 1.0;
 
-            // Инициализация Web Audio API
             if (!audioContext) {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 analyser = audioContext.createAnalyser();
@@ -77,19 +80,31 @@
 
             audio.play();
 
-            // Функция прыгания
+            // Новая траектория прыгания
+            let lastX = window.innerWidth / 2 - button.offsetWidth / 2;
+            let lastY = window.innerHeight / 2 - button.offsetHeight / 2;
+
             function bounce() {
                 var maxX = window.innerWidth - button.offsetWidth;
                 var maxY = window.innerHeight - button.offsetHeight;
-                var newX = Math.random() * maxX;
-                var newY = Math.random() * maxY;
+
+                // Делаем прыжки дальше от центра
+                var directionX = Math.random() < 0.5 ? -1 : 1; // Случайное направление
+                var directionY = Math.random() < 0.5 ? -1 : 1;
+                var distance = Math.random() * Math.min(maxX, maxY) * 0.3; // Ограниченная дистанция
+
+                var newX = Math.max(0, Math.min(maxX, lastX + directionX * distance));
+                var newY = Math.max(0, Math.min(maxY, lastY + directionY * distance));
+
                 button.style.left = newX + "px";
                 button.style.top = newY + "px";
+                lastX = newX; // Обновляем последнюю позицию
+                lastY = newY;
             }
 
-            // Анализ аудио и управление
+            // Анализ и управление
             let lastBounceTime = 0;
-            const minBounceInterval = 200; // Минимум 200 мс между прыжками
+            const minBounceInterval = 300; // Увеличили до 300 мс для плавности
 
             function analyzeAndBounce() {
                 analyser.getByteFrequencyData(dataArray);
@@ -100,10 +115,9 @@
                 energy /= dataArray.length;
 
                 var now = Date.now();
-                // Прыгаем и вращаем, если энергия выше порога и прошло достаточно времени
-                if (energy > 50 && now - lastBounceTime > minBounceInterval) { // Порог поднят до 50
+                if (energy > 50 && now - lastBounceTime > minBounceInterval) {
                     bounce();
-                    rotation += energy / 2; // Вращение зависит от энергии (чем громче, тем быстрее)
+                    rotation += energy / 2;
                     button.style.transform = `rotate(${rotation}deg)`;
                     lastBounceTime = now;
                 }
@@ -113,7 +127,7 @@
                 } else {
                     button.style.left = "";
                     button.style.top = "";
-                    button.style.transform = "rotate(0deg)"; // Сбрасываем вращение
+                    button.style.transform = "rotate(0deg)";
                 }
             }
 
