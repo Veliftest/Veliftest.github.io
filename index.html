@@ -98,16 +98,15 @@
             const buttonContainer = document.querySelector('.button-container');
             const randomButton = document.createElement('button');
             randomButton.className = 'random-button-js';
-            randomButton.onclick = goRandom;
 
             // Динамическое вычисление размера для круглой формы
             function getSize() {
-                const vw = window.innerWidth * 0.15; // 15% ширины окна
-                return Math.min(Math.max(50, vw), 70); // clamp(50, 15vw, 70)
+                const vw = Math.min(window.innerWidth * 0.15, 70); // Ограничиваем 70px максимум
+                return Math.max(50, vw); // Минимум 50px
             }
 
-            // Установка стилей для круглой кнопки
-            const size = getSize();
+            // Установка начальных стилей
+            let size = getSize();
             randomButton.style.width = `${size}px`;
             randomButton.style.height = `${size}px`;
             randomButton.style.minWidth = `${size}px`;
@@ -144,22 +143,22 @@
 
             // Адаптивность при изменении размера окна
             window.addEventListener('resize', () => {
-                const newSize = getSize();
-                randomButton.style.width = `${newSize}px`;
-                randomButton.style.height = `${newSize}px`;
-                randomButton.style.minWidth = `${newSize}px`;
-                randomButton.style.minHeight = `${newSize}px`;
-                randomButton.style.maxWidth = `${newSize}px`;
-                randomButton.style.maxHeight = `${newSize}px`;
+                size = getSize();
+                randomButton.style.width = `${size}px`;
+                randomButton.style.height = `${size}px`;
+                randomButton.style.minWidth = `${size}px`;
+                randomButton.style.minHeight = `${size}px`;
+                randomButton.style.maxWidth = `${size}px`;
+                randomButton.style.maxHeight = `${size}px`;
             });
 
-            buttonContainer.appendChild(randomButton);
-
-            // Функция для рандомного перехода
-            function goRandom() {
+            // Добавление функции рандома
+            randomButton.onclick = () => {
                 const pages = ['/trolling1/', '/trolling2/', '/trolling3/'];
                 window.location.href = pages[Math.floor(Math.random() * pages.length)];
-            }
+            };
+
+            buttonContainer.appendChild(randomButton);
         });
     </script>
 </body>
