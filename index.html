@@ -70,7 +70,7 @@
             transform: translateY(0.6vw);
             box-shadow: 0 0.6vw 1.8vw rgba(60, 110, 49, 0.4);
         }
-        /* Круглая кнопка рандома */
+        /* Круглая кнопка рандома без лого */
         .random-button {
             width: 5vw;
             height: 5vw;
@@ -84,9 +84,7 @@
             cursor: pointer;
             box-shadow: 0 1.2vw 3vw rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
-            position: relative;
             aspect-ratio: 1 / 1; /* Гарантирует круглую форму */
-            overflow: hidden;
         }
         .random-button:hover {
             transform: scale(1.1);
@@ -95,24 +93,6 @@
         .random-button:active {
             transform: scale(0.95);
             box-shadow: 0 0.6vw 1.8vw rgba(60, 110, 49, 0.4);
-        }
-        .random-button::after {
-            content: url('random-logo.png');
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(0deg);
-            max-width: 80%;
-            max-height: 80%;
-            object-fit: contain;
-            object-position: center;
-            transform-origin: 256px 256px; /* Центр изображения 512x512 */
-            animation: spin 4s linear infinite;
-        }
-        /* Анимация вращения лого */
-        @keyframes spin {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
         /* Медиа-запросы для разных экранов */
         @media (max-width: 1200px) {
