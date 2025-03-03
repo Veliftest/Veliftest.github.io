@@ -18,19 +18,19 @@
         }
         h1 {
             color: #ffffff;
-            font-size: 64px; /* Увеличено с 53px в 1.2 раза */
+            font-size: clamp(24px, 3.33vw, 64px); /* Минимальный 24px, максимальный 64px (1.2 раза от 53px), адаптивный через vw */
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: clamp(0.5px, 0.2vw, 2px);
             text-shadow: 0 0 40px rgba(255, 255, 255, 0.8);
-            margin-bottom: 79px; /* Увеличено с 66px в 1.2 раза */
+            margin-bottom: clamp(20px, 4.11vw, 79px); /* Минимальный 20px, максимальный 79px (1.2 раза от 66px) */
             z-index: 1;
         }
         .button-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 28px; /* Увеличено с 23px в 1.2 раза */
+            gap: clamp(10px, 1.45vw, 28px); /* Минимальный 10px, максимальный 28px (1.2 раза от 23px) */
             justify-content: center;
             align-items: center;
             z-index: 1;
@@ -40,99 +40,35 @@
         .main-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 28px; /* Увеличено с 23px в 1.2 раза */
+            gap: clamp(10px, 1.45vw, 28px); /* Минимальный 10px, максимальный 28px (1.2 раза от 23px) */
             justify-content: center;
         }
         a {
             text-decoration: none;
         }
         button {
-            padding: 19px 41px; /* Увеличено с 16px 34px в 1.2 раза */
-            font-size: 20px; /* Увеличено с 17px в 1.2 раза */
+            padding: clamp(10px, 1.11vw, 19px) clamp(20px, 2.38vw, 41px); /* Минимальный 10px 20px, максимальный 19px 41px (1.2 раза от 16px 34px) */
+            font-size: clamp(12px, 1.16vw, 20px); /* Минимальный 12px, максимальный 20px (1.2 раза от 17px) */
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             color: #ffffff;
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
-            border-radius: 53px; /* Увеличено с 44px в 1.2 раза */
+            border-radius: clamp(20px, 3.08vw, 53px); /* Минимальный 20px, максимальный 53px (1.2 раза от 44px) */
             cursor: pointer;
-            box-shadow: 0 16px 40px rgba(60, 110, 49, 0.6); /* Увеличено с 13px 33px в 1.2 раза */
+            box-shadow: 0 clamp(10px, 0.93vw, 16px) clamp(20px, 2.33vw, 40px) rgba(60, 110, 49, 0.6); /* Минимальный 10px 20px, максимальный 16px 40px (1.2 раза от 13px 33px) */
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         button:hover {
             background: linear-gradient(45deg, #5a9e4b, #3c6e31);
-            transform: translateY(-16px); /* Увеличено с -13px в 1.2 раза */
-            box-shadow: 0 24px 53px rgba(60, 110, 49, 0.8); /* Увеличено с 20px 44px в 1.2 раза */
+            transform: translateY(clamp(-10px, -0.93vw, -16px)); /* Минимальный -10px, максимальный -16px (1.2 раза от -13px) */
+            box-shadow: 0 clamp(15px, 1.39vw, 24px) clamp(30px, 3.08vw, 53px) rgba(60, 110, 49, 0.8); /* Минимальный 15px 30px, максимальный 24px 53px (1.2 раза от 20px 44px) */
         }
         button:active {
-            transform: translateY(7px); /* Увеличено с 6px в 1.2 раза */
-            box-shadow: 0 7px 24px rgba(60, 110, 49, 0.4); /* Увеличено с 6px 20px в 1.2 раза */
-        }
-        /* Круглая кнопка рандома с лого внутри и поверх */
-        .random-button {
-            width: 78px; /* Увеличено с 65px в 1.2 раза */
-            height: 78px; /* Увеличено с 65px в 1.2 раза */
-            background: linear-gradient(45deg, #3c6e31, #5a9e4b);
-            border: none;
-            border-radius: 50%; /* Гарантированно круглая */
-            cursor: pointer;
-            box-shadow: 0 16px 40px rgba(60, 110, 49, 0.6); /* Увеличено с 13px 33px в 1.2 раза */
-            transition: all 0.3s ease;
-            position: relative;
-            aspect-ratio: 1 / 1; /* Гарантирует круглую форму */
-            overflow: hidden;
-            z-index: 0; /* Установлен нижний z-index для кнопки, чтобы лого было поверх */
-        }
-        .random-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 24px 53px rgba(60, 110, 49, 0.8); /* Увеличено с 20px 44px в 1.2 раза */
-        }
-        .random-button:active {
-            transform: scale(0.95);
-            box-shadow: 0 7px 24px rgba(60, 110, 49, 0.4); /* Увеличено с 6px 20px в 1.2 раза */
-        }
-        .random-button::after {
-            content: url('random-logo.png');
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(0deg);
-            max-width: 70%; /* Уменьшено до 70%, чтобы лого было крупнее, но не перекрывало кнопку полностью */
-            max-height: 70%; /* Уменьшено до 70%, чтобы лого было крупнее, но не перекрывало кнопку полностью */
-            object-fit: contain; /* Сохраняет пропорции и подгоняет под круг кнопки */
-            object-position: center; /* Центрирует лого внутри кнопки */
-            transform-origin: 256px 256px; /* Центр изображения 512x512 для вращения по оси */
-            animation: spin 4s linear infinite; /* Вращение по часовой стрелке */
-            z-index: 1; /* Установлен верхний z-index для лого, чтобы оно было поверх кнопки */
-        }
-        /* Анимация вращения лого по часовой стрелке */
-        @keyframes spin {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        /* Медиа-запросы для адаптивности с увеличением в 1.2 раза */
-        @media (max-width: 1200px) {
-            h1 { font-size: 66px; letter-spacing: 2px; margin-bottom: 80px; } /* Увеличено с 55px в 1.2 раза */
-            .button-container, .main-buttons { gap: 25px; } /* Увеличено с 21px в 1.2 раза */
-            button { padding: 20px 42px; font-size: 23px; border-radius: 56px; } /* Увеличено с 17px 35px в 1.2 раза */
-            .random-button { width: 80px; height: 80px; }
-            .random-button::after { max-width: 70%; max-height: 70%; } /* Сохраняем крупный размер лого */
-        }
-        @media (max-width: 768px) {
-            h1 { font-size: 53px; letter-spacing: 1px; margin-bottom: 65px; } /* Увеличено с 44px в 1.2 раза */
-            .button-container, .main-buttons { gap: 19px; } /* Увеличено с 16px в 1.2 раза */
-            button { padding: 16px 33px; font-size: 19px; border-radius: 49px; } /* Увеличено с 13px 28px в 1.2 раза */
-            .random-button { width: 65px; height: 65px; }
-            .random-button::after { max-width: 70%; max-height: 70%; } /* Сохраняем крупный размер лого */
-        }
-        @media (max-width: 480px) {
-            h1 { font-size: 41px; letter-spacing: 0.5px; margin-bottom: 50px; } /* Увеличено с 34px в 1.2 раза */
-            .button-container, .main-buttons { gap: 13px; } /* Увеличено с 11px в 1.2 раза */
-            button { padding: 13px 26px; font-size: 16px; border-radius: 41px; } /* Увеличено с 11px 22px в 1.2 раза */
-            .random-button { width: 52px; height: 52px; }
-            .random-button::after { max-width: 70%; max-height: 70%; } /* Сохраняем крупный размер лого */
+            transform: translateY(clamp(5px, 0.41vw, 7px)); /* Минимальный 5px, максимальный 7px (1.2 раза от 6px) */
+            box-shadow: 0 clamp(5px, 0.41vw, 7px) clamp(10px, 1.39vw, 24px) rgba(60, 110, 49, 0.4); /* Минимальный 5px 10px, максимальный 7px 24px (1.2 раза от 6px 20px) */
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&family=Montserrat:wght@700&family=Oswald:wght@700&display=swap" rel="stylesheet">
@@ -145,7 +81,6 @@
             <a href="/trolling2/"><button>Прикольчик №2</button></a>
             <a href="/trolling3/"><button>Прикольчик №3</button></a>
         </div>
-        <button class="random-button" onclick="location.href = ['/trolling1/', '/trolling2/', '/trolling3/'][Math.floor(Math.random() * 3)];"></button>
     </div>
 </body>
 </html>
