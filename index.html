@@ -7,7 +7,7 @@
     <style>
         body {
             margin: 0;
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -18,48 +18,46 @@
         }
         h1 {
             color: #ffffff;
-            font-size: clamp(2rem, 10vw, 7rem);
+            font-size: 48px; /* Фиксированный размер вместо clamp */
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: clamp(2px, 2vw, 6px);
+            letter-spacing: 2px;
             text-shadow: 0 0 40px rgba(255, 255, 255, 0.8);
-            margin-bottom: clamp(40px, 10vw, 100px);
+            margin-bottom: 60px;
             z-index: 1;
         }
         .button-container {
             display: flex;
-            flex-wrap: wrap;
-            gap: clamp(20px, 5vw, 60px);
+            flex-direction: column;
+            gap: 20px;
             justify-content: center;
             align-items: center;
             z-index: 1;
             max-width: 90%;
-            flex-direction: column;
         }
         .main-buttons {
             display: flex;
-            flex-wrap: wrap;
-            gap: clamp(20px, 5vw, 60px);
+            gap: 20px;
             justify-content: center;
         }
         a {
             text-decoration: none;
         }
         button {
-            padding: clamp(15px, 6vw, 50px) clamp(30px, 10vw, 100px);
-            font-size: clamp(1rem, 5vw, 3rem);
+            padding: 15px 30px;
+            font-size: 16px;
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             color: #ffffff;
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
-            border-radius: clamp(40px, 10vw, 80px);
+            border-radius: 40px;
             cursor: pointer;
             box-shadow: 0 12px 30px rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: clamp(1px, 1vw, 4px);
+            letter-spacing: 1px;
         }
         button:hover {
             background: linear-gradient(45deg, #5a9e4b, #3c6e31);
@@ -70,14 +68,43 @@
             transform: translateY(6px);
             box-shadow: 0 6px 18px rgba(60, 110, 49, 0.4);
         }
-        @media (max-width: 600px) {
-            .button-container, .main-buttons {
-                flex-direction: column;
-                gap: 35px;
-            }
-            h1 {
-                margin-bottom: 60px;
-            }
+        /* Круглая кнопка рандома */
+        .random-button {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #3c6e31, #5a9e4b);
+            border: none;
+            border-radius: 50%; /* Гарантированно круглая */
+            cursor: pointer;
+            box-shadow: 0 12px 30px rgba(60, 110, 49, 0.6);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .random-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 18px 40px rgba(60, 110, 49, 0.8);
+        }
+        .random-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 6px 18px rgba(60, 110, 49, 0.4);
+        }
+        .random-button::after {
+            content: url('random-logo.png');
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+            object-position: center;
+            animation: spin 4s linear infinite;
+        }
+        /* Анимация вращения лого */
+        @keyframes spin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&family=Montserrat:wght@700&family=Oswald:wght@700&display=swap" rel="stylesheet">
@@ -90,76 +117,7 @@
             <a href="/trolling2/"><button>Прикольчик №2</button></a>
             <a href="/trolling3/"><button>Прикольчик №3</button></a>
         </div>
+        <button class="random-button" onclick="location.href = ['/trolling1/', '/trolling2/', '/trolling3/'][Math.floor(Math.random() * 3)];"></button>
     </div>
-
-    <script>
-        // Создание и стилизация круглой кнопки рандома через JavaScript
-        document.addEventListener('DOMContentLoaded', () => {
-            const buttonContainer = document.querySelector('.button-container');
-            const randomButton = document.createElement('button');
-            randomButton.className = 'random-button-js';
-
-            // Динамическое вычисление размера для круглой формы
-            function getSize() {
-                const vw = Math.min(window.innerWidth * 0.15, 70); // Ограничиваем 70px максимум
-                return Math.max(50, vw); // Минимум 50px
-            }
-
-            // Установка начальных стилей
-            let size = getSize();
-            randomButton.style.width = `${size}px`;
-            randomButton.style.height = `${size}px`;
-            randomButton.style.minWidth = `${size}px`;
-            randomButton.style.minHeight = `${size}px`;
-            randomButton.style.maxWidth = `${size}px`;
-            randomButton.style.maxHeight = `${size}px`;
-            randomButton.style.background = 'linear-gradient(45deg, #3c6e31, #5a9e4b)';
-            randomButton.style.border = 'none';
-            randomButton.style.borderRadius = '50%'; // Гарантированно круглая
-            randomButton.style.cursor = 'pointer';
-            randomButton.style.boxShadow = '0 12px 30px rgba(60, 110, 49, 0.6)';
-            randomButton.style.transition = 'all 0.3s ease';
-            randomButton.style.position = 'relative';
-            randomButton.style.aspectRatio = '1 / 1'; // Убеждаемся, что кнопка круглая
-            randomButton.style.overflow = 'hidden';
-
-            // Эффекты при наведении и клике
-            randomButton.addEventListener('mouseover', () => {
-                randomButton.style.transform = 'scale(1.1)';
-                randomButton.style.boxShadow = '0 18px 40px rgba(60, 110, 49, 0.8)';
-            });
-            randomButton.addEventListener('mouseout', () => {
-                randomButton.style.transform = 'scale(1)';
-                randomButton.style.boxShadow = '0 12px 30px rgba(60, 110, 49, 0.6)';
-            });
-            randomButton.addEventListener('mousedown', () => {
-                randomButton.style.transform = 'scale(0.95)';
-                randomButton.style.boxShadow = '0 6px 18px rgba(60, 110, 49, 0.4)';
-            });
-            randomButton.addEventListener('mouseup', () => {
-                randomButton.style.transform = 'scale(1.1)';
-                randomButton.style.boxShadow = '0 18px 40px rgba(60, 110, 49, 0.8)';
-            });
-
-            // Адаптивность при изменении размера окна
-            window.addEventListener('resize', () => {
-                size = getSize();
-                randomButton.style.width = `${size}px`;
-                randomButton.style.height = `${size}px`;
-                randomButton.style.minWidth = `${size}px`;
-                randomButton.style.minHeight = `${size}px`;
-                randomButton.style.maxWidth = `${size}px`;
-                randomButton.style.maxHeight = `${size}px`;
-            });
-
-            // Добавление функции рандома
-            randomButton.onclick = () => {
-                const pages = ['/trolling1/', '/trolling2/', '/trolling3/'];
-                window.location.href = pages[Math.floor(Math.random() * pages.length)];
-            };
-
-            buttonContainer.appendChild(randomButton);
-        });
-    </script>
 </body>
 </html>
