@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SoundTag</title>
+    <title>Забайчен</title>
     <style>
         body {
             margin: 0;
@@ -37,22 +37,10 @@
             cursor: pointer;
             position: absolute;
             z-index: 1;
-            transition: all 0.1s ease;
+            transition: transform 0.2s ease, left 0.2s ease, top 0.2s ease; /* Плавность вращения и прыжков */
         }
         button:hover {
             opacity: 0.9;
-        }
-        /* Добавляем класс для вращения */
-        .spinning {
-            animation: spin 1s linear infinite; /* Вращение: 1 оборот за 1 секунду */
-        }
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
         }
     </style>
 </head>
@@ -68,14 +56,12 @@
 
     <script>
         let audioContext, analyser, dataArray;
+        let rotation = 0; // Текущий угол вращения
 
         function playSoundAndBounce() {
             var audio = document.getElementById("sound");
             var button = document.querySelector("button");
             audio.volume = 1.0;
-
-            // Добавляем вращение
-            button.classList.add("spinning");
 
             // Инициализация Web Audio API
             if (!audioContext) {
@@ -101,7 +87,10 @@
                 button.style.top = newY + "px";
             }
 
-            // Анализ аудио в реальном времени
+            // Анализ аудио и управление
+            let lastBounceTime = 0;
+            const minBounceInterval = 200; // Минимум 200 мс между прыжками
+
             function analyzeAndBounce() {
                 analyser.getByteFrequencyData(dataArray);
                 var energy = 0;
@@ -110,8 +99,13 @@
                 }
                 energy /= dataArray.length;
 
-                if (energy > 30) {
+                var now = Date.now();
+                // Прыгаем и вращаем, если энергия выше порога и прошло достаточно времени
+                if (energy > 50 && now - lastBounceTime > minBounceInterval) { // Порог поднят до 50
                     bounce();
+                    rotation += energy / 2; // Вращение зависит от энергии (чем громче, тем быстрее)
+                    button.style.transform = `rotate(${rotation}deg)`;
+                    lastBounceTime = now;
                 }
 
                 if (!audio.ended) {
@@ -119,7 +113,7 @@
                 } else {
                     button.style.left = "";
                     button.style.top = "";
-                    button.classList.remove("spinning"); // Убираем вращение
+                    button.style.transform = "rotate(0deg)"; // Сбрасываем вращение
                 }
             }
 
