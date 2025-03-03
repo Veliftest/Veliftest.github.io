@@ -12,31 +12,31 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #f0f0f0 0%, #d3d3d3 50%, #e0e0e0 100%); /* Серый фон */
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%); /* Тёмно-серый фон */
             font-family: 'Roboto', sans-serif;
             overflow: hidden;
             position: relative;
         }
         h1 {
             color: #ffffff;
-            font-size: clamp(2rem, 10vw, 7rem); /* Уменьшен минимум для телефона */
+            font-size: clamp(2rem, 10vw, 7rem);
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: clamp(2px, 2vw, 6px); /* Адаптивная разрядка */
+            letter-spacing: clamp(2px, 2vw, 6px);
             text-shadow: 0 0 30px rgba(60, 110, 49, 0.6);
-            margin-bottom: clamp(40px, 10vw, 100px); /* Адаптивный отступ */
+            margin-bottom: clamp(40px, 10vw, 100px);
             z-index: 1;
         }
         .button-container {
             display: flex;
             flex-wrap: wrap;
-            gap: clamp(20px, 5vw, 60px); /* Адаптивный gap */
+            gap: clamp(20px, 5vw, 60px);
             justify-content: center;
-            align-items: center; /* Центрирование кнопок по вертикали */
+            align-items: center;
             z-index: 1;
             max-width: 90%;
-            flex-direction: column; /* Вертикальное расположение */
+            flex-direction: column;
         }
         .main-buttons {
             display: flex;
@@ -48,19 +48,19 @@
             text-decoration: none;
         }
         button {
-            padding: clamp(15px, 6vw, 50px) clamp(30px, 10vw, 100px); /* Уменьшен минимум для телефона */
-            font-size: clamp(1rem, 5vw, 3rem); /* Уменьшен минимум для телефона */
+            padding: clamp(15px, 6vw, 50px) clamp(30px, 10vw, 100px);
+            font-size: clamp(1rem, 5vw, 3rem);
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             color: #ffffff;
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
-            border-radius: clamp(40px, 10vw, 80px); /* Адаптивный радиус */
+            border-radius: clamp(40px, 10vw, 80px);
             cursor: pointer;
             box-shadow: 0 12px 30px rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: clamp(1px, 1vw, 4px); /* Адаптивная разрядка */
+            letter-spacing: clamp(1px, 1vw, 4px);
         }
         button:hover {
             background: linear-gradient(45deg, #5a9e4b, #3c6e31);
@@ -71,7 +71,7 @@
             transform: translateY(6px);
             box-shadow: 0 6px 18px rgba(60, 110, 49, 0.4);
         }
-        /* Круглая кнопка рандома для ПК и телефона */
+        /* Круглая кнопка рандома */
         .random-button {
             width: clamp(50px, 15vw, 70px);
             height: clamp(50px, 15vw, 70px);
@@ -82,15 +82,17 @@
             box-shadow: 0 12px 30px rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
             position: relative;
+            overflow: hidden; /* Чтобы лого не выходило за края */
         }
         .random-button::after {
-            content: url('https://raw.githubusercontent.com/Veliftest/Veliftest.github.io/main/random-arrows.png'); /* Лого со стрелками */
+            content: url('random-logo.png'); /* Лого, которое ты добавишь */
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 40px; /* Размер изображения */
+            width: clamp(30px, 10vw, 50px); /* Адаптивный размер лого */
             height: auto;
+            z-index: 1;
         }
         .random-button:hover {
             transform: scale(1.1);
