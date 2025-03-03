@@ -99,8 +99,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(0deg);
-            width: 100%; /* Автоматическое масштабирование под размер кнопки */
-            height: 100%; /* Автоматическое масштабирование под размер кнопки */
+            max-width: 70%; /* Уменьшено до 70%, чтобы лого было крупнее, но не перекрывало кнопку полностью */
+            max-height: 70%; /* Уменьшено до 70%, чтобы лого было крупнее, но не перекрывало кнопку полностью */
             object-fit: contain; /* Сохраняет пропорции и подгоняет под круг кнопки */
             object-position: center; /* Центрирует лого внутри кнопки */
             transform-origin: 256px 256px; /* Центр изображения 512x512 для вращения по оси */
@@ -117,19 +117,22 @@
             h1 { font-size: 66px; letter-spacing: 2px; margin-bottom: 80px; } /* Увеличено с 55px в 1.2 раза */
             .button-container, .main-buttons { gap: 25px; } /* Увеличено с 21px в 1.2 раза */
             button { padding: 20px 42px; font-size: 23px; border-radius: 56px; } /* Увеличено с 17px 35px в 1.2 раза */
-            .random-button { width: 80px; height: 80px; } /* Увеличено с 67px в 1.2 раза */
+            .random-button { width: 80px; height: 80px; }
+            .random-button::after { max-width: 70%; max-height: 70%; } /* Сохраняем крупный размер лого */
         }
         @media (max-width: 768px) {
             h1 { font-size: 53px; letter-spacing: 1px; margin-bottom: 65px; } /* Увеличено с 44px в 1.2 раза */
             .button-container, .main-buttons { gap: 19px; } /* Увеличено с 16px в 1.2 раза */
             button { padding: 16px 33px; font-size: 19px; border-radius: 49px; } /* Увеличено с 13px 28px в 1.2 раза */
-            .random-button { width: 65px; height: 65px; } /* Увеличено с 54px в 1.2 раза */
+            .random-button { width: 65px; height: 65px; }
+            .random-button::after { max-width: 70%; max-height: 70%; } /* Сохраняем крупный размер лого */
         }
         @media (max-width: 480px) {
             h1 { font-size: 41px; letter-spacing: 0.5px; margin-bottom: 50px; } /* Увеличено с 34px в 1.2 раза */
             .button-container, .main-buttons { gap: 13px; } /* Увеличено с 11px в 1.2 раза */
             button { padding: 13px 26px; font-size: 16px; border-radius: 41px; } /* Увеличено с 11px 22px в 1.2 раза */
-            .random-button { width: 52px; height: 52px; } /* Увеличено с 43px в 1.2 раза */
+            .random-button { width: 52px; height: 52px; }
+            .random-button::after { max-width: 70%; max-height: 70%; } /* Сохраняем крупный размер лого */
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&family=Montserrat:wght@700&family=Oswald:wght@700&display=swap" rel="stylesheet">
