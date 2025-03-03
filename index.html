@@ -17,18 +17,6 @@
             overflow: hidden;
             position: relative;
         }
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(50, 205, 50, 0.15) 0%, rgba(74, 144, 226, 0.15) 100%);
-            z-index: 0;
-            pointer-events: none;
-            animation: shift 15s infinite alternate;
-        }
         body::after {
             content: '';
             position: absolute;
@@ -69,32 +57,27 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             color: #ffffff;
-            background: linear-gradient(45deg, #32cd32, #66ff66); /* Зелёный градиент */
+            background: linear-gradient(45deg, #2f4f4f, #4a7878); /* Хвойный градиент */
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(50, 205, 50, 0.4); /* Зелёное свечение */
+            box-shadow: 0 5px 15px rgba(47, 79, 79, 0.4); /* Тень в тон хвои */
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         button:hover {
-            background: linear-gradient(45deg, #66ff66, #32cd32);
+            background: linear-gradient(45deg, #4a7878, #2f4f4f);
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(50, 205, 50, 0.6);
+            box-shadow: 0 8px 20px rgba(47, 79, 79, 0.6);
         }
         button:active {
             transform: translateY(2px);
-            box-shadow: 0 3px 10px rgba(50, 205, 50, 0.3);
+            box-shadow: 0 3px 10px rgba(47, 79, 79, 0.3);
         }
         @keyframes pulse {
             0% { opacity: 0.3; }
             100% { opacity: 0.8; }
-        }
-        @keyframes shift {
-            0% { transform: translate(0, 0); }
-            50% { transform: translate(-5%, 5%); }
-            100% { transform: translate(5%, -5%); }
         }
         @media (max-width: 600px) {
             .button-container {
