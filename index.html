@@ -70,66 +70,6 @@
             transform: translateY(6px);
             box-shadow: 0 6px 18px rgba(60, 110, 49, 0.4);
         }
-        /* Круглая кнопка рандома */
-        .random-button {
-            width: clamp(50px, 15vw, 70px);
-            height: clamp(50px, 15vw, 70px);
-            min-width: clamp(50px, 15vw, 70px);
-            min-height: clamp(50px, 15vw, 70px);
-            max-width: clamp(50px, 15vw, 70px);
-            max-height: clamp(50px, 15vw, 70px);
-            background: linear-gradient(45deg, #3c6e31, #5a9e4b);
-            border: none;
-            border-radius: 50%; /* Гарантированно круглая */
-            cursor: pointer;
-            box-shadow: 0 12px 30px rgba(60, 110, 49, 0.6);
-            transition: all 0.3s ease;
-            position: relative;
-            aspect-ratio: 1 / 1; /* Гарантирует круглую форму */
-            overflow: hidden;
-        }
-        .random-button::after {
-            content: url('random-logo.png');
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(0deg);
-            max-width: 100%; /* Полное масштабирование под кнопку */
-            max-height: 100%;
-            object-fit: contain; /* Сохраняет пропорции и подгоняет под круг */
-            object-position: center; /* Центрируем изображение */
-            transform-origin: 256px 256px; /* Центр изображения 512x512 */
-            animation: spin 4s linear infinite;
-        }
-        .random-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 18px 40px rgba(60, 110, 49, 0.8);
-        }
-        .random-button:active {
-            transform: scale(0.95);
-            box-shadow: 0 6px 18px rgba(60, 110, 49, 0.4);
-        }
-        .random-button:hover::before {
-            content: 'Выбрать рандомный прикольчик';
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: #ffffff;
-            padding: 8px 12px;
-            border-radius: 5px;
-            font-size: clamp(0.8rem, 2vw, 1rem);
-            font-family: 'Roboto', sans-serif;
-            white-space: nowrap;
-            z-index: 2;
-            margin-bottom: 10px;
-        }
-        /* Анимация вращения лого */
-        @keyframes spin {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
         @media (max-width: 600px) {
             .button-container, .main-buttons {
                 flex-direction: column;
@@ -150,15 +90,6 @@
             <a href="/trolling2/"><button>Прикольчик №2</button></a>
             <a href="/trolling3/"><button>Прикольчик №3</button></a>
         </div>
-        <button class="random-button" onclick="goRandom()"></button>
     </div>
-
-    <script>
-        function goRandom() {
-            const pages = ['/trolling1/', '/trolling2/', '/trolling3/'];
-            const randomPage = pages[Math.floor(Math.random() * pages.length)];
-            window.location.href = randomPage;
-        }
-    </script>
 </body>
 </html>
