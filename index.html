@@ -99,14 +99,14 @@
                 lastX = newX;
                 lastY = newY;
 
-                // Вращение синхронизируется с прыжком
-                rotation += 90; // Каждый прыжок — поворот на 90 градусов
+                // Вращение синхронизировано с прыжком
+                rotation += 90;
                 button.style.transform = `rotate(${rotation}deg)`;
             }
 
             // Анализ и управление
             let lastBounceTime = 0;
-            const minBounceInterval = 300; // Основа для синхронизации
+            const minBounceInterval = 200; // Уменьшили до 200 мс для скорости
 
             function analyzeAndBounce() {
                 analyser.getByteFrequencyData(dataArray);
@@ -117,7 +117,7 @@
                 energy /= dataArray.length;
 
                 var now = Date.now();
-                if (energy > 50 && now - lastBounceTime > minBounceInterval) {
+                if (energy > 40 && now - lastBounceTime > minBounceInterval) { // Порог снижен до 40
                     bounce();
                     lastBounceTime = now;
                 }
