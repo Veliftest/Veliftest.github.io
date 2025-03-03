@@ -104,7 +104,7 @@
 
             // Анализ и управление
             let lastBounceTime = 0;
-            const minBounceInterval = 300; // Увеличили до 300 мс для плавности
+            const minBounceInterval = 200; // Увеличили до 300 мс для плавности
 
             function analyzeAndBounce() {
                 analyser.getByteFrequencyData(dataArray);
@@ -115,7 +115,7 @@
                 energy /= dataArray.length;
 
                 var now = Date.now();
-                if (energy > 50 && now - lastBounceTime > minBounceInterval) {
+                if (energy > 60 && now - lastBounceTime > minBounceInterval) {
                     bounce();
                     rotation += energy / 2;
                     button.style.transform = `rotate(${rotation}deg)`;
