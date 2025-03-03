@@ -12,26 +12,26 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #f0f0f0 0%, #d3d3d3 50%, #e0e0e0 100%); /* Серенький фон */
+            background: linear-gradient(135deg, #f0f0f0 0%, #d3d3d3 50%, #e0e0e0 100%);
             font-family: 'Roboto', sans-serif;
             overflow: hidden;
             position: relative;
         }
         h1 {
-            color: #2f4f2f; /* Хвойный цвет текста */
-            font-size: clamp(3.5rem, 10vw, 7rem);
+            color: #2f4f2f;
+            font-size: clamp(2rem, 10vw, 7rem); /* Уменьшен минимум для телефона */
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 6px;
-            text-shadow: 0 0 30px rgba(60, 110, 49, 0.6); /* Хвойное свечение текста */
-            margin-bottom: 100px;
+            text-shadow: 0 0 30px rgba(60, 110, 49, 0.6);
+            margin-bottom: clamp(40px, 10vw, 100px); /* Адаптивный отступ */
             z-index: 1;
         }
         .button-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 60px;
+            gap: clamp(20px, 5vw, 60px); /* Адаптивный gap */
             justify-content: center;
             z-index: 1;
             max-width: 90%;
@@ -40,19 +40,19 @@
             text-decoration: none;
         }
         button {
-            padding: clamp(30px, 6vw, 50px) clamp(60px, 10vw, 100px);
-            font-size: clamp(1.8rem, 5vw, 3rem);
+            padding: clamp(15px, 6vw, 50px) clamp(30px, 10vw, 100px); /* Уменьшен минимум для телефона */
+            font-size: clamp(1rem, 5vw, 3rem); /* Уменьшен минимум для телефона */
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             color: #ffffff;
-            background: linear-gradient(45deg, #3c6e31, #5a9e4b); /* Ярче и хвойнее */
+            background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
-            border-radius: 80px;
+            border-radius: clamp(40px, 10vw, 80px); /* Адаптивный радиус */
             cursor: pointer;
-            box-shadow: 0 12px 30px rgba(60, 110, 49, 0.6); /* Хвойное свечение кнопок */
+            box-shadow: 0 12px 30px rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: clamp(2px, 1vw, 4px); /* Адаптивная разрядка */
         }
         button:hover {
             background: linear-gradient(45deg, #5a9e4b, #3c6e31);
@@ -68,8 +68,8 @@
             display: none;
             position: fixed;
             bottom: 20px;
-            width: 70px;
-            height: 70px;
+            width: clamp(50px, 15vw, 70px); /* Адаптивный размер */
+            height: clamp(50px, 15vw, 70px);
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
             border-radius: 50%;
@@ -81,7 +81,7 @@
         .mobile-random::before {
             content: '↻ ↺';
             color: #ffffff;
-            font-size: 28px;
+            font-size: clamp(20px, 5vw, 28px); /* Адаптивный шрифт */
             position: absolute;
             top: 50%;
             left: 50%;
