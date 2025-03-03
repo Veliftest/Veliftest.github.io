@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Троллинг Хаб</title>
     <style>
+        /* Основные стили страницы */
         body {
             margin: 0;
             min-height: 100vh;
@@ -12,11 +13,12 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle, #d3d3d3 0%, #a9a9a9 50%, #1a1a1a 100%); /* Серый градиент: светло-серый центр, тёмно-серые углы, без белого */
+            background: radial-gradient(circle, #d3d3d3 0%, #a9a9a9 50%, #1a1a1a 100%);
             font-family: 'Roboto', sans-serif;
             overflow: hidden;
-            position: relative;
         }
+
+        /* Заголовок */
         h1 {
             color: #ffffff;
             font-size: clamp(2rem, 10vw, 7rem);
@@ -26,27 +28,24 @@
             letter-spacing: clamp(2px, 2vw, 6px);
             text-shadow: 0 0 40px rgba(255, 255, 255, 0.8);
             margin-bottom: clamp(40px, 10vw, 100px);
-            z-index: 1;
         }
+
+        /* Контейнер для кнопок */
         .button-container {
             display: flex;
-            flex-wrap: wrap;
-            gap: clamp(20px, 5vw, 60px);
-            justify-content: center;
-            align-items: center;
-            z-index: 1;
-            max-width: 90%;
             flex-direction: column;
+            gap: clamp(20px, 5vw, 60px);
+            align-items: center;
         }
+
+        /* Основные кнопки */
         .main-buttons {
             display: flex;
             flex-wrap: wrap;
             gap: clamp(20px, 5vw, 60px);
             justify-content: center;
         }
-        a {
-            text-decoration: none;
-        }
+
         button {
             padding: clamp(15px, 6vw, 50px) clamp(30px, 10vw, 100px);
             font-size: clamp(1rem, 5vw, 3rem);
@@ -62,105 +61,62 @@
             text-transform: uppercase;
             letter-spacing: clamp(1px, 1vw, 4px);
         }
+
         button:hover {
             background: linear-gradient(45deg, #5a9e4b, #3c6e31);
             transform: translateY(-12px);
             box-shadow: 0 18px 40px rgba(60, 110, 49, 0.8);
         }
-        button:active {
-            transform: translateY(6px);
-            box-shadow: 0 6px 18px rgba(60, 110, 49, 0.4);
-        }
-        /* Круглая кнопка рандома */
+
+        /* Кнопка рандома */
         .random-button {
             width: clamp(50px, 15vw, 70px);
-            height: clamp(50px, 15vw, 70px); /* Фиксируем высоту для круглой формы */
+            height: clamp(50px, 15vw, 70px);
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
-            border-radius: 50%; /* Гарантированно круглая */
+            border-radius: 50%;
             cursor: pointer;
             box-shadow: 0 12px 30px rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;
-            aspect-ratio: 1; /* Убеждаемся, что кнопка всегда круглая, независимо от масштабирования */
+            aspect-ratio: 1; /* Гарантирует круглую форму */
         }
+
         .random-button::after {
-            content: url('random-logo.png');
+            content: url('random-logo.png'); /* Изображение с белыми стрелками */
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) rotate(0deg);
+            transform: translate(-50%, -50%);
             max-width: 80%;
             max-height: 80%;
-            object-fit: contain; /* Сохраняет пропорции и подгоняет под круг */
-            z-index: 1;
-            animation: spin 4s linear infinite;
+            object-fit: contain; /* Масштабирование изображения */
+            animation: spin 4s linear infinite; /* Вращение */
         }
-        .random-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 18px 40px rgba(60, 110, 49, 0.8);
-        }
-        .random-button:hover::after {
-            animation-play-state: paused;
-        }
-        .random-button:active {
-            transform: scale(0.95);
-            box-shadow: 0 6px 18px rgba(60, 110, 49, 0.4);
-        }
-        .random-button:hover::before {
-            content: 'Выбрать рандомный прикольчик';
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: #ffffff;
-            padding: 8px 12px;
-            border-radius: 5px;
-            font-size: clamp(0.8rem, 2vw, 1rem);
-            font-family: 'Roboto', sans-serif;
-            white-space: nowrap;
-            z-index: 2;
-            margin-bottom: 10px;
-        }
-        /* Анимация вращения лого */
+
+        /* Анимация вращения */
         @keyframes spin {
             from { transform: translate(-50%, -50%) rotate(0deg); }
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
-        @media (max-width: 600px) {
-            .button-container {
-                flex-direction: column;
-                gap: 35px;
-            }
-            .main-buttons {
-                flex-direction: column;
-                gap: 35px;
-            }
-            h1 {
-                margin-bottom: 60px;
-            }
-        }
     </style>
+    <!-- Подключение шрифтов -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&family=Montserrat:wght@700&family=Oswald:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
     <h1>Троллинг Хаб</h1>
     <div class="button-container">
         <div class="main-buttons">
-            <a href="/trolling1/"><button>Прикольчик №1</button></a>
-            <a href="/trolling2/"><button>Прикольчик №2</button></a>
-            <a href="/trolling3/"><button>Прикольчик №3</button></a>
+            <button>Прикольчик №1</button>
+            <button>Прикольчик №2</button>
+            <button>Прикольчик №3</button>
         </div>
         <button class="random-button" onclick="goRandom()"></button>
     </div>
-
     <script>
         function goRandom() {
             const pages = ['/trolling1/', '/trolling2/', '/trolling3/'];
-            const randomPage = pages[Math.floor(Math.random() * pages.length)];
-            window.location.href = randomPage;
+            window.location.href = pages[Math.floor(Math.random() * pages.length)];
         }
     </script>
 </body>
