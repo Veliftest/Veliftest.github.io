@@ -18,41 +18,49 @@
             position: relative;
         }
         h1 {
-            color: #2f4f2f;
-            font-size: clamp(2rem, 10vw, 7rem); /* Уменьшен минимум для телефона */
+            color: #ffffff;
+            font-size: clamp(3.5rem, 10vw, 7rem);
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 6px;
             text-shadow: 0 0 30px rgba(60, 110, 49, 0.6);
-            margin-bottom: clamp(40px, 10vw, 100px); /* Адаптивный отступ */
+            margin-bottom: 100px;
             z-index: 1;
         }
         .button-container {
             display: flex;
             flex-wrap: wrap;
-            gap: clamp(20px, 5vw, 60px); /* Адаптивный gap */
+            gap: 60px;
             justify-content: center;
+            align-items: center; /* Центрирование кнопок по вертикали */
             z-index: 1;
             max-width: 90%;
+            flex-direction: column; /* Для телефона и ПК — кнопки вертикально */
+        }
+        .main-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 60px;
+            justify-content: center;
         }
         a {
             text-decoration: none;
         }
         button {
-            padding: clamp(15px, 6vw, 50px) clamp(30px, 10vw, 100px); /* Уменьшен минимум для телефона */
-            font-size: clamp(1rem, 5vw, 3rem); /* Уменьшен минимум для телефона */
+            padding: clamp(30px, 6vw, 50px) clamp(60px, 10vw, 100px);
+            font-size: clamp(1.8rem, 5vw, 3rem);
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             color: #ffffff;
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
-            border-radius: clamp(40px, 10vw, 80px); /* Адаптивный радиус */
+            border-radius: 80px;
             cursor: pointer;
             box-shadow: 0 12px 30px rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: clamp(2px, 1vw, 4px); /* Адаптивная разрядка */
+            letter-spacing: 4px;
         }
         button:hover {
             background: linear-gradient(45deg, #5a9e4b, #3c6e31);
@@ -63,35 +71,34 @@
             transform: translateY(6px);
             box-shadow: 0 6px 18px rgba(60, 110, 49, 0.4);
         }
-        /* Кружочек-рандом для телефона */
-        .mobile-random {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            width: clamp(50px, 15vw, 70px); /* Адаптивный размер */
+        /* Круглая кнопка рандома */
+        .random-button {
+            width: clamp(50px, 15vw, 70px); /* Размер как кружок */
             height: clamp(50px, 15vw, 70px);
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(60, 110, 49, 0.6);
-            z-index: 1;
-            transition: transform 0.3s ease;
+            box-shadow: 0 12px 30px rgba(60, 110, 49, 0.6);
+            transition: all 0.3s ease;
+            position: relative;
         }
-        .mobile-random::before {
+        .random-button::after {
             content: '↻ ↺';
             color: #ffffff;
-            font-size: clamp(20px, 5vw, 28px); /* Адаптивный шрифт */
+            font-size: clamp(1.5rem, 3vw, 2rem);
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
-        .mobile-random:hover {
+        .random-button:hover {
             transform: scale(1.1);
+            box-shadow: 0 18px 40px rgba(60, 110, 49, 0.8);
         }
-        .mobile-random:active {
+        .random-button:active {
             transform: scale(0.95);
+            box-shadow: 0 6px 18px rgba(60, 110, 49, 0.4);
         }
         @media (max-width: 600px) {
             .button-container {
@@ -101,8 +108,9 @@
             h1 {
                 margin-bottom: 60px;
             }
-            .mobile-random {
-                display: block;
+            .main-buttons {
+                flex-direction: column;
+                gap: 35px;
             }
         }
     </style>
@@ -111,11 +119,13 @@
 <body>
     <h1>Троллинг Хаб</h1>
     <div class="button-container">
-        <a href="/trolling1/"><button>Прикольчик №1</button></a>
-        <a href="/trolling2/"><button>Прикольчик №2</button></a>
-        <a href="/trolling3/"><button>Прикольчик №3</button></a>
+        <div class="main-buttons">
+            <a href="/trolling1/"><button>Прикольчик №1</button></a>
+            <a href="/trolling2/"><button>Прикольчик №2</button></a>
+            <a href="/trolling3/"><button>Прикольчик №3</button></a>
+        </div>
+        <button class="random-button" onclick="goRandom()"></button>
     </div>
-    <button class="mobile-random" onclick="goRandom()"></button>
 
     <script>
         function goRandom() {
