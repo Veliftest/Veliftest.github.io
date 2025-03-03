@@ -12,10 +12,34 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%); /* Тёмно-серый фон */
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
             font-family: 'Roboto', sans-serif;
             overflow: hidden;
             position: relative;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(60, 110, 49, 0.15) 0%, transparent 70%); /* Хвойное свечение */
+            z-index: 0;
+            pointer-events: none;
+            animation: pulse 10s infinite alternate;
+        }
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(60, 110, 49, 0.1) 0%, transparent 80%);
+            z-index: 0;
+            pointer-events: none;
+            animation: glow 15s infinite alternate;
         }
         h1 {
             color: #ffffff;
@@ -24,7 +48,7 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: clamp(2px, 2vw, 6px);
-            text-shadow: 0 0 30px rgba(60, 110, 49, 0.6);
+            text-shadow: 0 0 40px rgba(60, 110, 49, 0.8); /* Усиленное хвойное свечение */
             margin-bottom: clamp(40px, 10vw, 100px);
             z-index: 1;
         }
@@ -82,7 +106,7 @@
             box-shadow: 0 12px 30px rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
             position: relative;
-            overflow: hidden; /* Чтобы лого не выходило за края */
+            overflow: hidden;
         }
         .random-button::after {
             content: url('random-logo.png'); /* Лого, которое ты добавишь */
@@ -90,9 +114,9 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: clamp(30px, 10vw, 50px); /* Адаптивный размер лого */
-            height: auto;
-            z-index: 1;
+            max-width: 100%; /* Автоматическое масштабирование под размер кнопки */
+            max-height: 100%;
+            object-fit: contain; /* Сохраняет пропорции и подгоняет под круг */
         }
         .random-button:hover {
             transform: scale(1.1);
@@ -101,6 +125,14 @@
         .random-button:active {
             transform: scale(0.95);
             box-shadow: 0 6px 18px rgba(60, 110, 49, 0.4);
+        }
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.8; }
+        }
+        @keyframes glow {
+            0% { opacity: 0.4; }
+            100% { opacity: 0.9; }
         }
         @media (max-width: 600px) {
             .button-container {
