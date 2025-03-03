@@ -18,19 +18,19 @@
         }
         h1 {
             color: #ffffff;
-            font-size: 3.5vw; /* Адаптивный размер через vw */
+            font-size: clamp(24px, 3.5vw, 72px); /* Минимальный размер 24px для телефонов */
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.2vw;
+            letter-spacing: clamp(2px, 0.2vw, 6px);
             text-shadow: 0 0 40px rgba(255, 255, 255, 0.8);
-            margin-bottom: 4vw;
+            margin-bottom: clamp(20px, 4vw, 100px);
             z-index: 1;
         }
         .button-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 2vw;
+            gap: clamp(10px, 2vw, 60px);
             justify-content: center;
             align-items: center;
             z-index: 1;
@@ -40,78 +40,59 @@
         .main-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 2vw;
+            gap: clamp(10px, 2vw, 60px);
             justify-content: center;
         }
         a {
             text-decoration: none;
         }
         button {
-            padding: 1.5vw 3vw;
-            font-size: 1.5vw;
+            padding: clamp(10px, 1.5vw, 50px) clamp(20px, 3vw, 100px);
+            font-size: clamp(12px, 1.5vw, 24px);
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             color: #ffffff;
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
-            border-radius: 4vw;
+            border-radius: clamp(20px, 4vw, 80px);
             cursor: pointer;
-            box-shadow: 0 1.2vw 3vw rgba(60, 110, 49, 0.6);
+            box-shadow: 0 clamp(10px, 1.2vw, 30px) clamp(20px, 3vw, 30px) rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 0.1vw;
+            letter-spacing: clamp(1px, 0.1vw, 4px);
         }
         button:hover {
             background: linear-gradient(45deg, #5a9e4b, #3c6e31);
-            transform: translateY(-1.2vw);
-            box-shadow: 0 1.8vw 4vw rgba(60, 110, 49, 0.8);
+            transform: translateY(clamp(-10px, -1.2vw, -12px));
+            box-shadow: 0 clamp(15px, 1.8vw, 40px) clamp(30px, 4vw, 40px) rgba(60, 110, 49, 0.8);
         }
         button:active {
-            transform: translateY(0.6vw);
-            box-shadow: 0 0.6vw 1.8vw rgba(60, 110, 49, 0.4);
+            transform: translateY(clamp(5px, 0.6vw, 6px));
+            box-shadow: 0 clamp(5px, 0.6vw, 18px) clamp(10px, 1.8vw, 18px) rgba(60, 110, 49, 0.4);
         }
-        /* Круглая кнопка рандома без лого */
+        /* Круглая кнопка рандома */
         .random-button {
-            width: 5vw;
-            height: 5vw;
-            min-width: 5vw;
-            min-height: 5vw;
-            max-width: 7vw;
-            max-height: 7vw;
+            width: clamp(40px, 5vw, 70px);
+            height: clamp(40px, 5vw, 70px);
+            min-width: clamp(40px, 5vw, 70px);
+            min-height: clamp(40px, 5vw, 70px);
+            max-width: clamp(40px, 5vw, 70px);
+            max-height: clamp(40px, 5vw, 70px);
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
             border-radius: 50%; /* Гарантированно круглая */
             cursor: pointer;
-            box-shadow: 0 1.2vw 3vw rgba(60, 110, 49, 0.6);
+            box-shadow: 0 clamp(10px, 1.2vw, 30px) clamp(20px, 3vw, 30px) rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
             aspect-ratio: 1 / 1; /* Гарантирует круглую форму */
         }
         .random-button:hover {
             transform: scale(1.1);
-            box-shadow: 0 1.8vw 4vw rgba(60, 110, 49, 0.8);
+            box-shadow: 0 clamp(15px, 1.8vw, 40px) clamp(30px, 4vw, 40px) rgba(60, 110, 49, 0.8);
         }
         .random-button:active {
             transform: scale(0.95);
-            box-shadow: 0 0.6vw 1.8vw rgba(60, 110, 49, 0.4);
-        }
-        /* Медиа-запросы для разных экранов */
-        @media (max-width: 1200px) {
-            h1 { font-size: 2.5vw; letter-spacing: 0.15vw; margin-bottom: 3vw; }
-            .button-container, .main-buttons { gap: 1.5vw; }
-            button { padding: 1.2vw 2.5vw; font-size: 1.2vw; border-radius: 3.5vw; }
-            .random-button { width: 4.5vw; height: 4.5vw; min-width: 4.5vw; min-height: 4.5vw; max-width: 6.5vw; max-height: 6.5vw; }
-        }
-        @media (max-width: 768px) {
-            h1 { font-size: 2vw; letter-spacing: 0.1vw; margin-bottom: 2.5vw; }
-            .button-container, .main-buttons { gap: 1vw; }
-            button { padding: 1vw 2vw; font-size: 1vw; border-radius: 3vw; }
-            .random-button { width: 4vw; height: 4vw; min-width: 4vw; min-height: 4vw; max-width: 6vw; max-height: 6vw; }
-        }
-        @media (max-width: 480px) {
-            h1 { font-size: 1.5vw; letter-spacing: 0.05vw; margin-bottom: 2vw; }
-            .button-container, .main-buttons { gap: 0.8vw; }
-            button { padding: 0.8vw 1.5vw; font-size: 0.8vw; border-radius: 2.5vw; }
-            .random-button { width: 3.5vw; height: 3.5vw; min-width: 3.5vw; min-height: 3.5vw; max-width: 5.5vw; max-height: 5.5vw; }
+            box-shadow: 0 clamp(5px, 0.6vw, 18px) clamp(10px, 1.8vw, 18px) rgba(60, 110, 49, 0.4);
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&family=Montserrat:wght@700&family=Oswald:wght@700&display=swap" rel="stylesheet">
