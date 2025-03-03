@@ -38,7 +38,7 @@
             cursor: pointer;
             position: absolute;
             z-index: 1;
-            transition: transform 0.2s ease, left 0.2s ease, top 0.2s ease;
+            transition: transform 0.1s ease, left 0.1s ease, top 0.1s ease; /* Ускорили переход */
         }
         button:hover {
             opacity: 0.9;
@@ -99,14 +99,12 @@
                 lastX = newX;
                 lastY = newY;
 
-                // Вращение синхронизировано с прыжком
-                rotation += 90;
+                rotation += 90; // Вращение синхронизировано с прыжком
                 button.style.transform = `rotate(${rotation}deg)`;
             }
 
-            // Анализ и управление
+            // Анализ аудио
             let lastBounceTime = 0;
-            const minBounceInterval = 200; // Уменьшили до 200 мс для скорости
 
             function analyzeAndBounce() {
                 analyser.getByteFrequencyData(dataArray);
@@ -117,7 +115,10 @@
                 energy /= dataArray.length;
 
                 var now = Date.now();
-                if (energy > 40 && now - lastBounceTime > minBounceInterval) { // Порог снижен до 40
+                // Динамический интервал: чем выше энергия, тем меньше задержка
+                var dynamicInterval = Math.max(100, 400 - energy * 2); // От 100 до 400 мс
+
+                if (energy > 40 && now - lastBounceTime > dynamicInterval) {
                     bounce();
                     lastBounceTime = now;
                 }
