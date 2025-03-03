@@ -12,7 +12,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle, #3b3b3b 0%, #222323 100%); /* Тёмно-серый по углам, светлее серый к центру */
+            background: radial-gradient(circle, #3b3b3b 0%, #222323 100%);
             font-family: 'Roboto', sans-serif;
             overflow: hidden;
         }
@@ -73,11 +73,11 @@
         /* Круглая кнопка рандома */
         .random-button {
             width: clamp(50px, 15vw, 70px);
-            height: clamp(50px, 15vw, 70px); /* Гарантируем одинаковый размер */
-            min-width: clamp(50px, 15vw, 70px); /* Фиксируем минимальную ширину */
-            min-height: clamp(50px, 15vw, 70px); /* Фиксируем минимальную высоту */
-            max-width: clamp(50px, 15vw, 70px); /* Фиксируем максимальную ширину */
-            max-height: clamp(50px, 15vw, 70px); /* Фиксируем максимальную высоту */
+            height: clamp(50px, 15vw, 70px);
+            min-width: clamp(50px, 15vw, 70px);
+            min-height: clamp(50px, 15vw, 70px);
+            max-width: clamp(50px, 15vw, 70px);
+            max-height: clamp(50px, 15vw, 70px);
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
             border-radius: 50%; /* Гарантированно круглая */
@@ -85,7 +85,7 @@
             box-shadow: 0 12px 30px rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
             position: relative;
-            aspect-ratio: 1; /* Убеждаемся, что кнопка всегда круглая */
+            aspect-ratio: 1 / 1; /* Гарантирует круглую форму */
             overflow: hidden;
         }
         .random-button::after {
@@ -94,10 +94,11 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(0deg);
-            max-width: 80%;
-            max-height: 80%;
+            max-width: 100%; /* Увеличил для полного покрытия */
+            max-height: 100%;
             object-fit: contain; /* Сохраняет пропорции и подгоняет под круг */
-            transform-origin: center; /* Центр вращения для лого */
+            object-position: center; /* Центрируем изображение */
+            transform-origin: 50% 50%; /* Явно указываем центр вращения */
             animation: spin 4s linear infinite;
         }
         .random-button:hover {
