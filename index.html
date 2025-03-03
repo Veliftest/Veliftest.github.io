@@ -12,26 +12,26 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #1a2f1a 0%, #2f4f2f 50%, #1f3f1f 100%); /* Хвойный фон */
+            background: linear-gradient(135deg, #1a2f1a 0%, #2f4f2f 50%, #1f3f1f 100%);
             font-family: 'Roboto', sans-serif;
             overflow: hidden;
             position: relative;
         }
         h1 {
             color: #ffffff;
-            font-size: clamp(3rem, 8vw, 6rem); /* Увеличен для ПК */
+            font-size: clamp(3.5rem, 10vw, 7rem); /* Ещё больше для ПК */
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 5px;
-            text-shadow: 0 0 25px rgba(47, 79, 47, 0.6); /* Хвойная тень */
-            margin-bottom: 80px; /* Больше отступ для ПК */
+            letter-spacing: 6px;
+            text-shadow: 0 0 30px rgba(47, 79, 47, 0.6);
+            margin-bottom: 100px; /* Ещё больше отступ */
             z-index: 1;
         }
         .button-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 50px; /* Увеличен для ПК */
+            gap: 60px; /* Ещё больше для ПК */
             justify-content: center;
             z-index: 1;
             max-width: 90%;
@@ -40,36 +40,68 @@
             text-decoration: none;
         }
         button {
-            padding: clamp(25px, 5vw, 40px) clamp(50px, 8vw, 80px); /* Крупнее для ПК */
-            font-size: clamp(1.5rem, 4vw, 2.5rem); /* Увеличен шрифт */
+            padding: clamp(30px, 6vw, 50px) clamp(60px, 10vw, 100px); /* Ещё крупнее */
+            font-size: clamp(1.8rem, 5vw, 3rem); /* Ещё больше шрифт */
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             color: #ffffff;
-            background: linear-gradient(45deg, #2f4f2f, #3c6e31); /* Хвойный градиент */
+            background: linear-gradient(45deg, #2f4f2f, #3c6e31); /* Чистая хвоя */
             border: none;
-            border-radius: 70px; /* Ещё больше округлости */
+            border-radius: 80px;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(47, 79, 47, 0.6); /* Хвойное свечение */
+            box-shadow: 0 12px 30px rgba(47, 79, 47, 0.6);
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 3px; /* Больше разрядки */
+            letter-spacing: 4px;
         }
         button:hover {
             background: linear-gradient(45deg, #3c6e31, #2f4f2f);
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(47, 79, 47, 0.8);
+            transform: translateY(-12px);
+            box-shadow: 0 18px 40px rgba(47, 79, 47, 0.8);
         }
         button:active {
-            transform: translateY(5px);
-            box-shadow: 0 5px 15px rgba(47, 79, 47, 0.4);
+            transform: translateY(6px);
+            box-shadow: 0 6px 18px rgba(47, 79, 47, 0.4);
+        }
+        /* Кнопка рандома для ПК */
+        .random-button {
+            display: none; /* Скрыта на мобильных */
+        }
+        @media (min-width: 601px) {
+            .random-button {
+                display: inline-block;
+            }
+        }
+        /* Кружочек со стрелочками для телефона */
+        .mobile-circle {
+            display: none; /* Скрыт на ПК */
+            position: fixed;
+            bottom: 20px;
+            width: 60px;
+            height: 60px;
+            background: rgba(47, 79, 47, 0.8);
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .mobile-circle::before {
+            content: '↻ ↺';
+            color: #ffffff;
+            font-size: 24px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
         @media (max-width: 600px) {
             .button-container {
                 flex-direction: column;
-                gap: 30px;
+                gap: 35px;
             }
             h1 {
-                margin-bottom: 50px;
+                margin-bottom: 60px;
+            }
+            .mobile-circle {
+                display: block;
             }
         }
     </style>
@@ -80,6 +112,17 @@
     <div class="button-container">
         <a href="/trolling1/"><button>Прикольчик №1</button></a>
         <a href="/trolling2/"><button>Прикольчик №2</button></a>
+        <a href="/trolling3/"><button>Прикольчик №3</button></a>
+        <button class="random-button" onclick="goRandom()">Рандом</button>
     </div>
+    <div class="mobile-circle"></div>
+
+    <script>
+        function goRandom() {
+            const pages = ['/trolling1/', '/trolling2/', '/trolling3/'];
+            const randomPage = pages[Math.floor(Math.random() * pages.length)];
+            window.location.href = randomPage;
+        }
+    </script>
 </body>
 </html>
