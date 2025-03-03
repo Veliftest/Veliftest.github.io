@@ -15,9 +15,8 @@
             background: linear-gradient(45deg, #3b3b3b, #222323, #404040, #2a2b2c, #3b3b3b);
             background-size: 400% 400%;
             animation: gradientBG 60s ease infinite; /* Очень-очень-очень плавное переливание */
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Playfair Display', serif; /* Единый красивый шрифт */
             overflow: hidden;
-            z-index: 0; /* Убедимся, что фон на нижнем слое */
         }
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
@@ -26,98 +25,69 @@
         }
         h1 {
             color: #ffffff;
-            font-size: clamp(24px, 3.33vw, 64px); /* Минимальный 24px, максимальный 64px (1.2 раза от 53px) */
-            font-family: 'Oswald', sans-serif;
+            font-size: clamp(48px, 6.66vw, 128px); /* Увеличено с 24px, 3.33vw, 64px в 2 раза */
+            font-family: 'Playfair Display', serif; /* Единый красивый шрифт для заголовка */
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: clamp(0.5px, 0.2vw, 2px);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.2); /* Оптимизированное свечение */
-            margin-bottom: clamp(20px, 4.11vw, 79px); /* Минимальный 20px, максимальный 79px (1.2 раза от 66px) */
-            z-index: 10; /* Увеличен z-index для надписи, чтобы она была поверх фона */
+            letter-spacing: clamp(1px, 0.4vw, 4px); /* Увеличено с 0.5px, 0.2vw, 2px в 2 раза */
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.3), 0 0 24px rgba(255, 255, 255, 0.2), 0 0 36px rgba(255, 255, 255, 0.1); /* Более расплывчатое свечение, сохранены координаты 0 0, увеличены радиусы */
+            margin-bottom: clamp(40px, 8.22vw, 158px); /* Увеличено с 20px, 4.11vw, 79px в 2 раза */
+            z-index: 1;
         }
         .button-container {
             display: flex;
             flex-wrap: wrap;
-            gap: clamp(10px, 1.45vw, 28px); /* Минимальный 10px, максимальный 28px (1.2 раза от 23px) */
+            gap: clamp(20px, 2.9vw, 56px); /* Увеличено с 10px, 1.45vw, 28px в 2 раза */
             justify-content: center;
             align-items: center;
-            z-index: 10; /* Увеличен z-index, чтобы контейнер был поверх фона */
-            max-width: 95%; /* Увеличено до 95%, чтобы кнопки касались краёв экрана */
+            z-index: 1;
+            max-width: 90%;
             flex-direction: column;
-            width: 100%; /* Занимает всю доступную ширину */
         }
         .main-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: clamp(10px, 1.45vw, 28px); /* Минимальный 10px, максимальный 28px (1.2 раза от 23px) */
+            gap: clamp(20px, 2.9vw, 56px); /* Увеличено с 10px, 1.45vw, 28px в 2 раза */
             justify-content: center;
-            width: 100%; /* Занимает всю доступную ширину */
-            z-index: 10; /* Увеличен z-index, чтобы кнопки были поверх фона */
         }
         a {
             text-decoration: none;
-            width: 100%; /* Распределяем кнопки по ширине */
         }
         button {
-            padding: clamp(10px, 1.11vw, 19px) clamp(20px, 2.38vw, 41px); /* Минимальный 10px 20px, максимальный 19px 41px (1.2 раза от 16px 34px) */
-            font-size: clamp(12px, 1.16vw, 20px); /* Минимальный 12px, максимальный 20px (1.2 раза от 17px) */
-            font-family: 'Montserrat', sans-serif;
+            padding: clamp(20px, 2.22vw, 38px) clamp(40px, 4.76vw, 82px); /* Увеличено с 10px 20px, 1.11vw 2.38vw, 19px 41px в 2 раза */
+            font-size: clamp(24px, 2.32vw, 40px); /* Увеличено с 12px, 1.16vw, 20px в 2 раза */
+            font-family: 'Playfair Display', serif; /* Единый красивый шрифт для кнопок */
             font-weight: 700;
             color: #ffffff;
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
-            border-radius: clamp(20px, 3.08vw, 53px); /* Минимальный 20px, максимальный 53px (1.2 раза от 44px) */
+            border-radius: clamp(40px, 6.16vw, 106px); /* Увеличено с 20px, 3.08vw, 53px в 2 раза */
             cursor: pointer;
-            box-shadow: 0 clamp(10px, 0.93vw, 16px) clamp(20px, 2.33vw, 40px) rgba(60, 110, 49, 0.6); /* Минимальный 10px 20px, максимальный 16px 40px (1.2 раза от 13px 33px) */
+            box-shadow: 0 clamp(20px, 1.86vw, 32px) clamp(40px, 4.66vw, 80px) rgba(60, 110, 49, 0.6); /* Увеличено с 10px 20px, 0.93vw 2.33vw, 16px 40px в 2 раза */
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: clamp(0.5px, 0.06vw, 1px);
-            width: 100%; /* Кнопки занимают всю доступную ширину */
-            max-width: 300px; /* Ограничение максимальной ширины для читаемости */
-            z-index: 10; /* Увеличен z-index, чтобы кнопки были поверх фона */
+            letter-spacing: clamp(1px, 0.12vw, 2px); /* Увеличено с 0.5px, 0.06vw, 1px в 2 раза */
         }
         button:hover {
             background: linear-gradient(45deg, #5a9e4b, #3c6e31);
-            transform: translateY(clamp(-10px, -0.93vw, -16px)); /* Минимальный -10px, максимальный -16px (1.2 раза от -13px) */
-            box-shadow: 0 clamp(15px, 1.39vw, 24px) clamp(30px, 3.08vw, 53px) rgba(60, 110, 49, 0.8); /* Минимальный 15px 30px, максимальный 24px 53px (1.2 раза от 20px 44px) */
+            transform: translateY(clamp(-20px, -1.86vw, -32px)); /* Увеличено с -10px, -0.93vw, -16px в 2 раза */
+            box-shadow: 0 clamp(30px, 2.78vw, 48px) clamp(60px, 6.16vw, 106px) rgba(60, 110, 49, 0.8); /* Увеличено с 15px 30px, 1.39vw 3.08vw, 24px 53px в 2 раза */
         }
         button:active {
-            transform: translateY(clamp(5px, 0.41vw, 7px)); /* Минимальный 5px, максимальный 7px (1.2 раза от 6px) */
-            box-shadow: 0 clamp(5px, 0.41vw, 7px) clamp(10px, 1.39vw, 24px) rgba(60, 110, 49, 0.4); /* Минимальный 5px 10px, максимальный 7px 24px (1.2 раза от 6px 20px) */
+            transform: translateY(clamp(10px, 0.82vw, 14px)); /* Увеличено с 5px, 0.41vw, 7px в 2 раза */
+            box-shadow: 0 clamp(10px, 0.82vw, 14px) clamp(20px, 2.78vw, 48px) rgba(60, 110, 49, 0.4); /* Увеличено с 5px 10px, 0.41vw 1.39vw, 7px 24px в 2 раза */
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&family=Montserrat:wght@700&family=Oswald:wght@700&display=swap" rel="stylesheet">
-    <script>
-        // Опциональная анимация: кнопки "убегают" при наведении с шансом 1 из 4
-        document.addEventListener('DOMContentLoaded', () => {
-            const buttons = document.querySelectorAll('button');
-            const container = document.querySelector('.main-buttons');
-
-            buttons.forEach(button => {
-                button.addEventListener('mouseover', (e) => {
-                    const randomChance = Math.random();
-                    if (randomChance < 0.25) { // Шанс 1 из 4
-                        const containerRect = container.getBoundingClientRect();
-                        const maxX = containerRect.width - button.offsetWidth;
-                        const maxY = containerRect.height - button.offsetHeight;
-                        const newX = Math.random() * maxX;
-                        const newY = Math.random() * maxY;
-
-                        button.style.position = 'absolute';
-                        button.style.left = `${newX}px`;
-                        button.style.top = `${newY}px`;
-                        button.style.transition = 'transform 0.3s ease, left 0.3s ease, top 0.3s ease';
-
-                        setTimeout(() => {
-                            button.style.position = '';
-                            button.style.left = '';
-                            button.style.top = '';
-                            button.style.transform = '';
-                        }, 1500);
-                    }
-                });
-            });
-        });
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>Троллинг Хаб</h1>
+    <div class="button-container">
+        <div class="main-buttons">
+            <a href="/trolling1/"><button>Прикольчик №1</button></a>
+            <a href="/trolling2/"><button>Прикольчик №2</button></a>
+            <a href="/trolling3/"><button>Прикольчик №3</button></a>
+        </div>
+    </div>
 </body>
 </html>
