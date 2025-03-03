@@ -19,19 +19,19 @@
         }
         h1 {
             color: #ffffff;
-            font-size: clamp(3.5rem, 10vw, 7rem); /* Ещё больше для ПК */
+            font-size: clamp(3.5rem, 10vw, 7rem);
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 6px;
             text-shadow: 0 0 30px rgba(47, 79, 47, 0.6);
-            margin-bottom: 100px; /* Ещё больше отступ */
+            margin-bottom: 100px;
             z-index: 1;
         }
         .button-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 60px; /* Ещё больше для ПК */
+            gap: 60px;
             justify-content: center;
             z-index: 1;
             max-width: 90%;
@@ -40,12 +40,12 @@
             text-decoration: none;
         }
         button {
-            padding: clamp(30px, 6vw, 50px) clamp(60px, 10vw, 100px); /* Ещё крупнее */
-            font-size: clamp(1.8rem, 5vw, 3rem); /* Ещё больше шрифт */
+            padding: clamp(30px, 6vw, 50px) clamp(60px, 10vw, 100px);
+            font-size: clamp(1.8rem, 5vw, 3rem);
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             color: #ffffff;
-            background: linear-gradient(45deg, #2f4f2f, #3c6e31); /* Чистая хвоя */
+            background: linear-gradient(45deg, #2f4f2f, #3c6e31);
             border: none;
             border-radius: 80px;
             cursor: pointer;
@@ -63,34 +63,35 @@
             transform: translateY(6px);
             box-shadow: 0 6px 18px rgba(47, 79, 47, 0.4);
         }
-        /* Кнопка рандома для ПК */
-        .random-button {
-            display: none; /* Скрыта на мобильных */
-        }
-        @media (min-width: 601px) {
-            .random-button {
-                display: inline-block;
-            }
-        }
-        /* Кружочек со стрелочками для телефона */
-        .mobile-circle {
-            display: none; /* Скрыт на ПК */
+        /* Кружочек-рандом для телефона */
+        .mobile-random {
+            display: none;
             position: fixed;
             bottom: 20px;
-            width: 60px;
-            height: 60px;
-            background: rgba(47, 79, 47, 0.8);
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, #2f4f2f, #3c6e31);
+            border: none;
             border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(47, 79, 47, 0.6);
             z-index: 1;
+            transition: transform 0.3s ease;
         }
-        .mobile-circle::before {
+        .mobile-random::before {
             content: '↻ ↺';
             color: #ffffff;
-            font-size: 24px;
+            font-size: 28px;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+        }
+        .mobile-random:hover {
+            transform: scale(1.1);
+        }
+        .mobile-random:active {
+            transform: scale(0.95);
         }
         @media (max-width: 600px) {
             .button-container {
@@ -100,7 +101,7 @@
             h1 {
                 margin-bottom: 60px;
             }
-            .mobile-circle {
+            .mobile-random {
                 display: block;
             }
         }
@@ -113,9 +114,8 @@
         <a href="/trolling1/"><button>Прикольчик №1</button></a>
         <a href="/trolling2/"><button>Прикольчик №2</button></a>
         <a href="/trolling3/"><button>Прикольчик №3</button></a>
-        <button class="random-button" onclick="goRandom()">Рандом</button>
     </div>
-    <div class="mobile-circle"></div>
+    <button class="mobile-random" onclick="goRandom()"></button>
 
     <script>
         function goRandom() {
