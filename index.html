@@ -7,7 +7,7 @@
     <style>
         body {
             margin: 0;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -18,46 +18,48 @@
         }
         h1 {
             color: #ffffff;
-            font-size: 48px; /* Фиксированный размер вместо clamp */
+            font-size: clamp(2rem, 10vw, 7rem);
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: clamp(2px, 2vw, 6px);
             text-shadow: 0 0 40px rgba(255, 255, 255, 0.8);
-            margin-bottom: 60px;
+            margin-bottom: clamp(40px, 10vw, 100px);
             z-index: 1;
         }
         .button-container {
             display: flex;
-            flex-direction: column;
-            gap: 20px;
+            flex-wrap: wrap;
+            gap: clamp(20px, 5vw, 60px);
             justify-content: center;
             align-items: center;
             z-index: 1;
             max-width: 90%;
+            flex-direction: column;
         }
         .main-buttons {
             display: flex;
-            gap: 20px;
+            flex-wrap: wrap;
+            gap: clamp(20px, 5vw, 60px);
             justify-content: center;
         }
         a {
             text-decoration: none;
         }
         button {
-            padding: 15px 30px;
-            font-size: 16px;
+            padding: clamp(15px, 6vw, 50px) clamp(30px, 10vw, 100px);
+            font-size: clamp(1rem, 5vw, 3rem);
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             color: #ffffff;
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
-            border-radius: 40px;
+            border-radius: clamp(40px, 10vw, 80px);
             cursor: pointer;
             box-shadow: 0 12px 30px rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: clamp(1px, 1vw, 4px);
         }
         button:hover {
             background: linear-gradient(45deg, #5a9e4b, #3c6e31);
@@ -70,8 +72,12 @@
         }
         /* Круглая кнопка рандома */
         .random-button {
-            width: 60px;
-            height: 60px;
+            width: clamp(50px, 15vw, 70px);
+            height: clamp(50px, 15vw, 70px);
+            min-width: clamp(50px, 15vw, 70px);
+            min-height: clamp(50px, 15vw, 70px);
+            max-width: clamp(50px, 15vw, 70px);
+            max-height: clamp(50px, 15vw, 70px);
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
             border-radius: 50%; /* Гарантированно круглая */
@@ -79,6 +85,7 @@
             box-shadow: 0 12px 30px rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
             position: relative;
+            aspect-ratio: 1 / 1; /* Гарантирует круглую форму */
             overflow: hidden;
         }
         .random-button:hover {
@@ -99,12 +106,22 @@
             max-height: 80%;
             object-fit: contain;
             object-position: center;
+            transform-origin: 256px 256px; /* Центр изображения 512x512 */
             animation: spin 4s linear infinite;
         }
         /* Анимация вращения лого */
         @keyframes spin {
             from { transform: translate(-50%, -50%) rotate(0deg); }
             to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        @media (max-width: 600px) {
+            .button-container, .main-buttons {
+                flex-direction: column;
+                gap: 35px;
+            }
+            h1 {
+                margin-bottom: 60px;
+            }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&family=Montserrat:wght@700&family=Oswald:wght@700&display=swap" rel="stylesheet">
