@@ -25,22 +25,34 @@
             z-index: -1;
         }
         button {
-            width: 30vw; /* Адаптивный размер: 30% ширины экрана */
-            height: 30vw; /* Круг остаётся пропорциональным */
-            max-width: 300px; /* Максимум 300px для больших экранов */
+            width: 30vw;
+            height: 30vw;
+            max-width: 300px;
             max-height: 300px;
-            min-width: 100px; /* Минимум 100px для маленьких экранов */
+            min-width: 100px;
             min-height: 100px;
             border-radius: 50%;
-            background: url('button-image.png') no-repeat center / cover; /* Изображение кнопки */
+            background: url('button-image.png') no-repeat center / cover;
             border: none;
             cursor: pointer;
-            position: absolute; /* Для прыгания */
+            position: absolute;
             z-index: 1;
-            transition: all 0.1s ease; /* Плавность движения */
+            transition: all 0.1s ease;
         }
         button:hover {
-            opacity: 0.9; /* Лёгкий эффект при наведении */
+            opacity: 0.9;
+        }
+        /* Добавляем класс для вращения */
+        .spinning {
+            animation: spin 1s linear infinite; /* Вращение: 1 оборот за 1 секунду */
+        }
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
@@ -55,13 +67,31 @@
     </audio>
 
     <script>
+        let audioContext, analyser, dataArray;
+
         function playSoundAndBounce() {
             var audio = document.getElementById("sound");
             var button = document.querySelector("button");
             audio.volume = 1.0;
+
+            // Добавляем вращение
+            button.classList.add("spinning");
+
+            // Инициализация Web Audio API
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+                var source = audioContext.createMediaElementSource(audio);
+                source.connect(analyser);
+                analyser.connect(audioContext.destination);
+            }
+
             audio.play();
 
-            // Прыгание кнопки
+            // Функция прыгания
             function bounce() {
                 var maxX = window.innerWidth - button.offsetWidth;
                 var maxY = window.innerHeight - button.offsetHeight;
@@ -71,15 +101,29 @@
                 button.style.top = newY + "px";
             }
 
-            // Запускаем прыгание каждые 100 мс
-            var bounceInterval = setInterval(bounce, 100);
+            // Анализ аудио в реальном времени
+            function analyzeAndBounce() {
+                analyser.getByteFrequencyData(dataArray);
+                var energy = 0;
+                for (var i = 0; i < dataArray.length; i++) {
+                    energy += dataArray[i];
+                }
+                energy /= dataArray.length;
 
-            // Останавливаем прыгание, когда звук закончится
-            audio.onended = function() {
-                clearInterval(bounceInterval);
-                button.style.left = ""; // Возвращаем в центр
-                button.style.top = "";
-            };
+                if (energy > 30) {
+                    bounce();
+                }
+
+                if (!audio.ended) {
+                    requestAnimationFrame(analyzeAndBounce);
+                } else {
+                    button.style.left = "";
+                    button.style.top = "";
+                    button.classList.remove("spinning"); // Убираем вращение
+                }
+            }
+
+            analyzeAndBounce();
         }
     </script>
 </body>
