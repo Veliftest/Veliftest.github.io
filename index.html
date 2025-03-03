@@ -17,6 +17,7 @@
             animation: gradientBG 60s ease infinite; /* Очень-очень-очень плавное переливание */
             font-family: 'Roboto', sans-serif;
             overflow: hidden;
+            z-index: 0; /* Убедимся, что фон на нижнем слое */
         }
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
@@ -32,7 +33,7 @@
             letter-spacing: clamp(0.5px, 0.2vw, 2px);
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.2); /* Оптимизированное свечение */
             margin-bottom: clamp(20px, 4.11vw, 79px); /* Минимальный 20px, максимальный 79px (1.2 раза от 66px) */
-            z-index: 1;
+            z-index: 10; /* Увеличен z-index для надписи, чтобы она была поверх фона */
         }
         .button-container {
             display: flex;
@@ -40,7 +41,7 @@
             gap: clamp(10px, 1.45vw, 28px); /* Минимальный 10px, максимальный 28px (1.2 раза от 23px) */
             justify-content: center;
             align-items: center;
-            z-index: 1;
+            z-index: 10; /* Увеличен z-index, чтобы контейнер был поверх фона */
             max-width: 95%; /* Увеличено до 95%, чтобы кнопки касались краёв экрана */
             flex-direction: column;
             width: 100%; /* Занимает всю доступную ширину */
@@ -51,6 +52,7 @@
             gap: clamp(10px, 1.45vw, 28px); /* Минимальный 10px, максимальный 28px (1.2 раза от 23px) */
             justify-content: center;
             width: 100%; /* Занимает всю доступную ширину */
+            z-index: 10; /* Увеличен z-index, чтобы кнопки были поверх фона */
         }
         a {
             text-decoration: none;
@@ -72,6 +74,7 @@
             letter-spacing: clamp(0.5px, 0.06vw, 1px);
             width: 100%; /* Кнопки занимают всю доступную ширину */
             max-width: 300px; /* Ограничение максимальной ширины для читаемости */
+            z-index: 10; /* Увеличен z-index, чтобы кнопки были поверх фона */
         }
         button:hover {
             background: linear-gradient(45deg, #5a9e4b, #3c6e31);
