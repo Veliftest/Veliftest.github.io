@@ -216,7 +216,7 @@
         // Обновляем размеры и позицию сирены при изменении окна
         window.addEventListener('resize', () => {
             const siren = document.getElementById('siren');
-            if (siren && siren.style.display === 'block') {
+            if (siren.style.display === 'block') {
                 const windowWidth = window.innerWidth;
                 const windowHeight = window.innerHeight;
                 const maxSize = Math.min(1030, windowWidth, windowHeight);
@@ -232,7 +232,7 @@
             }
         });
 
-        // Запуск анимации при клике на кнопку
+        // Запуск анимации при клике на кнопку, учитывая прогресс
         document.addEventListener('DOMContentLoaded', () => {
             const button = document.querySelector('.main-button');
             const step = getStep();
