@@ -53,7 +53,7 @@
             gap: clamp(20px, 2.9vw, 56px); /* Сохраняем увеличение в 2 раза от оригинальных 10px, 1.45vw, 28px */
             justify-content: center;
             width: 100%;
-            max-width: 1000px; /* Уменьшено с 1200px для более компактного расположения кнопок на ПК */
+            max-width: 900px; /* Уменьшено с 1000px для более компактного расположения кнопок на ПК */
             flex-direction: row; /* Горизонтальное расположение кнопок на ПК */
         }
         /* Адаптивность для телефонов: вертикальное расположение */
@@ -89,20 +89,28 @@
             text-transform: uppercase;
             letter-spacing: clamp(1px, 0.12vw, 2px); /* Сохраняем увеличение в 2 раза от оригинальных 0.5px, 0.06vw, 1px */
             width: 100%;
-            max-width: 320px; /* Уменьшено с 350px для более компактной ширины на ПК */
+            max-width: 300px; /* Уменьшено с 320px для более компактной ширины на ПК */
             text-align: center; /* Выравнивание текста внутри кнопок по центру */
             display: flex; /* Используем flex для идеального центрирования текста */
             justify-content: center; /* Центрирование текста по горизонтали */
             align-items: center; /* Центрирование текста по вертикали */
+            animation: subtlePulse 1.5s infinite ease-in-out; /* Маленькая пульсация */
+        }
+        @keyframes subtlePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
         }
         button:hover {
             background: linear-gradient(45deg, #5a9e4b, #3c6e31); /* Сохраняем старый градиент при наведении */
             transform: translateY(clamp(-13px, -0.93vw, -32px)); /* Сохраняем увеличение в 2 раза от оригинальных -6.5px, -0.465vw, -16px */
             box-shadow: 0 clamp(20px, 1.74vw, 48px) clamp(44px, 5.83vw, 106px) rgba(60, 110, 49, 0.8); /* Сохраняем старое свечение при наведении */
+            animation: none; /* Отключаем пульсацию при наведении */
         }
         button:active {
             transform: translateY(clamp(7px, 0.41vw, 14px)); /* Сохраняем увеличение в 2 раза от оригинальных 3.5px, 0.205vw, 7px */
             box-shadow: 0 clamp(6px, 0.41vw, 14px) clamp(20px, 2.78vw, 48px) rgba(60, 110, 49, 0.4); /* Сохраняем старое свечение при нажатии */
+            animation: none; /* Отключаем пульсацию при нажатии */
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
