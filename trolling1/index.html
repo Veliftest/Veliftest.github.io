@@ -26,15 +26,15 @@
         }
         .main-button {
             position: relative;
-            width: clamp(150px, 16.67vw, 300px); /* Размер кнопки, адаптивный, увеличенный в 2 раза */
-            height: clamp(150px, 16.67vw, 300px); /* Круглая кнопка, адаптивная высота */
-            border-radius: 50%; /* Круглая форма */
-            background: linear-gradient(45deg, #3c6e31, #5a9e4b); /* Базовый градиент для кнопки */
+            width: clamp(150px, 16.67vw, 300px);
+            height: clamp(150px, 16.67vw, 300px);
+            border-radius: 50%;
+            background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
             cursor: pointer;
             box-shadow: 0 clamp(13px, 1.16vw, 32px) clamp(33px, 3.89vw, 80px) rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
-            overflow: hidden; /* Для наложения текстуры */
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -68,7 +68,27 @@
             opacity: 0.7;
             z-index: 1;
         }
-        /* Анимация вращения кнопки */
+        /* Состояние кнопки после клика — круглая картинка без текста и интерактивности */
+        .inactive-image {
+            background: none;
+            border: none;
+            box-shadow: none;
+            cursor: default;
+            pointer-events: none; /* Отключаем интерактивность */
+        }
+        .inactive-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('new-texture.jpg') no-repeat center center;
+            background-size: cover;
+            opacity: 0.7;
+            z-index: 1;
+        }
+        /* Анимация вращения */
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -76,13 +96,9 @@
         .spinning {
             animation: spin 2s linear infinite;
         }
-        /* Стили для нового фона и текстуры после клика */
+        /* Новый фон в формате GIF после клика */
         .new-background {
-            background: url('your-background.jpg') no-repeat center center fixed;
-            background-size: cover;
-        }
-        .new-texture::before {
-            background: url('new-texture.jpg') no-repeat center center;
+            background: url('your-background.gif') no-repeat center center fixed;
             background-size: cover;
         }
     </style>
@@ -99,16 +115,28 @@
         const button = document.querySelector('.main-button');
         const body = document.body;
         const audio = document.getElementById('clickSound');
+        let isActive = true; // Флаг для отслеживания состояния кнопки
 
         button.addEventListener('click', () => {
-            // Меняем фон страницы
-            body.classList.add('new-background');
-            // Меняем текстуру кнопки
-            button.classList.add('new-texture');
-            // Включаем аудио
-            audio.play();
-            // Добавляем анимацию вращения
-            button.classList.add('spinning');
+            if (isActive) {
+                // Меняем фон на GIF
+                body.classList.add('new-background');
+                // Преобразуем кнопку в неинтерактивную картинку с новой текстурой
+                button.classList.remove('main-button');
+                button.classList.add('inactive-image', 'spinning');
+                button.textContent = ''; // Удаляем текст
+                // Включаем аудио
+                audio.play();
+                // После окончания аудио возвращаем начальное состояние
+                audio.onended = () => {
+                    body.classList.remove('new-background');
+                    button.classList.remove('inactive-image', 'spinning');
+                    button.classList.add('main-button');
+                    button.textContent = 'Нажми меня'; // Восстанавливаем текст
+                    isActive = true; // Восстанавливаем интерактивность
+                };
+                isActive = false; // Отключаем интерактивность кнопки после клика
+            }
         });
     </script>
 </body>
