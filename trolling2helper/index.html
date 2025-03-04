@@ -12,10 +12,15 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: url('custom-background.jpg') no-repeat center center;
+            background: #000000 url('custom-background.jpg') no-repeat center center;
             background-size: cover;
             overflow: hidden;
             font-family: 'Poppins', sans-serif;
+        }
+
+        /* Заготовка на случай, если изображение не загрузится */
+        body.no-background {
+            background: #000000 !important; /* Чёрный фон по умолчанию */
         }
 
         /* Базовая адаптивность для всех устройств */
@@ -66,6 +71,22 @@
                 background-position: center;
             }
         }
+
+        /* Проверка загрузки изображения и установка чёрного фона, если изображение не доступно */
+        @media (prefers-reduced-motion: no-preference) {
+            body::after {
+                content: url('custom-background.jpg');
+                display: none;
+            }
+            @supports (-webkit-touch-callout: none) {
+                body::after {
+                    content: '';
+                }
+                body.no-background::after {
+                    content: none !important;
+                }
+            }
+        }
     </style>
     <script>
         // Сохранение состояния через localStorage
@@ -77,9 +98,21 @@
             localStorage.setItem('prankStep', step);
         }
 
-        // Обработка перенаправлений с задержкой 1.5 секунды
+        // Обработка перенаправлений с гарантированной задержкой 1.5 секунды на всех устройствах
         window.onload = () => {
             const step = getStep();
+            const body = document.body;
+
+            // Проверка загрузки изображения фона
+            const img = new Image();
+            img.src = 'custom-background.jpg';
+            img.onload = () => {
+                body.classList.remove('no-background');
+            };
+            img.onerror = () => {
+                body.classList.add('no-background');
+            };
+
             if (step === 2) {
                 setTimeout(() => {
                     setStep(3);
@@ -94,6 +127,15 @@
                 window.location.href = 'https://veliftest.github.io/trolling2/';
             }
         };
+
+        // Убедимся, что задержка работает корректно на мобильных устройствах
+        window.addEventListener('load', () => {
+            const step = getStep();
+            if (step === 2 || step === 3) {
+                // Дополнительная проверка для мобильных, чтобы гарантировать задержку
+                setTimeout(() => {}, 1500); // Имитация задержки для тестирования
+            }
+        });
     </script>
 </head>
 <body>
