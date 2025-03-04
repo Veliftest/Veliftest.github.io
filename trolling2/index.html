@@ -216,7 +216,7 @@
         // Обновляем размеры и позицию сирены при изменении окна
         window.addEventListener('resize', () => {
             const siren = document.getElementById('siren');
-            if (siren.style.display === 'block') {
+            if (siren && siren.style.display === 'block') {
                 const windowWidth = window.innerWidth;
                 const windowHeight = window.innerHeight;
                 const maxSize = Math.min(1030, windowWidth, windowHeight);
