@@ -25,71 +25,83 @@
         }
         h1 {
             color: #ffffff;
-            font-size: clamp(48px, 6.66vw, 128px); /* Сохраняем увеличение в 2 раза, адаптивность */
+            font-size: clamp(36px, 5vw, 128px);
             font-family: 'Poppins', sans-serif;
             font-weight: 800; /* Более широкий (жирный) шрифт для заголовка */
             text-transform: uppercase;
-            letter-spacing: clamp(2px, 0.5vw, 8px); /* Увеличен для шире шрифта */
+            letter-spacing: clamp(1.5px, 0.4vw, 8px);
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 30px rgba(255, 255, 255, 0.7), 0 0 45px rgba(255, 255, 255, 0.5);
-            margin-bottom: clamp(40px, 8.22vw, 158px); /* Сохраняем увеличение в 2 раза */
+            margin-bottom: clamp(30px, 6.16vw, 158px);
             z-index: 1;
+            text-align: center; /* Выравнивание текста заголовка по центру */
         }
         .button-container {
             display: flex;
             flex-wrap: wrap;
-            gap: clamp(20px, 2.9vw, 56px); /* Сохраняем увеличение в 2 раза, адаптивность */
+            gap: clamp(15px, 2.18vw, 56px);
             justify-content: center;
             align-items: center;
             z-index: 1;
-            max-width: 95%; /* Увеличено до 95%, чтобы кнопки касались краёв экрана */
+            max-width: 95%; /* Увеличено до 95%, чтобы кнопки касались краёв, но центрировались красиво */
             flex-direction: column;
-            width: 100%; /* Занимает всю доступную ширину */
+            width: 100%;
+            padding: 0 clamp(10px, 1.45vw, 20px); /* Сохраняем отступ для центрирования */
         }
         .main-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: clamp(20px, 2.9vw, 56px); /* Сохраняем увеличение в 2 раза, адаптивность */
+            gap: clamp(15px, 2.18vw, 56px);
             justify-content: center;
-            width: 100%; /* Занимает всю доступную ширину */
+            width: 100%;
+            max-width: 1200px; /* Ограничение максимальной ширины для красивого центрирования на ПК */
+            flex-direction: row; /* Горизонтальное расположение кнопок на ПК */
+        }
+        /* Адаптивность для телефонов: вертикальное расположение */
+        @media (max-width: 768px) {
+            .main-buttons {
+                flex-direction: column; /* Вертикальное расположение кнопок на телефонах */
+            }
         }
         a {
             text-decoration: none;
             width: 100%; /* Распределяем кнопки по ширине */
+            text-align: center; /* Выравнивание ссылок по центру */
         }
         button {
-            padding: clamp(20px, 2.22vw, 38px) clamp(40px, 4.76vw, 82px); /* Сохраняем увеличение в 2 раза, адаптивность */
-            font-size: clamp(24px, 2.32vw, 40px); /* Сохраняем увеличение в 2 раза, адаптивность */
+            padding: clamp(15px, 1.67vw, 38px) clamp(30px, 3.57vw, 82px);
+            font-size: clamp(18px, 1.74vw, 40px);
             font-family: 'Poppins', sans-serif;
             font-weight: 800; /* Более широкий (жирный) шрифт для кнопок */
             color: #ffffff;
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.4);
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
-            border-radius: clamp(40px, 6.16vw, 106px); /* Сохраняем увеличение в 2 раза, адаптивность */
+            border-radius: clamp(30px, 4.62vw, 106px);
             cursor: pointer;
-            box-shadow: 0 clamp(20px, 1.86vw, 32px) clamp(40px, 4.66vw, 80px) rgba(60, 110, 49, 0.6), 0 0 20px rgba(90, 158, 75, 0.8), 0 0 40px rgba(60, 110, 49, 0.6);
+            box-shadow: 0 clamp(15px, 1.4vw, 32px) clamp(30px, 3.5vw, 80px) rgba(60, 110, 49, 0.6), 0 0 20px rgba(90, 158, 75, 0.8), 0 0 40px rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: clamp(2px, 0.24vw, 4px); /* Увеличен для шире шрифта */
-            width: 100%; /* Кнопки занимают всю доступную ширину */
-            max-width: 300px; /* Ограничение максимальной ширины для читаемости */
-            animation: pulse 2s infinite ease-in-out; /* Анимация пульсации */
+            letter-spacing: clamp(1.5px, 0.18vw, 4px);
+            width: 100%;
+            max-width: 280px; /* Уменьшено максимальную ширину кнопок для отступов от краёв на телефоне */
+            animation: pulse 2s infinite ease-in-out;
+            text-align: center; /* Выравнивание текста внутри кнопок по центру */
         }
         @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 clamp(20px, 1.86vw, 32px) clamp(40px, 4.66vw, 80px) rgba(60, 110, 49, 0.6), 0 0 20px rgba(90, 158, 75, 0.8), 0 0 40px rgba(60, 110, 49, 0.6); }
-            50% { transform: scale(1.05); box-shadow: 0 clamp(25px, 2.33vw, 40px) clamp(50px, 5.83vw, 100px) rgba(60, 110, 49, 0.7), 0 0 25px rgba(90, 158, 75, 1.0), 0 0 50px rgba(60, 110, 49, 0.7); }
-            100% { transform: scale(1); box-shadow: 0 clamp(20px, 1.86vw, 32px) clamp(40px, 4.66vw, 80px) rgba(60, 110, 49, 0.6), 0 0 20px rgba(90, 158, 75, 0.8), 0 0 40px rgba(60, 110, 49, 0.6); }
+            0% { transform: scale(1); box-shadow: 0 clamp(15px, 1.4vw, 32px) clamp(30px, 3.5vw, 80px) rgba(60, 110, 49, 0.6), 0 0 20px rgba(90, 158, 75, 0.8), 0 0 40px rgba(60, 110, 49, 0.6); }
+            50% { transform: scale(1.05); box-shadow: 0 clamp(18.75px, 1.75vw, 40px) clamp(37.5px, 4.38vw, 100px) rgba(60, 110, 49, 0.7), 0 0 25px rgba(90, 158, 75, 1.0), 0 0 50px rgba(60, 110, 49, 0.7); }
+            100% { transform: scale(1); box-shadow: 0 clamp(15px, 1.4vw, 32px) clamp(30px, 3.5vw, 80px) rgba(60, 110, 49, 0.6), 0 0 20px rgba(90, 158, 75, 0.8), 0 0 40px rgba(60, 110, 49, 0.6); }
         }
         button:hover {
             background: linear-gradient(45deg, #5a9e4b, #3c6e31);
-            transform: translateY(clamp(-20px, -1.86vw, -32px)) scale(1.05); /* Пульсация при наведении */
+            transform: translateY(clamp(-20px, -1.86vw, -32px)) scale(1.05);
             box-shadow: 0 clamp(30px, 2.78vw, 48px) clamp(60px, 6.16vw, 106px) rgba(60, 110, 49, 0.8), 0 0 30px rgba(90, 158, 75, 1.0), 0 0 60px rgba(60, 110, 49, 0.8);
-            animation: none; /* Отключаем постоянную пульсацию при наведении */
+            animation: none;
         }
         button:active {
-            transform: translateY(clamp(10px, 0.82vw, 14px)) scale(0.98); /* Уменьшение при нажатии */
+            transform: translateY(clamp(10px, 0.82vw, 14px)) scale(0.98);
             box-shadow: 0 clamp(10px, 0.82vw, 14px) clamp(20px, 2.78vw, 48px) rgba(60, 110, 49, 0.4), 0 0 15px rgba(90, 158, 75, 0.6), 0 0 30px rgba(60, 110, 49, 0.4);
-            animation: none; /* Отключаем пульсацию при нажатии */
+            animation: none;
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
