@@ -26,8 +26,8 @@
         }
         .main-button {
             position: relative;
-            width: clamp(250px, 27.78vw, 500px); /* Увеличен размер круга на ПК */
-            height: clamp(250px, 27.78vw, 500px); /* Увеличен размер круга на ПК */
+            width: clamp(425px, 47.23vw, 850px); /* Увеличен размер круга на ПК в 1,7 раза */
+            height: clamp(425px, 47.23vw, 850px); /* Увеличен размер круга на ПК в 1,7 раза */
             border-radius: 50%;
             background: url('default-texture.png') no-repeat center center; /* Изображение растягивается по размеру кнопки */
             background-size: cover; /* Растягивает изображение на весь размер кнопки, сохраняя пропорции */
@@ -45,8 +45,8 @@
         /* Состояние кнопки после клика — круглая картинка без текста и интерактивности */
         .inactive-image {
             position: relative;
-            width: clamp(200px, 22.22vw, 400px); /* Уменьшен размер круга на ПК для new-texture.jpg */
-            height: clamp(200px, 22.22vw, 400px); /* Уменьшен размер круга на ПК для new-texture.jpg */
+            width: clamp(150px, 16.67vw, 300px); /* Уменьшен размер круга на ПК для new-texture.jpg */
+            height: clamp(150px, 16.67vw, 300px); /* Уменьшен размер круга на ПК для new-texture.jpg */
             border-radius: 50%; /* Обрезаем под круг */
             background: url('new-texture.jpg') no-repeat center center;
             background-size: cover; /* Растягивает изображение на весь размер кнопки, сохраняя пропорции */
@@ -54,28 +54,28 @@
             cursor: default;
             pointer-events: none; /* Отключаем интерактивность */
         }
-        /* Анимация вращения, медленнее (5 секунд на полный оборот, вместо 10) */
+        /* Анимация вращения, быстрее (3 секунды на полный оборот) */
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); } /* Один полный оборот */
         }
         .spinning {
-            animation: spin 5s linear infinite; /* Вращение за 5 секунд, бесконечно */
+            animation: spin 3s linear infinite; /* Вращение за 3 секунды, бесконечно */
         }
         /* Новый фон в формате GIF после клика */
         .new-background {
             background: url('your-background.gif') no-repeat center center fixed;
             background-size: cover;
         }
-        /* Адаптивность для телефонов: ещё больше увеличение размера круга для default-texture.png и new-texture.jpg */
+        /* Адаптивность для телефонов: увеличение размера только для default-texture.png, сохранён размер new-texture.jpg */
         @media (max-width: 768px) {
             .main-button {
-                width: clamp(200px, 22.22vw, 400px); /* Ещё больше увеличен размер круга на телефоне для default-texture.png */
-                height: clamp(200px, 22.22vw, 400px); /* Ещё больше увеличен размер круга на телефоне для default-texture.png */
+                width: clamp(340px, 37.77vw, 680px); /* Ещё больше увеличен размер круга на телефоне для default-texture.png в 1,7 раза */
+                height: clamp(340px, 37.77vw, 680px); /* Ещё больше увеличен размер круга на телефоне для default-texture.png в 1,7 раза */
             }
             .inactive-image {
-                width: clamp(200px, 22.22vw, 400px); /* Ещё больше увеличен размер круга на телефоне для new-texture.jpg */
-                height: clamp(200px, 22.22vw, 400px); /* Ещё больше увеличен размер круга на телефоне для new-texture.jpg */
+                width: clamp(150px, 16.67vw, 300px); /* Сохранён прежний размер круга на телефоне для new-texture.jpg */
+                height: clamp(150px, 16.67vw, 300px); /* Сохранён прежний размер круга на телефоне для new-texture.jpg */
             }
         }
     </style>
