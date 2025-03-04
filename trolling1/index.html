@@ -37,6 +37,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: transform 0.3s ease; /* Плавная анимация для пульсации */
+        }
+        .main-button:hover {
+            transform: scale(1.02); /* Пульсация — увеличение до 102% при наведении */
         }
         /* Состояние кнопки после клика — круглая картинка без текста и интерактивности */
         .inactive-image {
@@ -63,15 +67,15 @@
             background: url('your-background.gif') no-repeat center center fixed;
             background-size: cover;
         }
-        /* Адаптивность для телефонов: уменьшение размера круга */
+        /* Адаптивность для телефонов: увеличение размера круга, как у new-texture.jpg */
         @media (max-width: 768px) {
             .main-button {
-                width: clamp(100px, 11.11vw, 200px); /* Уменьшен размер круга на телефоне */
-                height: clamp(100px, 11.11vw, 200px); /* Уменьшен размер круга на телефоне */
+                width: clamp(100px, 11.11vw, 200px); /* Увеличен размер круга на телефоне до соответствия new-texture.jpg */
+                height: clamp(100px, 11.11vw, 200px); /* Увеличен размер круга на телефоне до соответствия new-texture.jpg */
             }
             .inactive-image {
-                width: clamp(100px, 11.11vw, 200px); /* Уменьшен размер круга на телефоне */
-                height: clamp(100px, 11.11vw, 200px); /* Уменьшен размер круга на телефоне */
+                width: clamp(100px, 11.11vw, 200px); /* Размер уже соответствует, оставляем как есть */
+                height: clamp(100px, 11.11vw, 200px); /* Размер уже соответствует, оставляем как есть */
             }
         }
     </style>
