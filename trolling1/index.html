@@ -45,8 +45,8 @@
         /* Состояние кнопки после клика — круглая картинка без текста и интерактивности */
         .inactive-image {
             position: relative;
-            width: clamp(150px, 16.67vw, 300px); /* Уменьшен размер круга на ПК для new-texture.jpg */
-            height: clamp(150px, 16.67vw, 300px); /* Уменьшен размер круга на ПК для new-texture.jpg */
+            width: clamp(100px, 11.11vw, 200px); /* Уменьшен размер круга на ПК для new-texture.jpg в 1,5 раза */
+            height: clamp(100px, 11.11vw, 200px); /* Уменьшен размер круга на ПК для new-texture.jpg в 1,5 раза */
             border-radius: 50%; /* Обрезаем под круг */
             background: url('new-texture.jpg') no-repeat center center;
             background-size: cover; /* Растягивает изображение на весь размер кнопки, сохраняя пропорции */
@@ -67,15 +67,75 @@
             background: url('your-background.gif') no-repeat center center fixed;
             background-size: cover;
         }
+        /* Аудиоплеер */
+        .audio-player {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(5px);
+            z-index: 2;
+        }
+        .audio-controls button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .audio-controls button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        #volumeControl {
+            width: 100px;
+            height: 5px;
+            background: #ffffff;
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        #volumeControl::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            background: #ffffff;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        #timeDisplay {
+            color: white;
+            font-size: 14px;
+            margin-left: 10px;
+        }
         /* Адаптивность для телефонов: увеличение размера только для default-texture.png, сохранён размер new-texture.jpg */
         @media (max-width: 768px) {
             .main-button {
-                width: clamp(340px, 37.77vw, 680px); /* Ещё больше увеличен размер круга на телефоне для default-texture.png в 1,7 раза */
-                height: clamp(340px, 37.77vw, 680px); /* Ещё больше увеличен размер круга на телефоне для default-texture.png в 1,7 раза */
+                width: clamp(340px, 37.77vw, 680px); /* Увеличен размер круга на телефоне для default-texture.png в 1,7 раза */
+                height: clamp(340px, 37.77vw, 680px); /* Увеличен размер круга на телефоне для default-texture.png в 1,7 раза */
             }
             .inactive-image {
                 width: clamp(150px, 16.67vw, 300px); /* Сохранён прежний размер круга на телефоне для new-texture.jpg */
                 height: clamp(150px, 16.67vw, 300px); /* Сохранён прежний размер круга на телефоне для new-texture.jpg */
+            }
+            .audio-player {
+                bottom: 10px;
+                padding: 5px 10px;
+                font-size: 12px;
+            }
+            .audio-controls button {
+                font-size: 14px;
+                padding: 3px;
+            }
+            #volumeControl {
+                width: 80px;
             }
         }
     </style>
@@ -86,25 +146,83 @@
         <button class="main-button"></button> <!-- Кнопка без текста, с изображением default-texture.png -->
     </div>
 
-    <audio id="clickSound" src="click-sound.mp3" preload="auto"></audio>
+    <audio id="clickSound" src="click-sound.mp3" preload="auto"></audio> <!-- Аудио для кнопки и плеера -->
+
+    <div class="audio-player">
+        <button id="playPauseBtn">▶</button>
+        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
+        <span id="timeDisplay">0:00 / 0:00</span>
+    </div>
 
     <script>
+        // Аудиоплеер
+        const audio = document.getElementById('clickSound');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const volumeControl = document.getElementById('volumeControl');
+        const timeDisplay = document.getElementById('timeDisplay');
+
+        // Настройка аудиоплеера
+        function updateTimeDisplay() {
+            const currentTime = Math.floor(audio.currentTime);
+            const duration = Math.floor(audio.duration) || 0;
+            const minutesCurrent = Math.floor(currentTime / 60);
+            const secondsCurrent = currentTime % 60;
+            const minutesDuration = Math.floor(duration / 60);
+            const secondsDuration = duration % 60;
+            timeDisplay.textContent = `${minutesCurrent}:${secondsCurrent.toString().padStart(2, '0')} / ${minutesDuration}:${secondsDuration.toString().padStart(2, '0')}`;
+        }
+
+        playPauseBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play().catch(error => console.log('Ошибка воспроизведения:', error));
+                playPauseBtn.textContent = '⏸';
+            } else {
+                audio.pause();
+                playPauseBtn.textContent = '▶';
+            }
+        });
+
+        volumeControl.addEventListener('input', () => {
+            audio.volume = volumeControl.value;
+        });
+
+        audio.addEventListener('timeupdate', updateTimeDisplay);
+        audio.addEventListener('loadedmetadata', updateTimeDisplay);
+
         // Приоритет загрузки аудио: загружаем аудио сразу при загрузке страницы
         document.addEventListener('DOMContentLoaded', () => {
-            const audio = document.getElementById('clickSound');
             audio.load(); // Убедимся, что аудио загружено сразу
         });
 
+        // Обработка фонового воспроизведения
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && audio.paused) {
+                audio.play().catch(error => console.log('Ошибка воспроизведения при возврате:', error));
+            }
+        });
+
+        window.addEventListener('pagehide', () => {
+            if (!audio.paused) {
+                audio.play().catch(error => console.log('Ошибка воспроизведения при уходе в фоновый режим:', error));
+            }
+        });
+
+        window.addEventListener('pageshow', () => {
+            if (audio.paused) {
+                audio.play().catch(error => console.log('Ошибка воспроизведения при возврате на страницу:', error));
+            }
+        });
+
+        // Кнопка
         const button = document.querySelector('.main-button');
         const body = document.body;
-        const audio = document.getElementById('clickSound');
         let isActive = true; // Флаг для отслеживания состояния кнопки
 
         button.addEventListener('click', () => {
             if (isActive) {
                 // Задержка перед загрузкой фона и крутилки для приоритета аудио
                 const startTime = performance.now();
-                audio.play(); // Сразу проигрываем аудио
+                audio.play(); // Сразу проигрываем аудио один раз
 
                 // Проверяем, загружено ли изображение new-texture.jpg, и добавляем вращение с небольшой задержкой
                 const newTextureImg = new Image();
@@ -124,6 +242,9 @@
                     button.classList.remove('inactive-image', 'spinning');
                     button.classList.add('main-button');
                     isActive = true; // Восстанавливаем интерактивность
+                    audio.pause(); // Останавливаем аудио после воспроизведения
+                    audio.currentTime = 0; // Сбрасываем позицию аудио
+                    playPauseBtn.textContent = '▶'; // Обновляем кнопку плеера
                 };
                 isActive = false; // Отключаем интерактивность кнопки после клика
             }
