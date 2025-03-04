@@ -29,22 +29,14 @@
             width: clamp(250px, 27.78vw, 500px); /* Увеличен размер круга на ПК */
             height: clamp(250px, 27.78vw, 500px); /* Увеличен размер круга на ПК */
             border-radius: 50%;
-            background: url('default-texture.png') no-repeat center center; /* Заменяем градиент на изображение */
-            background-size: cover;
+            background: url('default-texture.png') no-repeat center center; /* Изображение растягивается по размеру кнопки */
+            background-size: cover; /* Растягивает изображение на весь размер кнопки, сохраняя пропорции */
             border: none;
             cursor: pointer;
-            box-shadow: 0 clamp(13px, 1.16vw, 32px) clamp(33px, 3.89vw, 80px) rgba(60, 110, 49, 0.6);
-            transition: all 0.3s ease;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-        .main-button:hover {
-            box-shadow: 0 clamp(20px, 1.74vw, 48px) clamp(44px, 5.83vw, 106px) rgba(60, 110, 49, 0.8); /* Сохраняем свечение при наведении */
-        }
-        .main-button:active {
-            box-shadow: 0 clamp(6px, 0.41vw, 14px) clamp(20px, 2.78vw, 48px) rgba(60, 110, 49, 0.4); /* Сохраняем свечение при нажатии */
         }
         /* Состояние кнопки после клика — круглая картинка без текста и интерактивности */
         .inactive-image {
@@ -53,9 +45,8 @@
             height: clamp(250px, 27.78vw, 500px); /* Увеличен размер круга на ПК */
             border-radius: 50%; /* Обрезаем под круг */
             background: url('new-texture.jpg') no-repeat center center;
-            background-size: cover;
+            background-size: cover; /* Растягивает изображение на весь размер кнопки, сохраняя пропорции */
             border: none;
-            box-shadow: none;
             cursor: default;
             pointer-events: none; /* Отключаем интерактивность */
         }
@@ -88,7 +79,7 @@
 </head>
 <body>
     <div class="button-container">
-        <button class="main-button"></button> <!-- Убрали текст "Нажми меня" из HTML -->
+        <button class="main-button"></button> <!-- Кнопка без текста, с изображением default-texture.png -->
     </div>
 
     <audio id="clickSound" src="click-sound.mp3" preload="auto"></audio>
