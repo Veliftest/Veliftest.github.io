@@ -86,92 +86,48 @@
         <button class="main-button"></button> <!-- Кнопка без текста, с изображением default-texture.png -->
     </div>
 
-    <audio id="clickSound" src="click-sound.mp3" preload="auto" style="display: none;"></audio> <!-- Скрытый аудио элемент -->
+    <audio id="clickSound" src="click-sound.mp3" preload="auto"></audio>
 
     <script>
-        // Проверка, является ли устройство мобильным (телефоном)
-        function isMobileDevice() {
-            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        }
+        // Приоритет загрузки аудио: загружаем аудио сразу при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            const audio = document.getElementById('clickSound');
+            audio.load(); // Убедимся, что аудио загружено сразу
+        });
 
-        const audio = document.getElementById('clickSound');
         const button = document.querySelector('.main-button');
         const body = document.body;
+        const audio = document.getElementById('clickSound');
         let isActive = true; // Флаг для отслеживания состояния кнопки
-
-        // Приоритет загрузки аудио только на мобильных устройствах
-        if (isMobileDevice()) {
-            document.addEventListener('DOMContentLoaded', () => {
-                audio.load(); // Убедимся, что аудио загружено сразу на мобильных
-            });
-        }
 
         button.addEventListener('click', () => {
             if (isActive) {
-                // Воспроизведение аудио только на мобильных устройствах
-                if (isMobileDevice()) {
-                    const startTime = performance.now();
-                    audio.play(); // Сразу проигрываем аудио один раз на мобильных
+                // Задержка перед загрузкой фона и крутилки для приоритета аудио
+                const startTime = performance.now();
+                audio.play(); // Сразу проигрываем аудио
 
-                    // Проверяем, загружено ли изображение new-texture.jpg, и добавляем вращение с небольшой задержкой
-                    const newTextureImg = new Image();
-                    newTextureImg.src = 'new-texture.jpg';
-                    newTextureImg.onload = () => {
-                        const delay = Math.max(0, 50 - (performance.now() - startTime)); // Задержка до 50 мс, но не больше
-                        setTimeout(() => {
-                            body.classList.add('new-background'); // Добавляем фон с небольшой задержкой
-                            button.classList.remove('main-button');
-                            button.classList.add('inactive-image', 'spinning');
-                        }, delay);
-                    };
-
-                    // После окончания аудио возвращаем начальное состояние
-                    audio.onended = () => {
-                        body.classList.remove('new-background');
-                        button.classList.remove('inactive-image', 'spinning');
-                        button.classList.add('main-button');
-                        isActive = true; // Восстанавливаем интерактивность
-                        audio.pause(); // Останавливаем аудио после воспроизведения
-                        audio.currentTime = 0; // Сбрасываем позицию аудио
-                    };
-                } else {
-                    // На ПК: просто выполняем анимацию без аудио
-                    body.classList.add('new-background');
-                    button.classList.remove('main-button');
-                    button.classList.add('inactive-image', 'spinning');
-
-                    // Возвращаем начальное состояние через 3 секунды (длительность анимации вращения)
+                // Проверяем, загружено ли изображение new-texture.jpg, и добавляем вращение с небольшой задержкой
+                const newTextureImg = new Image();
+                newTextureImg.src = 'new-texture.jpg';
+                newTextureImg.onload = () => {
+                    const delay = Math.max(0, 50 - (performance.now() - startTime)); // Задержка до 50 мс, но не больше
                     setTimeout(() => {
-                        body.classList.remove('new-background');
-                        button.classList.remove('inactive-image', 'spinning');
-                        button.classList.add('main-button');
-                        isActive = true; // Восстанавливаем интерактивность
-                    }, 3000); // 3 секунды — длительность анимации
-                }
+                        body.classList.add('new-background'); // Добавляем фон с небольшой задержкой
+                        button.classList.remove('main-button');
+                        button.classList.add('inactive-image', 'spinning');
+                    }, delay);
+                };
+
+                // После окончания аудио возвращаем начальное состояние
+                audio.onended = () => {
+                    body.classList.remove('new-background');
+                    button.classList.remove('inactive-image', 'spinning');
+                    button.classList.add('main-button');
+                    isActive = true; // Восстанавливаем интерактивность
+                };
                 isActive = false; // Отключаем интерактивность кнопки после клика
             }
         });
-
-        // Обработка фонового воспроизведения только на мобильных устройствах
-        if (isMobileDevice()) {
-            document.addEventListener('visibilitychange', () => {
-                if (!document.hidden && audio.paused) {
-                    audio.play().catch(error => console.log('Ошибка воспроизведения при возврате:', error));
-                }
-            });
-
-            window.addEventListener('pagehide', () => {
-                if (!audio.paused) {
-                    audio.play().catch(error => console.log('Ошибка воспроизведения при уходе в фоновый режим:', error));
-                }
-            });
-
-            window.addEventListener('pageshow', () => {
-                if (audio.paused) {
-                    audio.play().catch(error => console.log('Ошибка воспроизведения при возврате на страницу:', error));
-                }
-            });
-        }
     </script>
 </body>
 </html>
