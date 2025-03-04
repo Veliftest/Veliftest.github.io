@@ -98,9 +98,11 @@
         // Функция для анимации сирены с тремя фазами звука "Oh No" (6 секунд)
         function animateSiren() {
             const button = document.querySelector('.main-button');
+            if (!button) return; // Проверка на существование кнопки
             button.classList.add('hidden'); // Скрываем кнопку после клика
 
             const siren = document.getElementById('siren');
+            if (!siren) return; // Проверка на существование сирены
             siren.style.display = 'block';
 
             const ohNo = new Audio('oh-no-6s.mp3');
@@ -165,11 +167,11 @@
                                     siren.style.animation = ''; // Убеждаемся, что анимация остановлена
                                     setStep(1); // Сохраняем состояние для первого перенаправления
                                     redirectToHelper(); // Начинаем последовательность перенаправлений
-                                }, 1500); // Длительность третьей фазы (1.5 секунды)
+                                }, 1500); // Длительность третьей фазы (1.5 секунд)
                             }, 500); // Пауза меньше секунды (0.5 секунды) перед третьей фазой
                         }, 1500); // Длительность второй фазы (1.5 секунд, чтобы уложиться в 3.5 секунд)
                     }, 500); // Пауза меньше секунды (0.5 секунд) перед второй фазой
-                }, 2000); // Длительность первой фазы (2 секунды)
+                }, 2000); // Длительность первой фазы (2 секунд)
             }, 0); // Немедленный старт первой анимации
         }
 
@@ -214,7 +216,7 @@
         // Обновляем размеры и позицию сирены при изменении окна
         window.addEventListener('resize', () => {
             const siren = document.getElementById('siren');
-            if (siren.style.display === 'block') {
+            if (siren && siren.style.display === 'block') {
                 const windowWidth = window.innerWidth;
                 const windowHeight = window.innerHeight;
                 const maxSize = Math.min(1030, windowWidth, windowHeight);
