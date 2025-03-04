@@ -45,10 +45,10 @@
         /* Состояние кнопки после клика — круглая картинка без текста и интерактивности */
         .inactive-image {
             position: relative;
-            width: clamp(100px, 11.11vw, 200px); /* Уменьшен размер круга на ПК для new-texture.jpg в 1,5 раза */
-            height: clamp(100px, 11.11vw, 200px); /* Уменьшен размер круга на ПК для new-texture.jpg в 1,5 раза */
+            width: clamp(100px, 11.11vw, 200px); /* Уменьшен размер круга на ПК для new-texture.png в 1,5 раза */
+            height: clamp(100px, 11.11vw, 200px); /* Уменьшен размер круга на ПК для new-texture.png в 1,5 раза */
             border-radius: 50%; /* Обрезаем под круг */
-            background: url('new-texture.jpg') no-repeat center center;
+            background: url('new-texture.png') no-repeat center center;
             background-size: cover; /* Растягивает изображение на весь размер кнопки, сохраняя пропорции */
             border: none;
             cursor: default;
@@ -67,15 +67,15 @@
             background: url('your-background.gif') no-repeat center center fixed;
             background-size: cover;
         }
-        /* Адаптивность для телефонов: увеличение размера только для default-texture.png, сохранён размер new-texture.jpg */
+        /* Адаптивность для телефонов: увеличение размера только для default-texture.png, сохранён размер new-texture.png */
         @media (max-width: 768px) {
             .main-button {
                 width: clamp(340px, 37.77vw, 680px); /* Увеличен размер круга на телефоне для default-texture.png в 1,7 раза */
                 height: clamp(340px, 37.77vw, 680px); /* Увеличен размер круга на телефоне для default-texture.png в 1,7 раза */
             }
             .inactive-image {
-                width: clamp(150px, 16.67vw, 300px); /* Сохранён прежний размер круга на телефоне для new-texture.jpg */
-                height: clamp(150px, 16.67vw, 300px); /* Сохранён прежний размер круга на телефоне для new-texture.jpg */
+                width: clamp(150px, 16.67vw, 300px); /* Сохранён прежний размер круга на телефоне для new-texture.png */
+                height: clamp(150px, 16.67vw, 300px); /* Сохранён прежний размер круга на телефоне для new-texture.png */
             }
         }
     </style>
@@ -106,9 +106,9 @@
                 const startTime = performance.now();
                 audio.play(); // Сразу проигрываем аудио
 
-                // Проверяем, загружено ли изображение new-texture.jpg, и добавляем вращение с небольшой задержкой
+                // Проверяем, загружено ли изображение new-texture.png, и добавляем вращение с небольшой задержкой
                 const newTextureImg = new Image();
-                newTextureImg.src = 'new-texture.jpg';
+                newTextureImg.src = 'new-texture.png';
                 newTextureImg.onload = () => {
                     const delay = Math.max(0, 50 - (performance.now() - startTime)); // Задержка до 50 мс, но не больше
                     setTimeout(() => {
