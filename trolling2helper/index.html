@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Переадресация</title>
     <style>
         body {
@@ -18,22 +18,49 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Адаптивность для разных устройств */
-        @media (max-width: 768px) { /* Телефоны и маленькие экраны */
+        /* Базовая адаптивность для всех устройств */
+        @media (max-width: 480px) { /* Очень маленькие экраны (телефоны в портретной ориентации) */
             body {
                 background-size: cover;
                 background-position: center;
+                background-attachment: scroll; /* Убираем fixed для мобильных, чтобы избежать проблем с масштабированием */
             }
         }
 
-        @media (min-width: 769px) and (max-width: 1024px) { /* Планшеты */
+        @media (min-width: 481px) and (max-width: 768px) { /* Средние телефоны и планшеты в портретной ориентации */
             body {
                 background-size: cover;
                 background-position: center;
+                background-attachment: scroll;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) { /* Планшеты и крупные телефоны в ландшафтной ориентации */
+            body {
+                background-size: cover;
+                background-position: center;
+                background-attachment: scroll;
             }
         }
 
         @media (min-width: 1025px) { /* ПК и большие экраны */
+            body {
+                background-size: cover;
+                background-position: center;
+                background-attachment: fixed; /* Фиксированный фон для ПК */
+            }
+        }
+
+        /* Дополнительные настройки для предотвращения искажений на мобильных */
+        @media (max-width: 768px) and (orientation: portrait) { /* Портретная ориентация на телефонах */
+            body {
+                background-size: contain; /* Показываем всё изображение, если оно не помещается */
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+        }
+
+        @media (max-width: 768px) and (orientation: landscape) { /* Ландшафтная ориентация на телефонах */
             body {
                 background-size: cover;
                 background-position: center;
@@ -50,18 +77,18 @@
             localStorage.setItem('prankStep', step);
         }
 
-        // Обработка перенаправлений
+        // Обработка перенаправлений с задержкой 1.5 секунды
         window.onload = () => {
             const step = getStep();
             if (step === 2) {
                 setTimeout(() => {
                     setStep(3);
                     window.location.href = 'https://veliftest.github.io/trolling2/';
-                }, 1000); // Второе перенаправление через 1 секунду
+                }, 1500); // Второе перенаправление через 1.5 секунды
             } else if (step === 3) {
                 setTimeout(() => {
                     window.location.href = 'https://veliftest.github.io/trolling2/';
-                }, 1000); // Третье перенаправление через 1 секунду
+                }, 1500); // Третье перенаправление через 1.5 секунды
             } else {
                 // Если шаг не 2 или 3, перенаправляем обратно на trolling2 без изменения шага
                 window.location.href = 'https://veliftest.github.io/trolling2/';
