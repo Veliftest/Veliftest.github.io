@@ -12,10 +12,32 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: url('custom-background.jpg') no-repeat center center fixed;
+            background: url('custom-background.jpg') no-repeat center center;
             background-size: cover;
             overflow: hidden;
             font-family: 'Poppins', sans-serif;
+        }
+
+        /* Адаптивность для разных устройств */
+        @media (max-width: 768px) { /* Телефоны и маленькие экраны */
+            body {
+                background-size: cover;
+                background-position: center;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) { /* Планшеты */
+            body {
+                background-size: cover;
+                background-position: center;
+            }
+        }
+
+        @media (min-width: 1025px) { /* ПК и большие экраны */
+            body {
+                background-size: cover;
+                background-position: center;
+            }
         }
     </style>
     <script>
