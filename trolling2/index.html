@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Прикольчик №1</title>
+</head>
+<body>
+    <div class="button-container">
+        <button class="main-button"></button> <!-- Кнопка без текста, с изображением default-texture.png -->
+    </div>
+
+    <div class="siren" id="siren"></div>
+
     <style>
         body {
             margin: 0;
@@ -42,254 +50,112 @@
         .main-button:hover {
             transform: scale(1.02); /* Пульсация — увеличение до 102% при наведении */
         }
-        /* Состояние кнопки после клика — круглая картинка без текста и интерактивности */
-        .inactive-image {
-            position: relative;
-            width: clamp(100px, 11.11vw, 200px); /* Уменьшен размер круга на ПК для new-texture.jpg в 1,5 раза */
-            height: clamp(100px, 11.11vw, 200px); /* Уменьшен размер круга на ПК для new-texture.jpg в 1,5 раза */
-            border-radius: 50%; /* Обрезаем под круг */
-            background: url('new-texture.jpg') no-repeat center center;
-            background-size: cover; /* Растягивает изображение на весь размер кнопки, сохраняя пропорции */
-            border: none;
-            cursor: default;
-            pointer-events: none; /* Отключаем интерактивность */
-        }
-        /* Анимация вращения, быстрее (3 секунды на полный оборот) */
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); } /* Один полный оборот */
-        }
-        .spinning {
-            animation: spin 3s linear infinite; /* Вращение за 3 секунды, бесконечно */
-        }
-        /* Новый фон в формате GIF после клика */
-        .new-background {
-            background: url('your-background.gif') no-repeat center center fixed;
-            background-size: cover;
-        }
-        /* Фейковое окно "Загрузка" */
-        .fake-loading {
+        /* Анимация сирены */
+        .siren {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 10px; /* Начальный очень маленький размер */
+            height: 10px; /* Начальный очень маленький размер */
+            background: url('siren.png') no-repeat center center;
+            background-size: contain;
             z-index: 1000;
-            text-align: center;
-            font-size: 18px;
-            color: #000;
             display: none;
-        }
-        .fake-loading::after {
-            content: '';
-            display: block;
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-        /* Анимация конфетти */
-        .confetti {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             pointer-events: none;
-            z-index: 1001;
         }
-        .confetti-piece {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #ff0;
-            border-radius: 50%;
-            opacity: 0.8;
-            animation: fall 2s linear;
+        @keyframes grow {
+            0% { transform: scale(0.01) translate(-50%, -50%); opacity: 0; }
+            100% { transform: scale(2) translate(-50%, -50%); opacity: 1; } /* Пик увеличения (занимает весь экран) */
         }
-        @keyframes fall {
-            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        @keyframes shrinkAndFly {
+            0% { transform: scale(2) translate(-50%, -50%) rotate(0deg); }
+            50% { transform: scale(0.1) translate(-50%, -50%) rotate(180deg); }
+            100% { transform: scale(0.1) translate(var(--x), var(--y)) rotate(360deg); } /* Хаотичное перемещение в случайный край */
         }
-        /* Анимация тряски экрана */
-        @keyframes shake {
-            0% { transform: translate(0, 0); }
-            10% { transform: translate(-5px, 5px); }
-            20% { transform: translate(5px, -5px); }
-            30% { transform: translate(-5px, 5px); }
-            40% { transform: translate(5px, -5px); }
-            50% { transform: translate(-5px, 5px); }
-            60% { transform: translate(5px, -5px); }
-            70% { transform: translate(-5px, 5px); }
-            80% { transform: translate(5px, -5px); }
-            90% { transform: translate(-5px, 5px); }
-            100% { transform: translate(0, 0); }
+        @keyframes growAndStop {
+            0% { transform: scale(0.1) translate(var(--x), var(--y)) rotate(360deg); }
+            100% { transform: scale(2) translate(var(--x), var(--y)); } /* Останавливается в случайной точке */
         }
-        .shake {
-            animation: shake 0.5s;
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-        /* Скример */
-        .screamer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('scary-image.jpg') no-repeat center center;
-            background-size: cover;
-            z-index: 1002;
-            display: none;
-        }
-        /* Адаптивность для телефонов: увеличение размера только для default-texture.png, сохранён размер new-texture.jpg */
+        .rotate { animation: rotate 2s linear infinite; }
+        .siren-peak { transform: scale(2) !important; animation-play-state: paused; }
+        /* Адаптивность для телефонов: увеличение размера только для default-texture.png */
         @media (max-width: 768px) {
             .main-button {
                 width: clamp(340px, 37.77vw, 680px); /* Увеличен размер круга на телефоне для default-texture.png в 1,7 раза */
                 height: clamp(340px, 37.77vw, 680px); /* Увеличен размер круга на телефоне для default-texture.png в 1,7 раза */
             }
-            .inactive-image {
-                width: clamp(150px, 16.67vw, 300px); /* Сохранён прежний размер круга на телефоне для new-texture.jpg */
-                height: clamp(150px, 16.67vw, 300px); /* Сохранён прежний размер круга на телефоне для new-texture.jpg */
-            }
-            .fake-loading {
-                font-size: 16px;
-                padding: 15px;
-            }
-            .fake-loading::after {
-                width: 40px;
-                height: 40px;
-            }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="button-container">
-        <button class="main-button"></button> <!-- Кнопка без текста, с изображением default-texture.png -->
-    </div>
-
-    <div class="fake-loading" id="fakeLoading"></div>
-    <div class="confetti" id="confetti"></div>
-    <div class="screamer" id="screamer"></div>
 
     <script>
-        // Проверка, является ли устройство мобильным (телефоном)
-        function isMobileDevice() {
-            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        }
+        // Функция для анимации сирены с тремя фазами звука "Oh No" (6 секунд)
+        function animateSiren() {
+            const siren = document.createElement('div');
+            siren.className = 'siren';
+            document.body.appendChild(siren);
 
-        const button = document.querySelector('.main-button');
-        const body = document.body;
-        const fakeLoading = document.getElementById('fakeLoading');
-        const confetti = document.getElementById('confetti');
-        const screamer = document.getElementById('screamer');
-        let isActive = true; // Флаг для отслеживания состояния кнопки
-
-        // Функции для анимаций и звуков
-        function playOhNo() {
-            const ohNo = new Audio('oh-no.mp3');
+            const ohNo = new Audio('oh-no-6s.mp3');
             ohNo.play().catch(error => console.log('Ошибка воспроизведения Oh No:', error));
-        }
 
-        function playConfettiBurst() {
-            const confettiBurst = new Audio('confetti-burst.mp3');
-            confettiBurst.play().catch(error => console.log('Ошибка воспроизведения хлопков:', error));
-        }
+            // Определяем ключевые моменты звука (примерные, уточни через прослушивание):
+            const firstSoundEnd = 2000; // Конец первого звука (2 секунды)
+            const secondSoundEnd = 4000; // Конец второго звука (4 секунды)
+            const thirdSoundEnd = 6000; // Конец третьего звука (6 секунд)
 
-        function playWilhelmScream() {
-            const wilhelm = new Audio('wilhelm-scream.mp3');
-            wilhelm.play().catch(error => console.log('Ошибка воспроизведения Wilhelm Scream:', error));
-        }
+            // Фаза 1: Появление из центра и рост до пика (2 секунды)
+            siren.style.top = '50%';
+            siren.style.left = '50%';
+            siren.style.display = 'block';
+            siren.style.animation = 'grow 2s ease-out';
 
-        function playScream() {
-            const scream = new Audio('scream.mp3');
-            scream.play().catch(error => console.log('Ошибка воспроизведения скримера:', error));
-        }
-
-        function createConfetti() {
-            confetti.innerHTML = ''; // Очищаем предыдущие частицы
-            for (let i = 0; i < 100; i++) {
-                const piece = document.createElement('div');
-                piece.className = 'confetti-piece';
-                piece.style.left = Math.random() * 100 + 'vw';
-                piece.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`; // Случайный цвет
-                piece.style.animationDelay = Math.random() * 2 + 's'; // Случайная задержка
-                confetti.appendChild(piece);
-            }
-            setTimeout(() => confetti.innerHTML = '', 2000); // Удаляем конфетти через 2 секунды
-        }
-
-        function shakeScreen() {
-            body.classList.add('shake');
-            setTimeout(() => body.classList.remove('shake'), 500); // Тряска длится 0.5 секунды
-        }
-
-        function showScreamer() {
-            screamer.style.display = 'block';
-            playScream();
             setTimeout(() => {
-                screamer.style.display = 'none';
-                window.location.href = 'index.html'; // Возвращаемся на начальную страницу в тсolling2
-                resetStep(); // Сбрасываем состояние
-            }, 3000); // Скример длится 3 секунды
-        }
+                siren.style.animation = ''; // Останавливаем анимацию роста
+                siren.classList.add('siren-peak'); // Устанавливаем пик (занимает весь экран)
 
-        // Сохранение состояния через localStorage
-        function getStep() {
-            return parseInt(localStorage.getItem('prankStep') || '0');
-        }
+                // Фаза 2: Уменьшение, вращение, и хаотичное движение (2 секунды)
+                setTimeout(() => {
+                    const randomEdge = Math.floor(Math.random() * 4); // 0: левый, 1: правый, 2: верх, 3: низ
+                    let x, y;
+                    switch (randomEdge) {
+                        case 0: x = '-100%'; y = `${Math.random() * 100}%`; break; // Левый край
+                        case 1: x = '200%'; y = `${Math.random() * 100}%`; break; // Правый край
+                        case 2: x = `${Math.random() * 100}%`; y = '-100%'; break; // Верх
+                        case 3: x = `${Math.random() * 100}%`; y = '200%'; break; // Низ
+                    }
+                    siren.style.setProperty('--x', x);
+                    siren.style.setProperty('--y', y);
+                    siren.classList.remove('siren-peak');
+                    siren.style.animation = 'shrinkAndFly 2s ease-in-out';
+                    siren.classList.add('rotate'); // Добавляем вращение
 
-        function setStep(step) {
-            localStorage.setItem('prankStep', step);
-        }
+                    // Фаза 3: Рост до большого пика, остановка вращения (2 секунды)
+                    setTimeout(() => {
+                        siren.classList.remove('rotate'); // Останавливаем вращение
+                        siren.style.animation = ''; // Останавливаем полёт
+                        const randomX = Math.random() * 100 + 'vw';
+                        const randomY = Math.random() * 100 + 'vh';
+                        siren.style.top = randomY;
+                        siren.style.left = randomX;
+                        siren.style.animation = 'growAndStop 2s ease-out';
 
-        function resetStep() {
-            localStorage.removeItem('prankStep');
-        }
-
-        button.addEventListener('click', () => {
-            if (isActive) {
-                const step = getStep();
-                if (step === 0) {
-                    // Шаг 1: Мемный звук "Oh No"
-                    playOhNo();
-                    setStep(1);
-                    // Перенаправление на trolling2helper (прямой шаг для упрощения, так как trolling2 уже текущая папка)
-                    window.location.href = 'trolling2helper/index.html';
-                } else if (step === 3) {
-                    // Шаг 3: Возвращение на текущую страницу после перенаправлений
-                    body.classList.add('new-background');
-                    button.classList.remove('main-button');
-                    button.classList.add('inactive-image', 'spinning');
-
-                    const newTextureImg = new Image();
-                    newTextureImg.src = 'new-texture.jpg';
-                    newTextureImg.onload = () => {
+                        // Конец третьего звука: исчезновение сирены
                         setTimeout(() => {
-                            // Шаг 4: Бесконечная загрузка (2 секунды)
-                            fakeLoading.style.display = 'block';
-                            setTimeout(() => {
-                                fakeLoading.style.display = 'none';
-                                // Шаг 5: Конфетти с хлопками и Wilhelm Scream
-                                playConfettiBurst();
-                                playWilhelmScream();
-                                createConfetti();
-                                setTimeout(() => {
-                                    // Шаг 6: Тряска экрана и скример
-                                    shakeScreen();
-                                    setTimeout(showScreamer, 500); // Тряска, затем скример
-                                }, 2000); // Конфетти + звуки длится 2 секунды
-                            }, 2000); // Загрузка длится 2 секунды
-                        }, 3000); // Задержка на 3 секунды (вращение)
-                    };
+                            siren.style.display = 'none';
+                            siren.remove(); // Удаляем сирену
+                            // Здесь можно добавить следующий шаг (например, конец анимации или возврат)
+                        }, 2000); // Длительность фазы 3 (2 секунды)
+                    }, 2000); // Длительность фазы 2 (2 секунды)
+                }, 2000); // Длительность фазы 1 (2 секунды)
+            }, 0); // Немедленный старт первой анимации
+        }
 
-                    isActive = false; // Отключаем интерактивность кнопки
-                }
+        // Запуск анимации при клике на кнопку
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.querySelector('.main-button');
+            if (button) {
+                button.addEventListener('click', animateSiren);
             }
         });
     </script>
