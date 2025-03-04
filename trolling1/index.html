@@ -3,137 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Шутка)</title>
+    <title>Черная страница с кнопкой</title>
     <style>
         body {
             margin: 0;
-            padding: 0;
-            height: 100vh;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #000000;
             overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+        .button-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #000;
+            z-index: 1;
+            width: 100%;
+            padding: 0 clamp(20px, 2.9vw, 40px);
         }
-        img.background {
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
+        .main-button {
+            position: relative;
+            width: clamp(150px, 16.67vw, 300px); /* Размер кнопки, адаптивный, увеличенный в 2 раза */
+            height: clamp(150px, 16.67vw, 300px); /* Круглая кнопка, адаптивная высота */
+            border-radius: 50%; /* Круглая форма */
+            background: linear-gradient(45deg, #3c6e31, #5a9e4b); /* Базовый градиент для кнопки */
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 clamp(13px, 1.16vw, 32px) clamp(33px, 3.89vw, 80px) rgba(60, 110, 49, 0.6);
+            transition: all 0.3s ease;
+            overflow: hidden; /* Для наложения текстуры */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: clamp(18px, 2vw, 40px);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: clamp(1px, 0.12vw, 2px);
+        }
+        .main-button:hover {
+            background: linear-gradient(45deg, #5a9e4b, #3c6e31);
+            transform: translateY(clamp(-13px, -0.93vw, -32px));
+            box-shadow: 0 clamp(20px, 1.74vw, 48px) clamp(44px, 5.83vw, 106px) rgba(60, 110, 49, 0.8);
+        }
+        .main-button:active {
+            transform: translateY(clamp(7px, 0.41vw, 14px));
+            box-shadow: 0 clamp(6px, 0.41vw, 14px) clamp(20px, 2.78vw, 48px) rgba(60, 110, 49, 0.4);
+        }
+        /* Текстура для кнопки (начальная) */
+        .main-button::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
-            z-index: -1;
-        }
-        button {
-            width: 30vw;
-            height: 30vw;
-            max-width: 300px;
-            max-height: 300px;
-            min-width: 100px;
-            min-height: 100px;
-            border-radius: 50%;
-            background: url('button-image.png') no-repeat center / cover;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('default-texture.jpg') no-repeat center center;
+            background-size: cover;
+            opacity: 0.7;
             z-index: 1;
-            transition: transform 0.1s ease, left 0.1s ease, top 0.1s ease; /* Ускорили переход */
         }
-        button:hover {
-            opacity: 0.9;
+        /* Анимация вращения кнопки */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-        button:focus {
-            outline: none;
+        .spinning {
+            animation: spin 2s linear infinite;
+        }
+        /* Стили для нового фона и текстуры после клика */
+        .new-background {
+            background: url('your-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .new-texture::before {
+            background: url('new-texture.jpg') no-repeat center center;
+            background-size: cover;
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <img class="background" src="background.jpg" alt="Background">
+    <div class="button-container">
+        <button class="main-button">Нажми меня</button>
+    </div>
 
-    <button onclick="playSoundAndBounce()"></button>
-
-    <audio id="sound">
-        <source src="sound.mp3" type="audio/mpeg">
-        Твой браузер не поддерживает аудио.
-    </audio>
+    <audio id="clickSound" src="click-sound.mp3" preload="auto"></audio>
 
     <script>
-        let audioContext, analyser, dataArray;
-        let rotation = 0;
+        const button = document.querySelector('.main-button');
+        const body = document.body;
+        const audio = document.getElementById('clickSound');
 
-        function playSoundAndBounce() {
-            var audio = document.getElementById("sound");
-            var button = document.querySelector("button");
-            audio.volume = 1.0;
-
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                analyser = audioContext.createAnalyser();
-                analyser.fftSize = 256;
-                dataArray = new Uint8Array(analyser.frequencyBinCount);
-
-                var source = audioContext.createMediaElementSource(audio);
-                source.connect(analyser);
-                analyser.connect(audioContext.destination);
-            }
-
+        button.addEventListener('click', () => {
+            // Меняем фон страницы
+            body.classList.add('new-background');
+            // Меняем текстуру кнопки
+            button.classList.add('new-texture');
+            // Включаем аудио
             audio.play();
-
-            // Траектория прыгания
-            let lastX = window.innerWidth / 2 - button.offsetWidth / 2;
-            let lastY = window.innerHeight / 2 - button.offsetHeight / 2;
-
-            function bounce() {
-                var maxX = window.innerWidth - button.offsetWidth;
-                var maxY = window.innerHeight - button.offsetHeight;
-                var directionX = Math.random() < 0.5 ? -1 : 1;
-                var directionY = Math.random() < 0.5 ? -1 : 1;
-                var distance = Math.random() * Math.min(maxX, maxY) * 0.3;
-
-                var newX = Math.max(0, Math.min(maxX, lastX + directionX * distance));
-                var newY = Math.max(0, Math.min(maxY, lastY + directionY * distance));
-
-                button.style.left = newX + "px";
-                button.style.top = newY + "px";
-                lastX = newX;
-                lastY = newY;
-
-                rotation += 90; // Вращение синхронизировано с прыжком
-                button.style.transform = `rotate(${rotation}deg)`;
-            }
-
-            // Анализ аудио
-            let lastBounceTime = 0;
-
-            function analyzeAndBounce() {
-                analyser.getByteFrequencyData(dataArray);
-                var energy = 0;
-                for (var i = 0; i < dataArray.length; i++) {
-                    energy += dataArray[i];
-                }
-                energy /= dataArray.length;
-
-                var now = Date.now();
-                // Динамический интервал: чем выше энергия, тем меньше задержка
-                var dynamicInterval = Math.max(100, 400 - energy * 2); // От 100 до 400 мс
-
-                if (energy > 40 && now - lastBounceTime > dynamicInterval) {
-                    bounce();
-                    lastBounceTime = now;
-                }
-
-                if (!audio.ended) {
-                    requestAnimationFrame(analyzeAndBounce);
-                } else {
-                    button.style.left = "";
-                    button.style.top = "";
-                    button.style.transform = "rotate(0deg)";
-                }
-            }
-
-            analyzeAndBounce();
-        }
+            // Добавляем анимацию вращения
+            button.classList.add('spinning');
+        });
     </script>
 </body>
 </html>
