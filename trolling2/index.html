@@ -66,16 +66,16 @@
         }
         @keyframes grow {
             0% { transform: scale(0.01) translate(-50%, -50%); opacity: 0; }
-            100% { transform: scale(1) translate(-50%, -50%) clamp(0, 0, 0); opacity: 1; width: min(1030px, 100vw); height: min(1030px, 100vh); } /* Пик увеличения (до 1030x1030 или экрана, адаптивно, центрирован) */
+            100% { transform: scale(1) translate(-50%, -50%); opacity: 1; width: min(1030px, 100vw); height: min(1030px, 100vh); } /* Пик увеличения (до 1030x1030 или экрана, адаптивно) */
         }
         @keyframes shrinkAndFly {
             0% { transform: scale(1) translate(-50%, -50%) rotate(0deg); width: min(1030px, 100vw); height: min(1030px, 100vh); }
             50% { transform: scale(0.05) translate(-50%, -50%) rotate(180deg); width: min(51.5px, 5vw); height: min(51.5px, 5vh); } /* Минимум (5% от 1030 или экрана) */
-            100% { transform: scale(0.05) translate(clamp(0vw, var(--x), 100vw), clamp(0vh, var(--y), 100vh)) rotate(360deg); width: min(51.5px, 5vw); height: min(51.5px, 5vh); } /* Хаотичное перемещение в пределах экрана */
+            100% { transform: scale(0.05) translate(var(--x-px), var(--y-px)) rotate(360deg); width: min(51.5px, 5vw); height: min(51.5px, 5vh); } /* Хаотичное перемещение в пределах экрана */
         }
         @keyframes growAndStop {
-            0% { transform: scale(0.05) translate(clamp(0vw, var(--x), 100vw), clamp(0vh, var(--y), 100vh)) rotate(360deg); width: min(51.5px, 5vw); height: min(51.5px, 5vh); }
-            100% { transform: scale(1) translate(clamp(0vw, var(--x), 100vw), clamp(0vh, var(--y), 100vh)); width: min(1030px, 100vw); height: min(1030px, 100vh); } /* Останавливается в случайной точке в пределах экрана с максимальным размером */
+            0% { transform: scale(0.05) translate(var(--x-px), var(--y-px)) rotate(360deg); width: min(51.5px, 5vw); height: min(51.5px, 5vh); }
+            100% { transform: scale(1) translate(var(--x-px), var(--y-px)); width: min(1030px, 100vw); height: min(1030px, 100vh); } /* Останавливается в случайной точке в пределах экрана с максимальным размером */
         }
         @keyframes rotate {
             0% { transform: rotate(0deg); }
@@ -99,8 +99,12 @@
 
             // Точные ключевые моменты звука (примерные, уточни через прослушивание):
             const firstSoundEnd = 2000; // Конец первого сигнала (2 секунды)
-            const secondSoundEnd = 3500; // Конец второго сигнала (3.5 секунды, с паузой 0.5 секунды после первого)
-            const thirdSoundEnd = 6000; // Конец третьего сигнала (6 секунд, с паузой 0.5 секунды после второго)
+            const secondSoundEnd = 3500; // Конец второго сигнала (3.5 секунды, с паузой 0.5 секунды)
+            const thirdSoundEnd = 6000; // Конец третьего сигнала (6 секунд, с паузой 0.5 секунды)
+
+            // Получаем размеры окна
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
 
             // Фаза 1: Появление из центра и рост до пика (2 секунды)
             siren.style.top = '50%';
@@ -113,10 +117,9 @@
 
                 // Уменьшение, вращение, и хаотичное движение (0.5 секунды пауза, затем вторая фаза)
                 setTimeout(() => {
-                    const randomX = Math.random() * 100 + 'vw';
-                    const randomY = Math.random() * 100 + 'vh';
-                    siren.style.setProperty('--x', clampPosition(randomX));
-                    siren.style.setProperty('--y', clampPosition(randomY));
+                    const { x, y } = getRandomPosition(windowWidth, windowHeight);
+                    siren.style.setProperty('--x-px', `${x}px`);
+                    siren.style.setProperty('--y-px', `${y}px`);
                     siren.classList.remove('siren-peak');
                     siren.style.animation = 'shrinkAndFly 0.5s ease-in-out';
                     siren.classList.add('rotate'); // Добавляем вращение
@@ -131,10 +134,9 @@
 
                         // Уменьшение, вращение, и хаотичное движение (0.5 секунды пауза, затем третья фаза)
                         setTimeout(() => {
-                            const randomX2 = Math.random() * 100 + 'vw';
-                            const randomY2 = Math.random() * 100 + 'vh';
-                            siren.style.setProperty('--x', clampPosition(randomX2));
-                            siren.style.setProperty('--y', clampPosition(randomY2));
+                            const { x: x2, y: y2 } = getRandomPosition(windowWidth, windowHeight);
+                            siren.style.setProperty('--x-px', `${x2}px`);
+                            siren.style.setProperty('--y-px', `${y2}px`);
                             siren.classList.remove('siren-peak');
                             siren.style.animation = 'shrinkAndFly 0.5s ease-in-out';
                             siren.classList.add('rotate'); // Добавляем вращение
@@ -143,10 +145,9 @@
                             setTimeout(() => {
                                 siren.classList.remove('rotate'); // Останавливаем вращение
                                 siren.style.animation = ''; // Останавливаем полёт
-                                const randomX3 = Math.random() * 100 + 'vw';
-                                const randomY3 = Math.random() * 100 + 'vh';
-                                siren.style.top = clampPosition(randomY3);
-                                siren.style.left = clampPosition(randomX3);
+                                const { x: x3, y: y3 } = getRandomPosition(windowWidth, windowHeight);
+                                siren.style.top = `${y3}px`;
+                                siren.style.left = `${x3}px`;
                                 siren.style.animation = 'growAndStop 1.5s ease-out';
 
                                 // Конец третьего сигнала: исчезновение сирены
@@ -161,15 +162,17 @@
             }, 0); // Немедленный старт первой анимации
         }
 
-        // Функция для ограничения позиции в пределах экрана
-        function clampPosition(position) {
-            const value = parseFloat(position);
-            if (position.endsWith('vw')) {
-                return `${Math.max(0, Math.min(100, value))}vw`;
-            } else if (position.endsWith('vh')) {
-                return `${Math.max(0, Math.min(100, value))}vh`;
-            }
-            return position;
+        // Функция для получения случайной позиции в пикселях, гарантирующей видимость сирены
+        function getRandomPosition(windowWidth, windowHeight) {
+            const maxSize = Math.min(1030, windowWidth, windowHeight); // Максимальный размер сирены (не более экрана)
+            const minSize = maxSize * 0.05; // Минимальный размер (5% от максимального)
+            const padding = 10; // Дополнительный отступ для полной видимости
+
+            // Случайные координаты, чтобы сирена оставалась полностью видима
+            const x = Math.random() * (windowWidth - maxSize - padding * 2) + padding;
+            const y = Math.random() * (windowHeight - maxSize - padding * 2) + padding;
+
+            return { x, y };
         }
 
         // Запуск анимации при клике на кнопку
