@@ -4,14 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Переадресация</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: url('custom-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
     <script>
-        // Бесконечная переадресация на trolling2
+        // Сохранение состояния через localStorage
+        function getStep() {
+            return parseInt(localStorage.getItem('prankStep') || '0');
+        }
+
+        function setStep(step) {
+            localStorage.setItem('prankStep', step);
+        }
+
+        // Обработка перенаправлений
         window.onload = () => {
-            window.location.href = 'https://veliftest.github.io/trolling2/';
+            const step = getStep();
+            if (step === 2) {
+                setTimeout(() => {
+                    setStep(3);
+                    window.location.href = 'https://veliftest.github.io/trolling2/';
+                }, 1000); // Второе перенаправление через 1 секунду
+            } else if (step === 3) {
+                setTimeout(() => {
+                    window.location.href = 'https://veliftest.github.io/trolling2/';
+                }, 1000); // Третье перенаправление через 1 секунду
+            } else {
+                // Если шаг не 2 или 3, перенаправляем обратно на trolling2 без изменения шага
+                window.location.href = 'https://veliftest.github.io/trolling2/';
+            }
         };
     </script>
 </head>
 <body>
-    <!-- Пустое тело, так как это только перенаправление -->
+    <!-- Пустое тело, так как это только перенаправление с фоном -->
 </body>
 </html>
