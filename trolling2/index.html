@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Прикольчик №1</title>
+    <title>Прикольчик №2</title>
 </head>
 <body>
     <div class="button-container">
@@ -86,6 +86,19 @@
     </style>
 
     <script>
+        // Сохранение состояния через localStorage
+        function getStep() {
+            return parseInt(localStorage.getItem('prankStep') || '0');
+        }
+
+        function setStep(step) {
+            localStorage.setItem('prankStep', step);
+        }
+
+        function resetStep() {
+            localStorage.removeItem('prankStep');
+        }
+
         // Функция для анимации сирены с тремя фазами звука "Oh No" (6 секунд)
         function animateSiren() {
             const button = document.querySelector('.main-button');
@@ -141,7 +154,7 @@
                             siren.style.animation = 'shrinkAndFly 0.5s ease-in-out';
                             siren.classList.add('rotate'); // Добавляем вращение
 
-                            // Третья фаза: Рост до пика, остановка, исчезновение (1.5 секунды, чтобы уложиться в 6 секунд)
+                            // Третья фаза: Рост до пика, остановка (1.5 секунды, чтобы уложиться в 6 секунд)
                             setTimeout(() => {
                                 siren.classList.remove('rotate'); // Останавливаем вращение
                                 siren.style.animation = ''; // Останавливаем полёт
@@ -149,10 +162,13 @@
                                 updateSirenPosition(siren, x3, y3, maxSize);
                                 siren.style.animation = 'growAndStop 1.5s ease-out';
 
-                                // Конец третьего сигнала: исчезновение сирены
+                                // Конец третьего сигнала: сирена остаётся висеть
                                 setTimeout(() => {
-                                    siren.style.display = 'none'; // Исчезает сирена
-                                    // Здесь можно добавить следующий шаг (например, переадресацию, но пока только первая часть)
+                                    // Сирена остаётся на последней позиции (пике, полностью видимая)
+                                    siren.classList.add('siren-peak');
+                                    siren.style.animation = ''; // Убеждаемся, что анимация остановлена
+                                    setStep(1); // Сохраняем состояние для первого перенаправления
+                                    redirectToHelper(); // Начинаем последовательность перенаправлений
                                 }, 1500); // Длительность третьей фазы (1.5 секунды)
                             }, 500); // Пауза меньше секунды (0.5 секунды) перед третьей фазой
                         }, 1500); // Длительность второй фазы (1.5 секунд, чтобы уложиться в 3.5 секунд)
@@ -188,6 +204,17 @@
             return { x: clampedX, y: clampedY };
         }
 
+        // Функция для последовательных перенаправлений на trolling2helper с задержкой 1 секунда
+        function redirectToHelper() {
+            let step = getStep();
+            if (step === 1) {
+                setTimeout(() => {
+                    setStep(2);
+                    window.location.href = 'https://veliftest.github.io/trolling2helper/';
+                }, 1000); // Первое перенаправление через 1 секунду
+            }
+        }
+
         // Обновляем размеры и позицию сирены при изменении окна
         window.addEventListener('resize', () => {
             const siren = document.getElementById('siren');
@@ -198,7 +225,7 @@
                 const minSize = maxSize * 0.05;
 
                 // Обновляем размер сирены
-                updateSirenPosition(siren, parseFloat(siren.style.left) || 0, parseFloat(siren.style.top) || 0, maxSize);
+                updateSirenPosition(siren, parseFloat(siren.style.left) || (windowWidth - maxSize) / 2, parseFloat(siren.style.top) || (windowHeight - maxSize) / 2, maxSize);
 
                 // Пересчитываем позиции для текущих размеров
                 const { x, y } = getRandomPosition(windowWidth, windowHeight, maxSize, minSize);
