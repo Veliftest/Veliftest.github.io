@@ -85,7 +85,6 @@
             border-radius: clamp(22px, 3.27vw, 106px); /* Сохраняем увеличение в 2 раза от оригинальных 11px 1.64vw, 53px */
             cursor: pointer;
             box-shadow: 0 clamp(13px, 1.16vw, 32px) clamp(33px, 3.89vw, 80px) rgba(60, 110, 49, 0.6); /* Сохраняем старое свечение */
-            transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: clamp(1px, 0.12vw, 2px); /* Сохраняем увеличение в 2 раза от оригинальных 0.5px, 0.06vw, 1px */
             width: fit-content; /* Сохраняем ширину, соответствующую тексту в одну строку */
@@ -94,15 +93,6 @@
             display: flex; /* Используем flex для идеального центрирования текста */
             justify-content: center; /* Центрирование текста по горизонтали */
             align-items: center; /* Центрирование текста по вертикали */
-        }
-        button:hover {
-            background: linear-gradient(45deg, #5a9e4b, #3c6e31); /* Сохраняем старый градиент при наведении */
-            transform: translateY(clamp(-13px, -0.93vw, -32px)); /* Сохраняем увеличение в 2 раза от оригинальных -6.5px, -0.465vw, -16px */
-            box-shadow: 0 clamp(20px, 1.74vw, 48px) clamp(44px, 5.83vw, 106px) rgba(60, 110, 49, 0.8); /* Сохраняем старое свечение при наведении */
-        }
-        button:active {
-            transform: translateY(clamp(7px, 0.41vw, 14px)); /* Сохраняем увеличение в 2 раза от оригинальных 3.5px, 0.205vw, 7px */
-            box-shadow: 0 clamp(6px, 0.41vw, 14px) clamp(20px, 2.78vw, 48px) rgba(60, 110, 49, 0.4); /* Сохраняем старое свечение при нажатии */
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
