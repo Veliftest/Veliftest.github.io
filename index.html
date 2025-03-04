@@ -27,7 +27,7 @@
             color: #ffffff;
             font-size: clamp(36px, 5vw, 128px);
             font-family: 'Poppins', sans-serif;
-            font-weight: 800; /* Более широкий (жирный) шрифт для заголовка */
+            font-weight: 700; /* Уменьшено с 800 до 700 для менее широкого шрифта */
             text-transform: uppercase;
             letter-spacing: clamp(1.5px, 0.4vw, 8px);
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 30px rgba(255, 255, 255, 0.7), 0 0 45px rgba(255, 255, 255, 0.5);
@@ -74,10 +74,10 @@
             align-items: center; /* Центрирование текста по вертикали */
         }
         button {
-            padding: clamp(8px, 0.89vw, 38px) clamp(10px, 1.11vw, 82px); /* Уменьшено горизонтальное padding с 17px до 10px, чтобы ширина точно соответствовала тексту "Прикольчик" */
+            padding: clamp(8px, 0.89vw, 38px) clamp(10px, 1.11vw, 82px); /* Сохраняем уменьшенное вертикальное и горизонтальное padding */
             font-size: clamp(18px, 1.74vw, 40px);
             font-family: 'Poppins', sans-serif;
-            font-weight: 800; /* Более широкий (жирный) шрифт для кнопок */
+            font-weight: 700; /* Уменьшено с 800 до 700 для менее широкого шрифта */
             color: #ffffff;
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.4); /* Сохраняем базовое свечение текста */
             background: linear-gradient(45deg, #3c6e31, #5a9e4b); /* Сохраняем старый градиент */
@@ -88,7 +88,7 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: clamp(1px, 0.12vw, 2px); /* Сохраняем увеличение в 2 раза от оригинальных 0.5px, 0.06vw, 1px */
-            width: fit-content; /* Устанавливаем ширину кнопок, соответствующую тексту в одну строку, вместо фиксированного max-width */
+            width: fit-content; /* Сохраняем ширину, соответствующую тексту в одну строку */
             min-width: 150px; /* Минимальная ширина для читаемости */
             text-align: center; /* Выравнивание текста внутри кнопок по центру */
             display: flex; /* Используем flex для идеального центрирования текста */
@@ -113,7 +113,7 @@
             animation: none; /* Отключаем пульсацию при нажатии */
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <h1>Троллинг Хаб</h1>
