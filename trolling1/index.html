@@ -29,7 +29,8 @@
             width: clamp(250px, 27.78vw, 500px); /* Увеличен размер круга на ПК */
             height: clamp(250px, 27.78vw, 500px); /* Увеличен размер круга на ПК */
             border-radius: 50%;
-            background: linear-gradient(45deg, #3c6e31, #5a9e4b);
+            background: url('default-texture.png') no-repeat center center; /* Заменяем градиент на изображение */
+            background-size: cover;
             border: none;
             cursor: pointer;
             box-shadow: 0 clamp(13px, 1.16vw, 32px) clamp(33px, 3.89vw, 80px) rgba(60, 110, 49, 0.6);
@@ -38,35 +39,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: clamp(18px, 2vw, 40px);
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-            color: #ffffff;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.4);
-            text-transform: uppercase;
-            letter-spacing: clamp(1px, 0.12vw, 2px);
         }
         .main-button:hover {
-            background: linear-gradient(45deg, #5a9e4b, #3c6e31);
-            transform: translateY(clamp(-13px, -0.93vw, -32px));
-            box-shadow: 0 clamp(20px, 1.74vw, 48px) clamp(44px, 5.83vw, 106px) rgba(60, 110, 49, 0.8);
+            box-shadow: 0 clamp(20px, 1.74vw, 48px) clamp(44px, 5.83vw, 106px) rgba(60, 110, 49, 0.8); /* Сохраняем свечение при наведении */
         }
         .main-button:active {
-            transform: translateY(clamp(7px, 0.41vw, 14px));
-            box-shadow: 0 clamp(6px, 0.41vw, 14px) clamp(20px, 2.78vw, 48px) rgba(60, 110, 49, 0.4);
-        }
-        /* Текстура для кнопки (начальная) */
-        .main-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('default-texture.jpg') no-repeat center center;
-            background-size: cover;
-            z-index: 1; /* Непрозрачность 100% */
-            border-radius: 50%; /* Обрезаем текстуру под круг */
+            box-shadow: 0 clamp(6px, 0.41vw, 14px) clamp(20px, 2.78vw, 48px) rgba(60, 110, 49, 0.4); /* Сохраняем свечение при нажатии */
         }
         /* Состояние кнопки после клика — круглая картинка без текста и интерактивности */
         .inactive-image {
@@ -74,23 +52,12 @@
             width: clamp(250px, 27.78vw, 500px); /* Увеличен размер круга на ПК */
             height: clamp(250px, 27.78vw, 500px); /* Увеличен размер круга на ПК */
             border-radius: 50%; /* Обрезаем под круг */
-            background: none;
+            background: url('new-texture.jpg') no-repeat center center;
+            background-size: cover;
             border: none;
             box-shadow: none;
             cursor: default;
             pointer-events: none; /* Отключаем интерактивность */
-        }
-        .inactive-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('new-texture.jpg') no-repeat center center;
-            background-size: cover;
-            z-index: 1; /* Непрозрачность 100% */
-            border-radius: 50%; /* Обрезаем текстуру под круг */
         }
         /* Анимация вращения */
         @keyframes spin {
@@ -110,7 +77,6 @@
             .main-button {
                 width: clamp(100px, 11.11vw, 200px); /* Уменьшен размер круга на телефоне */
                 height: clamp(100px, 11.11vw, 200px); /* Уменьшен размер круга на телефоне */
-                font-size: clamp(14px, 1.56vw, 26px); /* Уменьшен текст для телефона */
             }
             .inactive-image {
                 width: clamp(100px, 11.11vw, 200px); /* Уменьшен размер круга на телефоне */
@@ -122,7 +88,7 @@
 </head>
 <body>
     <div class="button-container">
-        <button class="main-button">Нажми меня</button>
+        <button class="main-button"></button> <!-- Убрали текст "Нажми меня" из HTML -->
     </div>
 
     <audio id="clickSound" src="click-sound.mp3" preload="auto"></audio>
@@ -140,7 +106,6 @@
                 // Преобразуем кнопку в неинтерактивную картинку с новой текстурой
                 button.classList.remove('main-button');
                 button.classList.add('inactive-image', 'spinning');
-                button.textContent = ''; // Удаляем текст
                 // Включаем аудио
                 audio.play();
                 // После окончания аудио возвращаем начальное состояние
@@ -148,7 +113,6 @@
                     body.classList.remove('new-background');
                     button.classList.remove('inactive-image', 'spinning');
                     button.classList.add('main-button');
-                    button.textContent = 'Нажми меня'; // Восстанавливаем текст
                     isActive = true; // Восстанавливаем интерактивность
                 };
                 isActive = false; // Отключаем интерактивность кнопки после клика
