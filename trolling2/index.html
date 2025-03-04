@@ -63,7 +63,7 @@
             background: url('siren.png') no-repeat center center;
             background-size: contain;
             z-index: 1000;
-            pointer-events: auto; /* Включаем взаимодействие для клика */
+            pointer-events: none; /* Отключаем взаимодействие, чтобы нельзя было закрыть по клику */
         }
         @keyframes grow {
             0% { transform: scale(0.01) translate(-50%, -50%); opacity: 0; }
@@ -149,17 +149,6 @@
                     siren1.style.animation = 'shrinkAndFly 2s ease-in-out';
                     siren1.classList.add('rotate'); // Добавляем вращение
 
-                    // Добавляем возможность закрытия сирены по клику
-                    siren1.addEventListener('click', () => {
-                        siren1.style.display = 'none';
-                        siren1.classList.remove('rotate');
-                        siren1.style.animation = '';
-                        ohNo.pause(); // Останавливаем звук
-                        ohNo.currentTime = 0; // Сбрасываем позицию
-                        const button = document.querySelector('.main-button');
-                        if (button) button.classList.remove('hidden'); // Возвращаем кнопку
-                    }, { once: true }); // Событие срабатывает один раз
-
                     // Фаза 3: Рост до большого пика, остановка вращения (2 секунды)
                     setTimeout(() => {
                         siren1.classList.remove('rotate'); // Останавливаем вращение
@@ -170,20 +159,28 @@
                         siren1.style.left = randomX;
                         siren1.style.animation = 'growAndStop 2s ease-out';
 
-                        // Конец третьего звука: появление второй сирены
+                        // Конец третьего звука: появление второй сирены с криком
                         setTimeout(() => {
                             siren1.style.display = 'none'; // Исчезает первая сирена
-                            animateSiren2(); // Запускаем вторую сирену
+                            animateSiren2(); // Запускаем вторую сирену с криком
                         }, 2000); // Длительность фазы 3 (2 секунды)
                     }, 2000); // Длительность фазы 2 (2 секунды)
                 }, 2000); // Длительность фазы 1 (2 секунды)
             }, 0); // Немедленный старт первой анимации
         }
 
-        // Функция для анимации второй сирены (просто повторяет первую, но без звука)
+        // Функция для анимации второй сирены с тремя фазами звука "ААААА" (6 секунд)
         function animateSiren2() {
             const siren2 = document.getElementById('siren2');
             siren2.style.display = 'block';
+
+            const scream = new Audio('scream.mp3');
+            scream.play().catch(error => console.log('Ошибка воспроизведения крика:', error));
+
+            // Определяем ключевые моменты звука (примерные, уточни через прослушивание):
+            const firstSoundEnd = 2000; // Конец первого крика (2 секунды)
+            const secondSoundEnd = 4000; // Конец второго крика (4 секунды)
+            const thirdSoundEnd = 6000; // Конец третьего крика (6 секунд)
 
             // Фаза 1: Появление из центра и рост до пика (2 секунды)
             siren2.style.top = '50%';
@@ -210,15 +207,6 @@
                     siren2.style.animation = 'shrinkAndFly 2s ease-in-out';
                     siren2.classList.add('rotate'); // Добавляем вращение
 
-                    // Добавляем возможность закрытия второй сирены по клику
-                    siren2.addEventListener('click', () => {
-                        siren2.style.display = 'none';
-                        siren2.classList.remove('rotate');
-                        siren2.style.animation = '';
-                        const button = document.querySelector('.main-button');
-                        if (button) button.classList.remove('hidden'); // Возвращаем кнопку
-                    }, { once: true }); // Событие срабатывает один раз
-
                     // Фаза 3: Рост до большого пика, остановка вращения (2 секунды)
                     setTimeout(() => {
                         siren2.classList.remove('rotate'); // Останавливаем вращение
@@ -229,11 +217,9 @@
                         siren2.style.left = randomX;
                         siren2.style.animation = 'growAndStop 2s ease-out';
 
-                        // Конец третьего звука: исчезновение второй сирены
+                        // Конец третьего крика: исчезновение второй сирены
                         setTimeout(() => {
                             siren2.style.display = 'none'; // Исчезает вторая сирена
-                            const button = document.querySelector('.main-button');
-                            if (button) button.classList.remove('hidden'); // Возвращаем кнопку
                         }, 2000); // Длительность фазы 3 (2 секунды)
                     }, 2000); // Длительность фазы 2 (2 секунды)
                 }, 2000); // Длительность фазы 1 (2 секунды)
