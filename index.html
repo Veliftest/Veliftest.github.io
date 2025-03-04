@@ -25,54 +25,54 @@
         }
         h1 {
             color: #ffffff;
-            font-size: clamp(48px, 6.66vw, 128px);
+            font-size: clamp(48px, 6.66vw, 128px); /* Сохраняем увеличение в 2 раза, адаптивность */
             font-family: 'Poppins', sans-serif;
-            font-weight: 700;
+            font-weight: 800; /* Более широкий (жирный) шрифт для заголовка */
             text-transform: uppercase;
-            letter-spacing: clamp(1px, 0.4vw, 4px);
+            letter-spacing: clamp(2px, 0.5vw, 8px); /* Увеличен для шире шрифта */
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 30px rgba(255, 255, 255, 0.7), 0 0 45px rgba(255, 255, 255, 0.5);
-            margin-bottom: clamp(40px, 8.22vw, 158px);
+            margin-bottom: clamp(40px, 8.22vw, 158px); /* Сохраняем увеличение в 2 раза */
             z-index: 1;
         }
         .button-container {
             display: flex;
             flex-wrap: wrap;
-            gap: clamp(20px, 2.9vw, 56px);
+            gap: clamp(20px, 2.9vw, 56px); /* Сохраняем увеличение в 2 раза, адаптивность */
             justify-content: center;
             align-items: center;
             z-index: 1;
-            max-width: 95%;
+            max-width: 95%; /* Увеличено до 95%, чтобы кнопки касались краёв экрана */
             flex-direction: column;
-            width: 100%;
+            width: 100%; /* Занимает всю доступную ширину */
         }
         .main-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: clamp(20px, 2.9vw, 56px);
+            gap: clamp(20px, 2.9vw, 56px); /* Сохраняем увеличение в 2 раза, адаптивность */
             justify-content: center;
-            width: 100%;
+            width: 100%; /* Занимает всю доступную ширину */
         }
         a {
             text-decoration: none;
-            width: 100%;
+            width: 100%; /* Распределяем кнопки по ширине */
         }
         button {
-            padding: clamp(20px, 2.22vw, 38px) clamp(40px, 4.76vw, 82px);
-            font-size: clamp(24px, 2.32vw, 40px);
+            padding: clamp(20px, 2.22vw, 38px) clamp(40px, 4.76vw, 82px); /* Сохраняем увеличение в 2 раза, адаптивность */
+            font-size: clamp(24px, 2.32vw, 40px); /* Сохраняем увеличение в 2 раза, адаптивность */
             font-family: 'Poppins', sans-serif;
-            font-weight: 700;
+            font-weight: 800; /* Более широкий (жирный) шрифт для кнопок */
             color: #ffffff;
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.4);
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
-            border-radius: clamp(40px, 6.16vw, 106px);
+            border-radius: clamp(40px, 6.16vw, 106px); /* Сохраняем увеличение в 2 раза, адаптивность */
             cursor: pointer;
             box-shadow: 0 clamp(20px, 1.86vw, 32px) clamp(40px, 4.66vw, 80px) rgba(60, 110, 49, 0.6), 0 0 20px rgba(90, 158, 75, 0.8), 0 0 40px rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: clamp(1px, 0.12vw, 2px);
-            width: 100%;
-            max-width: 300px;
+            letter-spacing: clamp(2px, 0.24vw, 4px); /* Увеличен для шире шрифта */
+            width: 100%; /* Кнопки занимают всю доступную ширину */
+            max-width: 300px; /* Ограничение максимальной ширины для читаемости */
             animation: pulse 2s infinite ease-in-out; /* Анимация пульсации */
         }
         @keyframes pulse {
@@ -92,7 +92,7 @@
             animation: none; /* Отключаем пульсацию при нажатии */
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <h1>Троллинг Хаб</h1>
