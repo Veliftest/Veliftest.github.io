@@ -28,7 +28,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1;
+            z-index: 1001; /* Кнопка поверх сирены */
             width: 100%;
             padding: 0 clamp(20px, 2.9vw, 40px);
         }
@@ -61,49 +61,28 @@
             height: 5px; /* Очень маленький начальный размер */
             background: url('siren.png') no-repeat center center;
             background-size: contain;
-            z-index: 1000;
+            z-index: 900; /* Сирена за кнопкой */
             pointer-events: none; /* Отключаем взаимодействие, чтобы нельзя было закрыть по клику */
         }
         @keyframes grow {
             0% { transform: scale(0.01) translate(-50%, -50%); opacity: 0; }
-            100% { transform: scale(1) translate(-50%, -50%); opacity: 1; width: 1030px; height: 1030px; } /* Пик увеличения (до 1030x1030 пикселей, растягивается нормально) */
+            100% { transform: scale(1) translate(-50%, -50%); opacity: 1; width: min(1030px, 100vw); height: min(1030px, 100vh); } /* Пик увеличения (до 1030x1030 или экрана, адаптивно) */
         }
         @keyframes shrinkAndFly {
-            0% { transform: scale(1) translate(-50%, -50%) rotate(0deg); width: 1030px; height: 1030px; }
-            50% { transform: scale(0.05) translate(-50%, -50%) rotate(180deg); width: 51.5px; height: 51.5px; } /* Минимум (5% от 1030) */
-            100% { transform: scale(0.05) translate(var(--x), var(--y)) rotate(360deg); width: 51.5px; height: 51.5px; } /* Хаотичное перемещение в случайный край */
+            0% { transform: scale(1) translate(-50%, -50%) rotate(0deg); width: min(1030px, 100vw); height: min(1030px, 100vh); }
+            50% { transform: scale(0.05) translate(-50%, -50%) rotate(180deg); width: min(51.5px, 5vw); height: min(51.5px, 5vh); } /* Минимум (5% от 1030 или экрана) */
+            100% { transform: scale(0.05) translate(var(--x), var(--y)) rotate(360deg); width: min(51.5px, 5vw); height: min(51.5px, 5vh); } /* Хаотичное перемещение в случайный край */
         }
         @keyframes growAndStop {
-            0% { transform: scale(0.05) translate(var(--x), var(--y)) rotate(360deg); width: 51.5px; height: 51.5px; }
-            100% { transform: scale(1) translate(var(--x), var(--y)); width: 1030px; height: 1030px; } /* Останавливается в случайной точке с максимальным размером */
+            0% { transform: scale(0.05) translate(var(--x), var(--y)) rotate(360deg); width: min(51.5px, 5vw); height: min(51.5px, 5vh); }
+            100% { transform: scale(1) translate(var(--x), var(--y)); width: min(1030px, 100vw); height: min(1030px, 100vh); } /* Останавливается в случайной точке с максимальным размером */
         }
         @keyframes rotate {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
         .rotate { animation: rotate 2s linear infinite; }
-        .siren-peak { transform: scale(1) !important; animation-play-state: paused; width: 1030px; height: 1030px; }
-        /* Адаптивность для нормального растягивания сирены */
-        @media (max-width: 1030px) {
-            .siren-peak, .siren {
-                width: 100vw;
-                height: 100vw;
-                max-width: 1030px;
-                max-height: 1030px;
-            }
-            @keyframes grow {
-                100% { transform: scale(1) translate(-50%, -50%); opacity: 1; width: 100vw; height: 100vw; max-width: 1030px; max-height: 1030px; }
-            }
-            @keyframes shrinkAndFly {
-                0% { transform: scale(1) translate(-50%, -50%) rotate(0deg); width: 100vw; height: 100vw; max-width: 1030px; max-height: 1030px; }
-                50% { transform: scale(0.05) translate(-50%, -50%) rotate(180deg); width: 5vw; height: 5vw; max-width: 51.5px; max-height: 51.5px; }
-                100% { transform: scale(0.05) translate(var(--x), var(--y)) rotate(360deg); width: 5vw; height: 5vw; max-width: 51.5px; max-height: 51.5px; }
-            }
-            @keyframes growAndStop {
-                0% { transform: scale(0.05) translate(var(--x), var(--y)) rotate(360deg); width: 5vw; height: 5vw; max-width: 51.5px; max-height: 51.5px; }
-                100% { transform: scale(1) translate(var(--x), var(--y)); width: 100vw; height: 100vw; max-width: 1030px; max-height: 1030px; }
-            }
-        }
+        .siren-peak { transform: scale(1) !important; animation-play-state: paused; width: min(1030px, 100vw); height: min(1030px, 100vh); }
     </style>
 
     <script>
@@ -130,7 +109,7 @@
 
             setTimeout(() => {
                 siren.style.animation = ''; // Останавливаем анимацию роста
-                siren.classList.add('siren-peak'); // Устанавливаем пик (до 1030x1030 или адаптивно)
+                siren.classList.add('siren-peak'); // Устанавливаем пик (до 1030x1030 или экрана, адаптивно)
 
                 // Уменьшение, вращение, и хаотичное движение (0.5 секунды пауза, затем вторая фаза)
                 setTimeout(() => {
@@ -189,7 +168,7 @@
                                 }, 2000); // Длительность третьей фазы (2 секунды)
                             }, 500); // Пауза меньше секунды (0.5 секунды) перед третьей фазой
                         }, 2000); // Длительность второй фазы (2 секунды)
-                    }, 500); // Пауза меньше секунды (0.5 секунды) перед второй фазой
+                    }, 500); // Пауза меньше секунды (0.5 секунд) перед второй фазой
                 }, 2000); // Длительность первой фазы (2 секунды)
             }, 0); // Немедленный старт первой анимации
         }
