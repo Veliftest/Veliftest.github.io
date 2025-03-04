@@ -53,7 +53,7 @@
             gap: clamp(20px, 2.9vw, 56px); /* Сохраняем увеличение в 2 раза от оригинальных 10px, 1.45vw, 28px */
             justify-content: center;
             width: 100%;
-            max-width: 900px; /* Уменьшено с 1000px для более компактного расположения кнопок на ПК */
+            max-width: 900px; /* Сохраняем для компактного расположения на ПК */
             flex-direction: row; /* Горизонтальное расположение кнопок на ПК */
         }
         /* Адаптивность для телефонов: вертикальное расположение */
@@ -74,7 +74,7 @@
             align-items: center; /* Центрирование текста по вертикали */
         }
         button {
-            padding: clamp(8px, 0.89vw, 38px) clamp(34px, 3.77vw, 82px); /* Сохраняем уменьшенное вертикальное padding и ширину */
+            padding: clamp(8px, 0.89vw, 38px) clamp(17px, 1.89vw, 82px); /* Уменьшено горизонтальное padding с 34px до 17px, чтобы ширина соответствовала тексту */
             font-size: clamp(18px, 1.74vw, 40px);
             font-family: 'Poppins', sans-serif;
             font-weight: 800; /* Более широкий (жирный) шрифт для кнопок */
@@ -89,12 +89,12 @@
             text-transform: uppercase;
             letter-spacing: clamp(1px, 0.12vw, 2px); /* Сохраняем увеличение в 2 раза от оригинальных 0.5px, 0.06vw, 1px */
             width: 100%;
-            max-width: 300px; /* Уменьшено с 320px для более компактной ширины на ПК */
+            max-width: 200px; /* Уменьшено с 300px до 200px, чтобы ширина соответствовала тексту "Прикольчик" */
             text-align: center; /* Выравнивание текста внутри кнопок по центру */
             display: flex; /* Используем flex для идеального центрирования текста */
             justify-content: center; /* Центрирование текста по горизонтали */
             align-items: center; /* Центрирование текста по вертикали */
-            animation: subtlePulse 1.5s infinite ease-in-out; /* Маленькая пульсация */
+            animation: subtlePulse 1.5s infinite ease-in-out; /* Сохраняем маленькую пульсацию */
         }
         @keyframes subtlePulse {
             0% { transform: scale(1); }
