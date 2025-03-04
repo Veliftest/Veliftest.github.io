@@ -14,8 +14,8 @@
             align-items: center;
             background: linear-gradient(45deg, #3b3b3b, #222323, #404040, #2a2b2c, #3b3b3b);
             background-size: 400% 400%;
-            animation: gradientBG 60s ease infinite; /* Очень-очень-очень плавное переливание */
-            font-family: 'Poppins', sans-serif; /* Молодёжный, современный шрифт */
+            animation: gradientBG 60s ease infinite;
+            font-family: 'Poppins', sans-serif;
             overflow: hidden;
         }
         @keyframes gradientBG {
@@ -25,118 +25,83 @@
         }
         h1 {
             color: #ffffff;
-            font-size: clamp(48px, 6.66vw, 128px); /* Увеличено с 24px, 3.33vw, 64px в 2 раза */
-            font-family: 'Poppins', sans-serif; /* Молодёжный шрифт для заголовка */
+            font-size: clamp(48px, 6.66vw, 128px);
+            font-family: 'Poppins', sans-serif;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: clamp(1px, 0.4vw, 4px); /* Увеличено с 0.5px, 0.2vw, 2px в 2 раза */
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 30px rgba(255, 255, 255, 0.7), 0 0 45px rgba(255, 255, 255, 0.5); /* Больше свечения, белое, яркое, расплывчатое */
-            margin-bottom: clamp(40px, 8.22vw, 158px); /* Увеличено с 20px, 4.11vw, 79px в 2 раза */
+            letter-spacing: clamp(1px, 0.4vw, 4px);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 30px rgba(255, 255, 255, 0.7), 0 0 45px rgba(255, 255, 255, 0.5);
+            margin-bottom: clamp(40px, 8.22vw, 158px);
             z-index: 1;
         }
         .button-container {
             display: flex;
             flex-wrap: wrap;
-            gap: clamp(20px, 2.9vw, 56px); /* Увеличено с 10px, 1.45vw, 28px в 2 раза */
+            gap: clamp(20px, 2.9vw, 56px);
             justify-content: center;
             align-items: center;
             z-index: 1;
-            max-width: 95%; /* Увеличено до 95%, чтобы кнопки касались краёв экрана */
+            max-width: 95%;
             flex-direction: column;
-            width: 100%; /* Занимает всю доступную ширину */
+            width: 100%;
         }
         .main-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: clamp(20px, 2.9vw, 56px); /* Увеличено с 10px, 1.45vw, 28px в 2 раза */
+            gap: clamp(20px, 2.9vw, 56px);
             justify-content: center;
-            width: 100%; /* Занимает всю доступную ширину */
+            width: 100%;
         }
         a {
             text-decoration: none;
-            width: 100%; /* Распределяем кнопки по ширине */
+            width: 100%;
         }
         button {
-            padding: clamp(20px, 2.22vw, 38px) clamp(40px, 4.76vw, 82px); /* Увеличено с 10px 20px, 1.11vw 2.38vw, 19px 41px в 2 раза */
-            font-size: clamp(24px, 2.32vw, 40px); /* Увеличено с 12px, 1.16vw, 20px в 2 раза */
-            font-family: 'Poppins', sans-serif; /* Молодёжный шрифт для кнопок */
+            padding: clamp(20px, 2.22vw, 38px) clamp(40px, 4.76vw, 82px);
+            font-size: clamp(24px, 2.32vw, 40px);
+            font-family: 'Poppins', sans-serif;
             font-weight: 700;
             color: #ffffff;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.4); /* Свечение текста на кнопках */
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.4);
             background: linear-gradient(45deg, #3c6e31, #5a9e4b);
             border: none;
-            border-radius: clamp(40px, 6.16vw, 106px); /* Увеличено с 20px, 3.08vw, 53px в 2 раза */
+            border-radius: clamp(40px, 6.16vw, 106px);
             cursor: pointer;
-            box-shadow: 0 clamp(20px, 1.86vw, 32px) clamp(40px, 4.66vw, 80px) rgba(60, 110, 49, 0.6), 0 0 20px rgba(90, 158, 75, 0.8), 0 0 40px rgba(60, 110, 49, 0.6); /* Больше свечения от кнопок */
+            box-shadow: 0 clamp(20px, 1.86vw, 32px) clamp(40px, 4.66vw, 80px) rgba(60, 110, 49, 0.6), 0 0 20px rgba(90, 158, 75, 0.8), 0 0 40px rgba(60, 110, 49, 0.6);
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: clamp(1px, 0.12vw, 2px); /* Увеличено с 0.5px, 0.06vw, 1px в 2 раза */
-            width: 100%; /* Кнопки занимают всю доступную ширину */
-            max-width: 300px; /* Ограничение максимальной ширины для читаемости */
+            letter-spacing: clamp(1px, 0.12vw, 2px);
+            width: 100%;
+            max-width: 300px;
+            animation: pulse 2s infinite ease-in-out; /* Анимация пульсации */
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 clamp(20px, 1.86vw, 32px) clamp(40px, 4.66vw, 80px) rgba(60, 110, 49, 0.6), 0 0 20px rgba(90, 158, 75, 0.8), 0 0 40px rgba(60, 110, 49, 0.6); }
+            50% { transform: scale(1.05); box-shadow: 0 clamp(25px, 2.33vw, 40px) clamp(50px, 5.83vw, 100px) rgba(60, 110, 49, 0.7), 0 0 25px rgba(90, 158, 75, 1.0), 0 0 50px rgba(60, 110, 49, 0.7); }
+            100% { transform: scale(1); box-shadow: 0 clamp(20px, 1.86vw, 32px) clamp(40px, 4.66vw, 80px) rgba(60, 110, 49, 0.6), 0 0 20px rgba(90, 158, 75, 0.8), 0 0 40px rgba(60, 110, 49, 0.6); }
         }
         button:hover {
             background: linear-gradient(45deg, #5a9e4b, #3c6e31);
-            transform: translateY(clamp(-20px, -1.86vw, -32px)); /* Увеличено с -10px, -0.93vw, -16px в 2 раза */
-            box-shadow: 0 clamp(30px, 2.78vw, 48px) clamp(60px, 6.16vw, 106px) rgba(60, 110, 49, 0.8), 0 0 30px rgba(90, 158, 75, 1.0), 0 0 60px rgba(60, 110, 49, 0.8); /* Больше свечения при наведении */
+            transform: translateY(clamp(-20px, -1.86vw, -32px)) scale(1.05); /* Пульсация при наведении */
+            box-shadow: 0 clamp(30px, 2.78vw, 48px) clamp(60px, 6.16vw, 106px) rgba(60, 110, 49, 0.8), 0 0 30px rgba(90, 158, 75, 1.0), 0 0 60px rgba(60, 110, 49, 0.8);
+            animation: none; /* Отключаем постоянную пульсацию при наведении */
         }
         button:active {
-            transform: translateY(clamp(10px, 0.82vw, 14px)); /* Увеличено с 5px, 0.41vw, 7px в 2 раза */
-            box-shadow: 0 clamp(10px, 0.82vw, 14px) clamp(20px, 2.78vw, 48px) rgba(60, 110, 49, 0.4), 0 0 15px rgba(90, 158, 75, 0.6), 0 0 30px rgba(60, 110, 49, 0.4); /* Меньше свечения при нажатии */
+            transform: translateY(clamp(10px, 0.82vw, 14px)) scale(0.98); /* Уменьшение при нажатии */
+            box-shadow: 0 clamp(10px, 0.82vw, 14px) clamp(20px, 2.78vw, 48px) rgba(60, 110, 49, 0.4), 0 0 15px rgba(90, 158, 75, 0.6), 0 0 30px rgba(60, 110, 49, 0.4);
+            animation: none; /* Отключаем пульсацию при нажатии */
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-    <script>
-        // Анимация кнопок на телефоне и ПК, исправленная
-        document.addEventListener('DOMContentLoaded', () => {
-            const buttons = document.querySelectorAll('button');
-            const container = document.querySelector('.main-buttons');
-
-            buttons.forEach(button => {
-                button.addEventListener('mouseover', (e) => {
-                    const randomChance = Math.random();
-                    if (randomChance < 0.25) { // Шанс 1 из 4
-                        const containerRect = container.getBoundingClientRect();
-                        const maxX = containerRect.width - button.offsetWidth;
-                        const maxY = containerRect.height - button.offsetHeight;
-                        const newX = Math.random() * maxX;
-                        const newY = Math.random() * maxY;
-
-                        button.style.position = 'absolute';
-                        button.style.left = `${newX}px`;
-                        button.style.top = `${newY}px`;
-                        button.style.transition = 'transform 0.3s ease, left 0.3s ease, top 0.3s ease';
-
-                        // Плавное возвращение после анимации
-                        setTimeout(() => {
-                            button.style.position = '';
-                            button.style.left = '';
-                            button.style.top = '';
-                            button.style.transform = 'none';
-                        }, 1500);
-                    }
-                });
-
-                // Исправление поведения при нажатии (touch и click)
-                button.addEventListener('click', (e) => {
-                    e.preventDefault(); // Предотвращаем стандартное поведение
-                    setTimeout(() => {
-                        button.style.transform = 'translateY(0)';
-                        button.style.transition = 'transform 0.3s ease';
-                    }, 200); // Плавное возвращение на место
-                });
-
-                // Обработка тач-событий для телефонов
-                button.addEventListener('touchstart', (e) => {
-                    button.style.transform = 'translateY(14px)';
-                    button.style.transition = 'transform 0.3s ease';
-                });
-
-                button.addEventListener('touchend', (e) => {
-                    button.style.transform = 'translateY(0)';
-                    button.style.transition = 'transform 0.3s ease';
-                });
-            });
-        });
-    </script>
+</head>
+<body>
+    <h1>Троллинг Хаб</h1>
+    <div class="button-container">
+        <div class="main-buttons">
+            <a href="/trolling1/"><button>Прикольчик №1</button></a>
+            <a href="/trolling2/"><button>Прикольчик №2</button></a>
+            <a href="/trolling3/"><button>Прикольчик №3</button></a>
+        </div>
+    </div>
 </body>
 </html>
