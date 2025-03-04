@@ -10,9 +10,7 @@
         <button class="main-button"></button> <!-- Кнопка без текста, с изображением default-texture.png -->
     </div>
 
-    <div class="siren" id="siren1"></div>
-    <div class="siren" id="siren2" style="display: none;"></div>
-    <div class="siren" id="siren3" style="display: none;"></div>
+    <div class="siren" id="siren"></div>
 
     <style>
         body {
@@ -109,27 +107,32 @@
     </style>
 
     <script>
-        // Функция для анимации первой сирены с первым звуком "Oh No" (2 секунды)
-        function animateSiren1() {
+        // Функция для анимации сирены с тремя фазами звука "Oh No" (6 секунд)
+        function animateSiren() {
             const button = document.querySelector('.main-button');
             button.classList.add('hidden'); // Скрываем кнопку после клика
 
-            const siren1 = document.getElementById('siren1');
-            siren1.style.display = 'block';
+            const siren = document.getElementById('siren');
+            siren.style.display = 'block';
 
-            const ohNo1 = new Audio('oh-no-1.mp3'); // Первый сигнал "Oh No" (2 секунды)
-            ohNo1.play().catch(error => console.log('Ошибка воспроизведения Oh No 1:', error));
+            const ohNo = new Audio('oh-no-6s.mp3');
+            ohNo.play().catch(error => console.log('Ошибка воспроизведения Oh No:', error));
+
+            // Определяем ключевые моменты звука (примерные, уточни через прослушивание):
+            const firstSoundEnd = 2000; // Конец первого сигнала (2 секунды)
+            const secondSoundEnd = 4000; // Конец второго сигнала (4 секунды, с паузой 0.5 секунды)
+            const thirdSoundEnd = 6000; // Конец третьего сигнала (6 секунд, с паузой 0.5 секунды)
 
             // Фаза 1: Появление из центра и рост до пика (2 секунды)
-            siren1.style.top = '50%';
-            siren1.style.left = '50%';
-            siren1.style.animation = 'grow 2s ease-out';
+            siren.style.top = '50%';
+            siren.style.left = '50%';
+            siren.style.animation = 'grow 2s ease-out';
 
             setTimeout(() => {
-                siren1.style.animation = ''; // Останавливаем анимацию роста
-                siren1.classList.add('siren-peak'); // Устанавливаем пик (до 1030x1030 или адаптивно)
+                siren.style.animation = ''; // Останавливаем анимацию роста
+                siren.classList.add('siren-peak'); // Устанавливаем пик (до 1030x1030 или адаптивно)
 
-                // Уменьшение, вращение, и хаотичное движение (0.5 секунды пауза, затем вторая сирена)
+                // Уменьшение, вращение, и хаотичное движение (0.5 секунды пауза, затем вторая фаза)
                 setTimeout(() => {
                     const randomEdge = Math.floor(Math.random() * 4); // 0: левый, 1: правый, 2: верх, 3: низ
                     let x, y;
@@ -139,115 +142,55 @@
                         case 2: x = `${Math.random() * 100}%`; y = '-100%'; break; // Верх
                         case 3: x = `${Math.random() * 100}%`; y = '200%'; break; // Низ
                     }
-                    siren1.style.setProperty('--x', x);
-                    siren1.style.setProperty('--y', y);
-                    siren1.classList.remove('siren-peak');
-                    siren1.style.animation = 'shrinkAndFly 0.5s ease-in-out';
-                    siren1.classList.add('rotate'); // Добавляем вращение
+                    siren.style.setProperty('--x', x);
+                    siren.style.setProperty('--y', y);
+                    siren.classList.remove('siren-peak');
+                    siren.style.animation = 'shrinkAndFly 0.5s ease-in-out';
+                    siren.classList.add('rotate'); // Добавляем вращение
 
-                    // Исчезновение первой сирены и запуск второй
+                    // Вторая фаза: Рост до пика, остановка (2 секунды)
                     setTimeout(() => {
-                        siren1.style.display = 'none'; // Исчезает первая сирена
-                        siren1.classList.remove('rotate'); // Останавливаем вращение
-                        animateSiren2(); // Запускаем вторую сирену
-                    }, 500); // Пауза меньше секунды (0.5 секунды)
-                }, 2000); // Длительность фазы 1 (2 секунды)
-            }, 0); // Немедленный старт первой анимации
-        }
+                        siren.classList.remove('rotate'); // Останавливаем вращение
+                        siren.style.animation = ''; // Останавливаем полёт
+                        siren.style.top = '50%';
+                        siren.style.left = '50%';
+                        siren.style.animation = 'growAndStop 2s ease-out';
 
-        // Функция для анимации второй сирены с вторым звуком "AAAAA" (2 секунды)
-        function animateSiren2() {
-            const siren2 = document.getElementById('siren2');
-            siren2.style.display = 'block';
-
-            const ohNo2 = new Audio('oh-no-2.mp3'); // Второй сигнал "AAAAA" (2 секунды)
-            ohNo2.play().catch(error => console.log('Ошибка воспроизведения Oh No 2:', error));
-
-            // Фаза 1: Появление из центра и рост до пика (2 секунды)
-            siren2.style.top = '50%';
-            siren2.style.left = '50%';
-            siren2.style.animation = 'grow 2s ease-out';
-
-            setTimeout(() => {
-                siren2.style.animation = ''; // Останавливаем анимацию роста
-                siren2.classList.add('siren-peak'); // Устанавливаем пик (до 1030x1030 или адаптивно)
-
-                // Уменьшение, вращение, и хаотичное движение (0.5 секунды пауза, затем третья сирена)
-                setTimeout(() => {
-                    const randomEdge = Math.floor(Math.random() * 4); // 0: левый, 1: правый, 2: верх, 3: низ
-                    let x, y;
-                    switch (randomEdge) {
-                        case 0: x = '-100%'; y = `${Math.random() * 100}%`; break; // Левый край
-                        case 1: x = '200%'; y = `${Math.random() * 100}%`; break; // Правый край
-                        case 2: x = `${Math.random() * 100}%`; y = '-100%'; break; // Верх
-                        case 3: x = `${Math.random() * 100}%`; y = '200%'; break; // Низ
-                    }
-                    siren2.style.setProperty('--x', x);
-                    siren2.style.setProperty('--y', y);
-                    siren2.classList.remove('siren-peak');
-                    siren2.style.animation = 'shrinkAndFly 0.5s ease-in-out';
-                    siren2.classList.add('rotate'); // Добавляем вращение
-
-                    // Исчезновение второй сирены и запуск третьей
-                    setTimeout(() => {
-                        siren2.style.display = 'none'; // Исчезает вторая сирена
-                        siren2.classList.remove('rotate'); // Останавливаем вращение
-                        animateSiren3(); // Запускаем третью сирену
-                    }, 500); // Пауза меньше секунды (0.5 секунды)
-                }, 2000); // Длительность фазы 1 (2 секунды)
-            }, 0); // Немедленный старт первой анимации
-        }
-
-        // Функция для анимации третьей сирены с третьим звуком "AAAAA" (2 секунды)
-        function animateSiren3() {
-            const siren3 = document.getElementById('siren3');
-            siren3.style.display = 'block';
-
-            const ohNo3 = new Audio('oh-no-3.mp3'); // Третий сигнал "AAAAA" (2 секунды)
-            ohNo3.play().catch(error => console.log('Ошибка воспроизведения Oh No 3:', error));
-
-            // Фаза 1: Появление из центра и рост до пика (2 секунды)
-            siren3.style.top = '50%';
-            siren3.style.left = '50%';
-            siren3.style.animation = 'grow 2s ease-out';
-
-            setTimeout(() => {
-                siren3.style.animation = ''; // Останавливаем анимацию роста
-                siren3.classList.add('siren-peak'); // Устанавливаем пик (до 1030x1030 или адаптивно)
-
-                // Уменьшение, вращение, и хаотичное движение (2 секунды)
-                setTimeout(() => {
-                    const randomEdge = Math.floor(Math.random() * 4); // 0: левый, 1: правый, 2: верх, 3: низ
-                    let x, y;
-                    switch (randomEdge) {
-                        case 0: x = '-100%'; y = `${Math.random() * 100}%`; break; // Левый край
-                        case 1: x = '200%'; y = `${Math.random() * 100}%`; break; // Правый край
-                        case 2: x = `${Math.random() * 100}%`; y = '-100%'; break; // Верх
-                        case 3: x = `${Math.random() * 100}%`; y = '200%'; break; // Низ
-                    }
-                    siren3.style.setProperty('--x', x);
-                    siren3.style.setProperty('--y', y);
-                    siren3.classList.remove('siren-peak');
-                    siren3.style.animation = 'shrinkAndFly 2s ease-in-out';
-                    siren3.classList.add('rotate'); // Добавляем вращение
-
-                    // Рост до большого пика, остановка вращения (2 секунды)
-                    setTimeout(() => {
-                        siren3.classList.remove('rotate'); // Останавливаем вращение
-                        siren3.style.animation = ''; // Останавливаем полёт
-                        const randomX = Math.random() * 100 + 'vw';
-                        const randomY = Math.random() * 100 + 'vh';
-                        siren3.style.top = randomY;
-                        siren3.style.left = randomX;
-                        siren3.style.animation = 'growAndStop 2s ease-out';
-
-                        // Конец третьего звука: исчезновение третьей сирены
+                        // Уменьшение, вращение, и хаотичное движение (0.5 секунды пауза, затем третья фаза)
                         setTimeout(() => {
-                            siren3.style.display = 'none'; // Исчезает третья сирена
-                            // Здесь можно добавить следующий шаг (например, переадресацию, но пока только первая часть)
-                        }, 2000); // Длительность фазы 3 (2 секунды)
-                    }, 2000); // Длительность фазы 2 (2 секунды)
-                }, 2000); // Длительность фазы 1 (2 секунды)
+                            const randomEdge2 = Math.floor(Math.random() * 4); // 0: левый, 1: правый, 2: верх, 3: низ
+                            let x2, y2;
+                            switch (randomEdge2) {
+                                case 0: x2 = '-100%'; y2 = `${Math.random() * 100}%`; break; // Левый край
+                                case 1: x2 = '200%'; y2 = `${Math.random() * 100}%`; break; // Правый край
+                                case 2: x2 = `${Math.random() * 100}%`; y2 = '-100%'; break; // Верх
+                                case 3: x2 = `${Math.random() * 100}%`; y2 = '200%'; break; // Низ
+                            }
+                            siren.style.setProperty('--x', x2);
+                            siren.style.setProperty('--y', y2);
+                            siren.classList.remove('siren-peak');
+                            siren.style.animation = 'shrinkAndFly 0.5s ease-in-out';
+                            siren.classList.add('rotate'); // Добавляем вращение
+
+                            // Третья фаза: Рост до пика, остановка, исчезновение (2 секунды)
+                            setTimeout(() => {
+                                siren.classList.remove('rotate'); // Останавливаем вращение
+                                siren.style.animation = ''; // Останавливаем полёт
+                                const randomX = Math.random() * 100 + 'vw';
+                                const randomY = Math.random() * 100 + 'vh';
+                                siren.style.top = randomY;
+                                siren.style.left = randomX;
+                                siren.style.animation = 'growAndStop 2s ease-out';
+
+                                // Конец третьего сигнала: исчезновение сирены
+                                setTimeout(() => {
+                                    siren.style.display = 'none'; // Исчезает сирена
+                                    // Здесь можно добавить следующий шаг (например, переадресацию, но пока только первая часть)
+                                }, 2000); // Длительность третьей фазы (2 секунды)
+                            }, 500); // Пауза меньше секунды (0.5 секунды) перед третьей фазой
+                        }, 2000); // Длительность второй фазы (2 секунды)
+                    }, 500); // Пауза меньше секунды (0.5 секунды) перед второй фазой
+                }, 2000); // Длительность первой фазы (2 секунды)
             }, 0); // Немедленный старт первой анимации
         }
 
@@ -255,7 +198,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const button = document.querySelector('.main-button');
             if (button) {
-                button.addEventListener('click', animateSiren1);
+                button.addEventListener('click', animateSiren);
             }
         });
     </script>
