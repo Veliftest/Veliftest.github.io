@@ -10,7 +10,8 @@
         <button class="main-button"></button> <!-- Кнопка без текста, с изображением default-texture.png -->
     </div>
 
-    <div class="siren" id="siren"></div>
+    <div class="siren" id="siren1"></div>
+    <div class="siren" id="siren2" style="display: none;"></div>
 
     <style>
         body {
@@ -50,51 +51,70 @@
         .main-button:hover {
             transform: scale(1.02); /* Пульсация — увеличение до 102% при наведении */
         }
+        /* Скрытие кнопки после клика */
+        .main-button.hidden {
+            display: none;
+        }
         /* Анимация сирены */
         .siren {
             position: fixed;
-            width: 10px; /* Начальный очень маленький размер */
-            height: 10px; /* Начальный очень маленький размер */
+            width: 5px; /* Очень маленький начальный размер */
+            height: 5px; /* Очень маленький начальный размер */
             background: url('siren.png') no-repeat center center;
             background-size: contain;
             z-index: 1000;
-            display: none;
-            pointer-events: none;
+            pointer-events: auto; /* Включаем взаимодействие для клика */
         }
         @keyframes grow {
             0% { transform: scale(0.01) translate(-50%, -50%); opacity: 0; }
-            100% { transform: scale(2) translate(-50%, -50%); opacity: 1; } /* Пик увеличения (занимает весь экран) */
+            100% { transform: scale(1) translate(-50%, -50%); opacity: 1; width: 1030px; height: 1030px; } /* Пик увеличения (до 1030x1030 пикселей, растягивается нормально) */
         }
         @keyframes shrinkAndFly {
-            0% { transform: scale(2) translate(-50%, -50%) rotate(0deg); }
-            50% { transform: scale(0.1) translate(-50%, -50%) rotate(180deg); }
-            100% { transform: scale(0.1) translate(var(--x), var(--y)) rotate(360deg); } /* Хаотичное перемещение в случайный край */
+            0% { transform: scale(1) translate(-50%, -50%) rotate(0deg); width: 1030px; height: 1030px; }
+            50% { transform: scale(0.05) translate(-50%, -50%) rotate(180deg); width: 51.5px; height: 51.5px; } /* Минимум (5% от 1030) */
+            100% { transform: scale(0.05) translate(var(--x), var(--y)) rotate(360deg); width: 51.5px; height: 51.5px; } /* Хаотичное перемещение в случайный край */
         }
         @keyframes growAndStop {
-            0% { transform: scale(0.1) translate(var(--x), var(--y)) rotate(360deg); }
-            100% { transform: scale(2) translate(var(--x), var(--y)); } /* Останавливается в случайной точке */
+            0% { transform: scale(0.05) translate(var(--x), var(--y)) rotate(360deg); width: 51.5px; height: 51.5px; }
+            100% { transform: scale(1) translate(var(--x), var(--y)); width: 1030px; height: 1030px; } /* Останавливается в случайной точке с максимальным размером */
         }
         @keyframes rotate {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
         .rotate { animation: rotate 2s linear infinite; }
-        .siren-peak { transform: scale(2) !important; animation-play-state: paused; }
-        /* Адаптивность для телефонов: увеличение размера только для default-texture.png */
-        @media (max-width: 768px) {
-            .main-button {
-                width: clamp(340px, 37.77vw, 680px); /* Увеличен размер круга на телефоне для default-texture.png в 1,7 раза */
-                height: clamp(340px, 37.77vw, 680px); /* Увеличен размер круга на телефоне для default-texture.png в 1,7 раза */
+        .siren-peak { transform: scale(1) !important; animation-play-state: paused; width: 1030px; height: 1030px; }
+        /* Адаптивность для нормального растягивания сирены */
+        @media (max-width: 1030px) {
+            .siren-peak, .siren {
+                width: 100vw;
+                height: 100vw;
+                max-width: 1030px;
+                max-height: 1030px;
+            }
+            @keyframes grow {
+                100% { transform: scale(1) translate(-50%, -50%); opacity: 1; width: 100vw; height: 100vw; max-width: 1030px; max-height: 1030px; }
+            }
+            @keyframes shrinkAndFly {
+                0% { transform: scale(1) translate(-50%, -50%) rotate(0deg); width: 100vw; height: 100vw; max-width: 1030px; max-height: 1030px; }
+                50% { transform: scale(0.05) translate(-50%, -50%) rotate(180deg); width: 5vw; height: 5vw; max-width: 51.5px; max-height: 51.5px; }
+                100% { transform: scale(0.05) translate(var(--x), var(--y)) rotate(360deg); width: 5vw; height: 5vw; max-width: 51.5px; max-height: 51.5px; }
+            }
+            @keyframes growAndStop {
+                0% { transform: scale(0.05) translate(var(--x), var(--y)) rotate(360deg); width: 5vw; height: 5vw; max-width: 51.5px; max-height: 51.5px; }
+                100% { transform: scale(1) translate(var(--x), var(--y)); width: 100vw; height: 100vw; max-width: 1030px; max-height: 1030px; }
             }
         }
     </style>
 
     <script>
-        // Функция для анимации сирены с тремя фазами звука "Oh No" (6 секунд)
-        function animateSiren() {
-            const siren = document.createElement('div');
-            siren.className = 'siren';
-            document.body.appendChild(siren);
+        // Функция для анимации первой сирены с тремя фазами звука "Oh No" (6 секунд)
+        function animateSiren1() {
+            const button = document.querySelector('.main-button');
+            button.classList.add('hidden'); // Скрываем кнопку после клика
+
+            const siren1 = document.getElementById('siren1');
+            siren1.style.display = 'block';
 
             const ohNo = new Audio('oh-no-6s.mp3');
             ohNo.play().catch(error => console.log('Ошибка воспроизведения Oh No:', error));
@@ -105,14 +125,13 @@
             const thirdSoundEnd = 6000; // Конец третьего звука (6 секунд)
 
             // Фаза 1: Появление из центра и рост до пика (2 секунды)
-            siren.style.top = '50%';
-            siren.style.left = '50%';
-            siren.style.display = 'block';
-            siren.style.animation = 'grow 2s ease-out';
+            siren1.style.top = '50%';
+            siren1.style.left = '50%';
+            siren1.style.animation = 'grow 2s ease-out';
 
             setTimeout(() => {
-                siren.style.animation = ''; // Останавливаем анимацию роста
-                siren.classList.add('siren-peak'); // Устанавливаем пик (занимает весь экран)
+                siren1.style.animation = ''; // Останавливаем анимацию роста
+                siren1.classList.add('siren-peak'); // Устанавливаем пик (до 1030x1030 или адаптивно)
 
                 // Фаза 2: Уменьшение, вращение, и хаотичное движение (2 секунды)
                 setTimeout(() => {
@@ -124,27 +143,97 @@
                         case 2: x = `${Math.random() * 100}%`; y = '-100%'; break; // Верх
                         case 3: x = `${Math.random() * 100}%`; y = '200%'; break; // Низ
                     }
-                    siren.style.setProperty('--x', x);
-                    siren.style.setProperty('--y', y);
-                    siren.classList.remove('siren-peak');
-                    siren.style.animation = 'shrinkAndFly 2s ease-in-out';
-                    siren.classList.add('rotate'); // Добавляем вращение
+                    siren1.style.setProperty('--x', x);
+                    siren1.style.setProperty('--y', y);
+                    siren1.classList.remove('siren-peak');
+                    siren1.style.animation = 'shrinkAndFly 2s ease-in-out';
+                    siren1.classList.add('rotate'); // Добавляем вращение
+
+                    // Добавляем возможность закрытия сирены по клику
+                    siren1.addEventListener('click', () => {
+                        siren1.style.display = 'none';
+                        siren1.classList.remove('rotate');
+                        siren1.style.animation = '';
+                        ohNo.pause(); // Останавливаем звук
+                        ohNo.currentTime = 0; // Сбрасываем позицию
+                        const button = document.querySelector('.main-button');
+                        if (button) button.classList.remove('hidden'); // Возвращаем кнопку
+                    }, { once: true }); // Событие срабатывает один раз
 
                     // Фаза 3: Рост до большого пика, остановка вращения (2 секунды)
                     setTimeout(() => {
-                        siren.classList.remove('rotate'); // Останавливаем вращение
-                        siren.style.animation = ''; // Останавливаем полёт
+                        siren1.classList.remove('rotate'); // Останавливаем вращение
+                        siren1.style.animation = ''; // Останавливаем полёт
                         const randomX = Math.random() * 100 + 'vw';
                         const randomY = Math.random() * 100 + 'vh';
-                        siren.style.top = randomY;
-                        siren.style.left = randomX;
-                        siren.style.animation = 'growAndStop 2s ease-out';
+                        siren1.style.top = randomY;
+                        siren1.style.left = randomX;
+                        siren1.style.animation = 'growAndStop 2s ease-out';
 
-                        // Конец третьего звука: исчезновение сирены
+                        // Конец третьего звука: появление второй сирены
                         setTimeout(() => {
-                            siren.style.display = 'none';
-                            siren.remove(); // Удаляем сирену
-                            // Здесь можно добавить следующий шаг (например, конец анимации или возврат)
+                            siren1.style.display = 'none'; // Исчезает первая сирена
+                            animateSiren2(); // Запускаем вторую сирену
+                        }, 2000); // Длительность фазы 3 (2 секунды)
+                    }, 2000); // Длительность фазы 2 (2 секунды)
+                }, 2000); // Длительность фазы 1 (2 секунды)
+            }, 0); // Немедленный старт первой анимации
+        }
+
+        // Функция для анимации второй сирены (просто повторяет первую, но без звука)
+        function animateSiren2() {
+            const siren2 = document.getElementById('siren2');
+            siren2.style.display = 'block';
+
+            // Фаза 1: Появление из центра и рост до пика (2 секунды)
+            siren2.style.top = '50%';
+            siren2.style.left = '50%';
+            siren2.style.animation = 'grow 2s ease-out';
+
+            setTimeout(() => {
+                siren2.style.animation = ''; // Останавливаем анимацию роста
+                siren2.classList.add('siren-peak'); // Устанавливаем пик (до 1030x1030 или адаптивно)
+
+                // Фаза 2: Уменьшение, вращение, и хаотичное движение (2 секунды)
+                setTimeout(() => {
+                    const randomEdge = Math.floor(Math.random() * 4); // 0: левый, 1: правый, 2: верх, 3: низ
+                    let x, y;
+                    switch (randomEdge) {
+                        case 0: x = '-100%'; y = `${Math.random() * 100}%`; break; // Левый край
+                        case 1: x = '200%'; y = `${Math.random() * 100}%`; break; // Правый край
+                        case 2: x = `${Math.random() * 100}%`; y = '-100%'; break; // Верх
+                        case 3: x = `${Math.random() * 100}%`; y = '200%'; break; // Низ
+                    }
+                    siren2.style.setProperty('--x', x);
+                    siren2.style.setProperty('--y', y);
+                    siren2.classList.remove('siren-peak');
+                    siren2.style.animation = 'shrinkAndFly 2s ease-in-out';
+                    siren2.classList.add('rotate'); // Добавляем вращение
+
+                    // Добавляем возможность закрытия второй сирены по клику
+                    siren2.addEventListener('click', () => {
+                        siren2.style.display = 'none';
+                        siren2.classList.remove('rotate');
+                        siren2.style.animation = '';
+                        const button = document.querySelector('.main-button');
+                        if (button) button.classList.remove('hidden'); // Возвращаем кнопку
+                    }, { once: true }); // Событие срабатывает один раз
+
+                    // Фаза 3: Рост до большого пика, остановка вращения (2 секунды)
+                    setTimeout(() => {
+                        siren2.classList.remove('rotate'); // Останавливаем вращение
+                        siren2.style.animation = ''; // Останавливаем полёт
+                        const randomX = Math.random() * 100 + 'vw';
+                        const randomY = Math.random() * 100 + 'vh';
+                        siren2.style.top = randomY;
+                        siren2.style.left = randomX;
+                        siren2.style.animation = 'growAndStop 2s ease-out';
+
+                        // Конец третьего звука: исчезновение второй сирены
+                        setTimeout(() => {
+                            siren2.style.display = 'none'; // Исчезает вторая сирена
+                            const button = document.querySelector('.main-button');
+                            if (button) button.classList.remove('hidden'); // Возвращаем кнопку
                         }, 2000); // Длительность фазы 3 (2 секунды)
                     }, 2000); // Длительность фазы 2 (2 секунды)
                 }, 2000); // Длительность фазы 1 (2 секунды)
@@ -155,7 +244,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const button = document.querySelector('.main-button');
             if (button) {
-                button.addEventListener('click', animateSiren);
+                button.addEventListener('click', animateSiren1);
             }
         });
     </script>
