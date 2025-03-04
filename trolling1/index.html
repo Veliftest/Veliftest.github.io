@@ -67,54 +67,6 @@
             background: url('your-background.gif') no-repeat center center fixed;
             background-size: cover;
         }
-        /* Аудиоплеер */
-        .audio-player {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            backdrop-filter: blur(5px);
-            z-index: 2;
-        }
-        .audio-controls button {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            padding: 5px;
-        }
-        .audio-controls button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        #volumeControl {
-            width: 100px;
-            height: 5px;
-            background: #ffffff;
-            border-radius: 3px;
-            outline: none;
-            -webkit-appearance: none;
-        }
-        #volumeControl::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 15px;
-            height: 15px;
-            background: #ffffff;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        #timeDisplay {
-            color: white;
-            font-size: 14px;
-            margin-left: 10px;
-        }
         /* Адаптивность для телефонов: увеличение размера только для default-texture.png, сохранён размер new-texture.jpg */
         @media (max-width: 768px) {
             .main-button {
@@ -125,18 +77,6 @@
                 width: clamp(150px, 16.67vw, 300px); /* Сохранён прежний размер круга на телефоне для new-texture.jpg */
                 height: clamp(150px, 16.67vw, 300px); /* Сохранён прежний размер круга на телефоне для new-texture.jpg */
             }
-            .audio-player {
-                bottom: 10px;
-                padding: 5px 10px;
-                font-size: 12px;
-            }
-            .audio-controls button {
-                font-size: 14px;
-                padding: 3px;
-            }
-            #volumeControl {
-                width: 80px;
-            }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
@@ -146,109 +86,92 @@
         <button class="main-button"></button> <!-- Кнопка без текста, с изображением default-texture.png -->
     </div>
 
-    <audio id="clickSound" src="click-sound.mp3" preload="auto"></audio> <!-- Аудио для кнопки и плеера -->
-
-    <div class="audio-player">
-        <button id="playPauseBtn">▶</button>
-        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
-        <span id="timeDisplay">0:00 / 0:00</span>
-    </div>
+    <audio id="clickSound" src="click-sound.mp3" preload="auto" style="display: none;"></audio> <!-- Скрытый аудио элемент -->
 
     <script>
-        // Аудиоплеер
-        const audio = document.getElementById('clickSound');
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const volumeControl = document.getElementById('volumeControl');
-        const timeDisplay = document.getElementById('timeDisplay');
-
-        // Настройка аудиоплеера
-        function updateTimeDisplay() {
-            const currentTime = Math.floor(audio.currentTime);
-            const duration = Math.floor(audio.duration) || 0;
-            const minutesCurrent = Math.floor(currentTime / 60);
-            const secondsCurrent = currentTime % 60;
-            const minutesDuration = Math.floor(duration / 60);
-            const secondsDuration = duration % 60;
-            timeDisplay.textContent = `${minutesCurrent}:${secondsCurrent.toString().padStart(2, '0')} / ${minutesDuration}:${secondsDuration.toString().padStart(2, '0')}`;
+        // Проверка, является ли устройство мобильным (телефоном)
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
 
-        playPauseBtn.addEventListener('click', () => {
-            if (audio.paused) {
-                audio.play().catch(error => console.log('Ошибка воспроизведения:', error));
-                playPauseBtn.textContent = '⏸';
-            } else {
-                audio.pause();
-                playPauseBtn.textContent = '▶';
-            }
-        });
-
-        volumeControl.addEventListener('input', () => {
-            audio.volume = volumeControl.value;
-        });
-
-        audio.addEventListener('timeupdate', updateTimeDisplay);
-        audio.addEventListener('loadedmetadata', updateTimeDisplay);
-
-        // Приоритет загрузки аудио: загружаем аудио сразу при загрузке страницы
-        document.addEventListener('DOMContentLoaded', () => {
-            audio.load(); // Убедимся, что аудио загружено сразу
-        });
-
-        // Обработка фонового воспроизведения
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden && audio.paused) {
-                audio.play().catch(error => console.log('Ошибка воспроизведения при возврате:', error));
-            }
-        });
-
-        window.addEventListener('pagehide', () => {
-            if (!audio.paused) {
-                audio.play().catch(error => console.log('Ошибка воспроизведения при уходе в фоновый режим:', error));
-            }
-        });
-
-        window.addEventListener('pageshow', () => {
-            if (audio.paused) {
-                audio.play().catch(error => console.log('Ошибка воспроизведения при возврате на страницу:', error));
-            }
-        });
-
-        // Кнопка
+        const audio = document.getElementById('clickSound');
         const button = document.querySelector('.main-button');
         const body = document.body;
         let isActive = true; // Флаг для отслеживания состояния кнопки
 
+        // Приоритет загрузки аудио только на мобильных устройствах
+        if (isMobileDevice()) {
+            document.addEventListener('DOMContentLoaded', () => {
+                audio.load(); // Убедимся, что аудио загружено сразу на мобильных
+            });
+        }
+
         button.addEventListener('click', () => {
             if (isActive) {
-                // Задержка перед загрузкой фона и крутилки для приоритета аудио
-                const startTime = performance.now();
-                audio.play(); // Сразу проигрываем аудио один раз
+                // Воспроизведение аудио только на мобильных устройствах
+                if (isMobileDevice()) {
+                    const startTime = performance.now();
+                    audio.play(); // Сразу проигрываем аудио один раз на мобильных
 
-                // Проверяем, загружено ли изображение new-texture.jpg, и добавляем вращение с небольшой задержкой
-                const newTextureImg = new Image();
-                newTextureImg.src = 'new-texture.jpg';
-                newTextureImg.onload = () => {
-                    const delay = Math.max(0, 50 - (performance.now() - startTime)); // Задержка до 50 мс, но не больше
+                    // Проверяем, загружено ли изображение new-texture.jpg, и добавляем вращение с небольшой задержкой
+                    const newTextureImg = new Image();
+                    newTextureImg.src = 'new-texture.jpg';
+                    newTextureImg.onload = () => {
+                        const delay = Math.max(0, 50 - (performance.now() - startTime)); // Задержка до 50 мс, но не больше
+                        setTimeout(() => {
+                            body.classList.add('new-background'); // Добавляем фон с небольшой задержкой
+                            button.classList.remove('main-button');
+                            button.classList.add('inactive-image', 'spinning');
+                        }, delay);
+                    };
+
+                    // После окончания аудио возвращаем начальное состояние
+                    audio.onended = () => {
+                        body.classList.remove('new-background');
+                        button.classList.remove('inactive-image', 'spinning');
+                        button.classList.add('main-button');
+                        isActive = true; // Восстанавливаем интерактивность
+                        audio.pause(); // Останавливаем аудио после воспроизведения
+                        audio.currentTime = 0; // Сбрасываем позицию аудио
+                    };
+                } else {
+                    // На ПК: просто выполняем анимацию без аудио
+                    body.classList.add('new-background');
+                    button.classList.remove('main-button');
+                    button.classList.add('inactive-image', 'spinning');
+
+                    // Возвращаем начальное состояние через 3 секунды (длительность анимации вращения)
                     setTimeout(() => {
-                        body.classList.add('new-background'); // Добавляем фон с небольшой задержкой
-                        button.classList.remove('main-button');
-                        button.classList.add('inactive-image', 'spinning');
-                    }, delay);
-                };
-
-                // После окончания аудио возвращаем начальное состояние
-                audio.onended = () => {
-                    body.classList.remove('new-background');
-                    button.classList.remove('inactive-image', 'spinning');
-                    button.classList.add('main-button');
-                    isActive = true; // Восстанавливаем интерактивность
-                    audio.pause(); // Останавливаем аудио после воспроизведения
-                    audio.currentTime = 0; // Сбрасываем позицию аудио
-                    playPauseBtn.textContent = '▶'; // Обновляем кнопку плеера
-                };
+                        body.classList.remove('new-background');
+                        button.classList.remove('inactive-image', 'spinning');
+                        button.classList.add('main-button');
+                        isActive = true; // Восстанавливаем интерактивность
+                    }, 3000); // 3 секунды — длительность анимации
+                }
                 isActive = false; // Отключаем интерактивность кнопки после клика
             }
         });
+
+        // Обработка фонового воспроизведения только на мобильных устройствах
+        if (isMobileDevice()) {
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden && audio.paused) {
+                    audio.play().catch(error => console.log('Ошибка воспроизведения при возврате:', error));
+                }
+            });
+
+            window.addEventListener('pagehide', () => {
+                if (!audio.paused) {
+                    audio.play().catch(error => console.log('Ошибка воспроизведения при уходе в фоновый режим:', error));
+                }
+            });
+
+            window.addEventListener('pageshow', () => {
+                if (audio.paused) {
+                    audio.play().catch(error => console.log('Ошибка воспроизведения при возврате на страницу:', error));
+                }
+            });
+        }
     </script>
 </body>
 </html>
