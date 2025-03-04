@@ -95,10 +95,6 @@
             localStorage.setItem('prankStep', step);
         }
 
-        function resetStep() {
-            localStorage.removeItem('prankStep');
-        }
-
         // Функция для анимации сирены с тремя фазами звука "Oh No" (6 секунд)
         function animateSiren() {
             const button = document.querySelector('.main-button');
@@ -237,7 +233,9 @@
         // Запуск анимации при клике на кнопку
         document.addEventListener('DOMContentLoaded', () => {
             const button = document.querySelector('.main-button');
-            if (button) {
+            const step = getStep();
+
+            if (button && step === 0) {
                 button.addEventListener('click', animateSiren);
             }
         });
