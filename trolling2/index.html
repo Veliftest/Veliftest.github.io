@@ -119,9 +119,8 @@
 
                 // Уменьшение, вращение, и хаотичное движение (0.5 секунды пауза, затем вторая фаза)
                 setTimeout(() => {
-                    const { x, y } = getRandomPosition(windowWidth, windowHeight, maxSize);
-                    siren.style.setProperty('--x-px', `${x}px`);
-                    siren.style.setProperty('--y-px', `${y}px`);
+                    const { x, y } = getRandomPosition(windowWidth, windowHeight, maxSize, minSize);
+                    updateSirenPosition(siren, x, y, maxSize);
                     siren.classList.remove('siren-peak');
                     siren.style.animation = 'shrinkAndFly 0.5s ease-in-out';
                     siren.classList.add('rotate'); // Добавляем вращение
@@ -136,9 +135,8 @@
 
                         // Уменьшение, вращение, и хаотичное движение (0.5 секунды пауза, затем третья фаза)
                         setTimeout(() => {
-                            const { x: x2, y: y2 } = getRandomPosition(windowWidth, windowHeight, maxSize);
-                            siren.style.setProperty('--x-px', `${x2}px`);
-                            siren.style.setProperty('--y-px', `${y2}px`);
+                            const { x: x2, y: y2 } = getRandomPosition(windowWidth, windowHeight, maxSize, minSize);
+                            updateSirenPosition(siren, x2, y2, maxSize);
                             siren.classList.remove('siren-peak');
                             siren.style.animation = 'shrinkAndFly 0.5s ease-in-out';
                             siren.classList.add('rotate'); // Добавляем вращение
@@ -147,9 +145,8 @@
                             setTimeout(() => {
                                 siren.classList.remove('rotate'); // Останавливаем вращение
                                 siren.style.animation = ''; // Останавливаем полёт
-                                const { x: x3, y: y3 } = getRandomPosition(windowWidth, windowHeight, maxSize);
-                                siren.style.top = `${y3}px`;
-                                siren.style.left = `${x3}px`;
+                                const { x: x3, y: y3 } = getRandomPosition(windowWidth, windowHeight, maxSize, minSize);
+                                updateSirenPosition(siren, x3, y3, maxSize);
                                 siren.style.animation = 'growAndStop 1.5s ease-out';
 
                                 // Конец третьего сигнала: исчезновение сирены
@@ -164,9 +161,16 @@
             }, 0); // Немедленный старт первой анимации
         }
 
+        // Функция для обновления позиции сирены с учётом её размера и экрана
+        function updateSirenPosition(siren, x, y, maxSize) {
+            siren.style.left = `${x}px`;
+            siren.style.top = `${y}px`;
+            siren.style.width = `${maxSize}px`;
+            siren.style.height = `${maxSize}px`;
+        }
+
         // Функция для получения случайной позиции в пикселях, гарантирующей полную видимость сирены
-        function getRandomPosition(windowWidth, windowHeight, maxSize) {
-            const minSize = maxSize * 0.05; // Минимальный размер сирены (5% от максимального)
+        function getRandomPosition(windowWidth, windowHeight, maxSize, minSize) {
             const padding = 10; // Дополнительный отступ для полной видимости
 
             // Вычисляем максимальные координаты, учитывая размер сирены
@@ -177,26 +181,29 @@
             const x = Math.random() * maxX + padding;
             const y = Math.random() * maxY + padding;
 
-            // Убедимся, что координаты не выходят за пределы с учётом минимального размера
+            // Ограничиваем координаты, чтобы сирена всегда была видима
             const clampedX = Math.max(padding, Math.min(x, maxX));
             const clampedY = Math.max(padding, Math.min(y, maxY));
 
             return { x: clampedX, y: clampedY };
         }
 
-        // Обновляем размеры окна при изменении
+        // Обновляем размеры и позицию сирены при изменении окна
         window.addEventListener('resize', () => {
             const siren = document.getElementById('siren');
             if (siren.style.display === 'block') {
                 const windowWidth = window.innerWidth;
                 const windowHeight = window.innerHeight;
                 const maxSize = Math.min(1030, windowWidth, windowHeight);
-                siren.style.width = `${maxSize}px`;
-                siren.style.height = `${maxSize}px`;
+                const minSize = maxSize * 0.05;
+
+                // Обновляем размер сирены
+                updateSirenPosition(siren, parseFloat(siren.style.left) || 0, parseFloat(siren.style.top) || 0, maxSize);
+
                 // Пересчитываем позиции для текущих размеров
-                const { x, y } = getRandomPosition(windowWidth, windowHeight, maxSize);
-                siren.style.left = `${x}px`;
-                siren.style.top = `${y}px`;
+                const { x, y } = getRandomPosition(windowWidth, windowHeight, maxSize, minSize);
+                siren.style.setProperty('--x-px', `${x}px`);
+                siren.style.setProperty('--y-px', `${y}px`);
             }
         });
 
