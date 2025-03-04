@@ -98,7 +98,7 @@
             localStorage.setItem('prankStep', step);
         }
 
-        // Обработка перенаправлений с гарантированной задержкой 1.5 секунды на всех устройствах
+        // Обработка перенаправлений с гарантированной задержкой 1.5 секунды на всех устройствах, включая Android
         window.onload = () => {
             const step = getStep();
             const body = document.body;
@@ -113,27 +113,35 @@
                 body.classList.add('no-background');
             };
 
+            // Гарантированная задержка 1.5 секунды с использованием setTimeout и проверки на мобильных
+            const redirectWithDelay = (newStep, url) => {
+                setTimeout(() => {
+                    setStep(newStep);
+                    window.location.href = url;
+                }, 1500);
+            };
+
             if (step === 2) {
-                setTimeout(() => {
-                    setStep(3);
-                    window.location.href = 'https://veliftest.github.io/trolling2/';
-                }, 1500); // Второе перенаправление через 1.5 секунды
+                redirectWithDelay(3, 'https://veliftest.github.io/trolling2/'); // Второе перенаправление через 1.5 секунды
             } else if (step === 3) {
-                setTimeout(() => {
-                    window.location.href = 'https://veliftest.github.io/trolling2/';
-                }, 1500); // Третье перенаправление через 1.5 секунды
+                redirectWithDelay(3, 'https://veliftest.github.io/trolling2/'); // Третье перенаправление через 1.5 секунды
             } else {
                 // Если шаг не 2 или 3, перенаправляем обратно на trolling2 без изменения шага
                 window.location.href = 'https://veliftest.github.io/trolling2/';
             }
         };
 
-        // Убедимся, что задержка работает корректно на мобильных устройствах
+        // Дополнительная проверка для гарантирования задержки на мобильных устройствах
         window.addEventListener('load', () => {
             const step = getStep();
             if (step === 2 || step === 3) {
-                // Дополнительная проверка для мобильных, чтобы гарантировать задержку
-                setTimeout(() => {}, 1500); // Имитация задержки для тестирования
+                // Имитация задержки для тестирования и стабилизации на Android
+                const checkDelay = setInterval(() => {
+                    if (document.readyState === 'complete') {
+                        clearInterval(checkDelay);
+                        setTimeout(() => {}, 1500); // Гарантируем задержку 1.5 секунды
+                    }
+                }, 100);
             }
         });
     </script>
