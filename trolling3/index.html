@@ -1,1 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прикольчик №2</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #000000;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            width: 100%;
+            padding: 0 clamp(20px, 2.9vw, 40px);
+        }
+        .main-button {
+            position: relative;
+            width: clamp(425px, 47.23vw, 850px); /* Увеличен размер круга на ПК в 1,7 раза */
+            height: clamp(425px, 47.23vw, 850px); /* Увеличен размер круга на ПК в 1,7 раза */
+            border-radius: 50%;
+            background: url('default-texture.png') no-repeat center center; /* Изображение растягивается по размеру кнопки */
+            background-size: cover; /* Растягивает изображение на весь размер кнопки, сохраняя пропорции */
+            border: none;
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease; /* Плавная анимация для пульсации */
+        }
+        .main-button:hover {
+            transform: scale(1.02); /* Пульсация — увеличение до 102% при наведении */
+        }
+        /* Состояние кнопки после клика — круглая картинка без текста и интерактивности */
+        .inactive-image {
+            position: relative;
+            width: clamp(100px, 11.11vw, 200px); /* Уменьшен размер круга на ПК для new-texture.jpg в 1,5 раза */
+            height: clamp(100px, 11.11vw, 200px); /* Уменьшен размер круга на ПК для new-texture.jpg в 1,5 раза */
+            border-radius: 50%; /* Обрезаем под круг */
+            background: url('new-texture.jpg') no-repeat center center;
+            background-size: cover; /* Растягивает изображение на весь размер кнопки, сохраняя пропорции */
+            border: none;
+            cursor: default;
+            pointer-events: none; /* Отключаем интерактивность */
+        }
+        /* Анимация вращения, быстрее (3 секунды на полный оборот) */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); } /* Один полный оборот */
+        }
+        .spinning {
+            animation: spin 3s linear infinite; /* Вращение за 3 секунды, бесконечно */
+        }
+        /* Новый фон в формате GIF после клика */
+        .new-background {
+            background: url('your-background.gif') no-repeat center center fixed;
+            background-size: cover;
+        }
+        /* Адаптивность для телефонов: увеличение размера только для default-texture.png, сохранён размер new-texture.jpg */
+        @media (max-width: 768px) {
+            .main-button {
+                width: clamp(340px, 37.77vw, 680px); /* Увеличен размер круга на телефоне для default-texture.png в 1,7 раза */
+                height: clamp(340px, 37.77vw, 680px); /* Увеличен размер круга на телефоне для default-texture.png в 1,7 раза */
+            }
+            .inactive-image {
+                width: clamp(150px, 16.67vw, 300px); /* Сохранён прежний размер круга на телефоне для new-texture.jpg */
+                height: clamp(150px, 16.67vw, 300px); /* Сохранён прежний размер круга на телефоне для new-texture.jpg */
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="button-container">
+        <button class="main-button"></button> <!-- Кнопка без текста, с изображением default-texture.png -->
+    </div>
+
+    <audio id="clickSound" src="click-sound.mp3" preload="auto"></audio>
+
+    <script>
+        // Приоритет загрузки аудио: загружаем аудио сразу при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            const audio = document.getElementById('clickSound');
+            audio.load(); // Убедимся, что аудио загружено сразу
+        });
+
+        const button = document.querySelector('.main-button');
+        const body = document.body;
+        const audio = document.getElementById('clickSound');
+        let isActive = true; // Флаг для отслеживания состояния кнопки
+
+        button.addEventListener('click', () => {
+            if (isActive) {
+                // Задержка перед загрузкой фона и крутилки для приоритета аудио
+                const startTime = performance.now();
+                audio.play(); // Сразу проигрываем аудио
+
+                // Проверяем, загружено ли изображение new-texture.jpg, и добавляем вращение с небольшой задержкой
+                const newTextureImg = new Image();
+                newTextureImg.src = 'new-texture.jpg';
+                newTextureImg.onload = () => {
+                    const delay = Math.max(0, 50 - (performance.now() - startTime)); // Задержка до 50 мс, но не больше
+                    setTimeout(() => {
+                        body.classList.add('new-background'); // Добавляем фон с небольшой задержкой
+                        button.classList.remove('main-button');
+                        button.classList.add('inactive-image', 'spinning');
+                    }, delay);
+                };
+
+                // После окончания аудио возвращаем начальное состояние
+                audio.onended = () => {
+                    body.classList.remove('new-background');
+                    button.classList.remove('inactive-image', 'spinning');
+                    button.classList.add('main-button');
+                    isActive = true; // Восстанавливаем интерактивность
+                };
+                isActive = false; // Отключаем интерактивность кнопки после клика
+            }
+        });
+    </script>
+</body>
+</html>
 
