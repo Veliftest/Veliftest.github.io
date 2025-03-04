@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Прикольчик №2</title>
+    <title>Прикольчик №1</title>
     <style>
         body {
             margin: 0;
@@ -67,6 +67,85 @@
             background: url('your-background.gif') no-repeat center center fixed;
             background-size: cover;
         }
+        /* Фейковое окно "Загрузка" */
+        .fake-loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            text-align: center;
+            font-size: 18px;
+            color: #000;
+            display: none;
+        }
+        .fake-loading::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        /* Анимация конфетти */
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1001;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff0;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: fall 2s linear;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        /* Анимация тряски экрана */
+        @keyframes shake {
+            0% { transform: translate(0, 0); }
+            10% { transform: translate(-5px, 5px); }
+            20% { transform: translate(5px, -5px); }
+            30% { transform: translate(-5px, 5px); }
+            40% { transform: translate(5px, -5px); }
+            50% { transform: translate(-5px, 5px); }
+            60% { transform: translate(5px, -5px); }
+            70% { transform: translate(-5px, 5px); }
+            80% { transform: translate(5px, -5px); }
+            90% { transform: translate(-5px, 5px); }
+            100% { transform: translate(0, 0); }
+        }
+        .shake {
+            animation: shake 0.5s;
+        }
+        /* Скример */
+        .screamer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('scary-image.jpg') no-repeat center center;
+            background-size: cover;
+            z-index: 1002;
+            display: none;
+        }
         /* Адаптивность для телефонов: увеличение размера только для default-texture.png, сохранён размер new-texture.jpg */
         @media (max-width: 768px) {
             .main-button {
@@ -77,6 +156,14 @@
                 width: clamp(150px, 16.67vw, 300px); /* Сохранён прежний размер круга на телефоне для new-texture.jpg */
                 height: clamp(150px, 16.67vw, 300px); /* Сохранён прежний размер круга на телефоне для new-texture.jpg */
             }
+            .fake-loading {
+                font-size: 16px;
+                padding: 15px;
+            }
+            .fake-loading::after {
+                width: 40px;
+                height: 40px;
+            }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
@@ -86,46 +173,123 @@
         <button class="main-button"></button> <!-- Кнопка без текста, с изображением default-texture.png -->
     </div>
 
-    <audio id="clickSound" src="click-sound.mp3" preload="auto"></audio>
+    <div class="fake-loading" id="fakeLoading"></div>
+    <div class="confetti" id="confetti"></div>
+    <div class="screamer" id="screamer"></div>
 
     <script>
-        // Приоритет загрузки аудио: загружаем аудио сразу при загрузке страницы
-        document.addEventListener('DOMContentLoaded', () => {
-            const audio = document.getElementById('clickSound');
-            audio.load(); // Убедимся, что аудио загружено сразу
-        });
+        // Проверка, является ли устройство мобильным (телефоном)
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
 
         const button = document.querySelector('.main-button');
         const body = document.body;
-        const audio = document.getElementById('clickSound');
+        const fakeLoading = document.getElementById('fakeLoading');
+        const confetti = document.getElementById('confetti');
+        const screamer = document.getElementById('screamer');
         let isActive = true; // Флаг для отслеживания состояния кнопки
+
+        // Функции для анимаций и звуков
+        function playOhNo() {
+            const ohNo = new Audio('oh-no.mp3');
+            ohNo.play().catch(error => console.log('Ошибка воспроизведения Oh No:', error));
+        }
+
+        function playConfettiBurst() {
+            const confettiBurst = new Audio('confetti-burst.mp3');
+            confettiBurst.play().catch(error => console.log('Ошибка воспроизведения хлопков:', error));
+        }
+
+        function playWilhelmScream() {
+            const wilhelm = new Audio('wilhelm-scream.mp3');
+            wilhelm.play().catch(error => console.log('Ошибка воспроизведения Wilhelm Scream:', error));
+        }
+
+        function playScream() {
+            const scream = new Audio('scream.mp3');
+            scream.play().catch(error => console.log('Ошибка воспроизведения скримера:', error));
+        }
+
+        function createConfetti() {
+            confetti.innerHTML = ''; // Очищаем предыдущие частицы
+            for (let i = 0; i < 100; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + 'vw';
+                piece.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`; // Случайный цвет
+                piece.style.animationDelay = Math.random() * 2 + 's'; // Случайная задержка
+                confetti.appendChild(piece);
+            }
+            setTimeout(() => confetti.innerHTML = '', 2000); // Удаляем конфетти через 2 секунды
+        }
+
+        function shakeScreen() {
+            body.classList.add('shake');
+            setTimeout(() => body.classList.remove('shake'), 500); // Тряска длится 0.5 секунды
+        }
+
+        function showScreamer() {
+            screamer.style.display = 'block';
+            playScream();
+            setTimeout(() => {
+                screamer.style.display = 'none';
+                window.location.href = 'index.html'; // Возвращаемся на начальную страницу в тсolling2
+                resetStep(); // Сбрасываем состояние
+            }, 3000); // Скример длится 3 секунды
+        }
+
+        // Сохранение состояния через localStorage
+        function getStep() {
+            return parseInt(localStorage.getItem('prankStep') || '0');
+        }
+
+        function setStep(step) {
+            localStorage.setItem('prankStep', step);
+        }
+
+        function resetStep() {
+            localStorage.removeItem('prankStep');
+        }
 
         button.addEventListener('click', () => {
             if (isActive) {
-                // Задержка перед загрузкой фона и крутилки для приоритета аудио
-                const startTime = performance.now();
-                audio.play(); // Сразу проигрываем аудио
+                const step = getStep();
+                if (step === 0) {
+                    // Шаг 1: Мемный звук "Oh No"
+                    playOhNo();
+                    setStep(1);
+                    // Перенаправление на trolling2helper (прямой шаг для упрощения, так как trolling2 уже текущая папка)
+                    window.location.href = 'trolling2helper/index.html';
+                } else if (step === 3) {
+                    // Шаг 3: Возвращение на текущую страницу после перенаправлений
+                    body.classList.add('new-background');
+                    button.classList.remove('main-button');
+                    button.classList.add('inactive-image', 'spinning');
 
-                // Проверяем, загружено ли изображение new-texture.jpg, и добавляем вращение с небольшой задержкой
-                const newTextureImg = new Image();
-                newTextureImg.src = 'new-texture.jpg';
-                newTextureImg.onload = () => {
-                    const delay = Math.max(0, 50 - (performance.now() - startTime)); // Задержка до 50 мс, но не больше
-                    setTimeout(() => {
-                        body.classList.add('new-background'); // Добавляем фон с небольшой задержкой
-                        button.classList.remove('main-button');
-                        button.classList.add('inactive-image', 'spinning');
-                    }, delay);
-                };
+                    const newTextureImg = new Image();
+                    newTextureImg.src = 'new-texture.jpg';
+                    newTextureImg.onload = () => {
+                        setTimeout(() => {
+                            // Шаг 4: Бесконечная загрузка (2 секунды)
+                            fakeLoading.style.display = 'block';
+                            setTimeout(() => {
+                                fakeLoading.style.display = 'none';
+                                // Шаг 5: Конфетти с хлопками и Wilhelm Scream
+                                playConfettiBurst();
+                                playWilhelmScream();
+                                createConfetti();
+                                setTimeout(() => {
+                                    // Шаг 6: Тряска экрана и скример
+                                    shakeScreen();
+                                    setTimeout(showScreamer, 500); // Тряска, затем скример
+                                }, 2000); // Конфетти + звуки длится 2 секунды
+                            }, 2000); // Загрузка длится 2 секунды
+                        }, 3000); // Задержка на 3 секунды (вращение)
+                    };
 
-                // После окончания аудио возвращаем начальное состояние
-                audio.onended = () => {
-                    body.classList.remove('new-background');
-                    button.classList.remove('inactive-image', 'spinning');
-                    button.classList.add('main-button');
-                    isActive = true; // Восстанавливаем интерактивность
-                };
-                isActive = false; // Отключаем интерактивность кнопки после клика
+                    isActive = false; // Отключаем интерактивность кнопки
+                }
             }
         });
     </script>
