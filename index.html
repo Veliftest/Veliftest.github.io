@@ -38,7 +38,7 @@
         .button-container {
             display: flex;
             flex-wrap: wrap;
-            gap: clamp(15px, 2.18vw, 56px);
+            gap: clamp(20px, 2.9vw, 56px); /* Восстановлено увеличение в 2 раза от оригинальных 10px, 1.45vw, 28px */
             justify-content: center;
             align-items: center;
             z-index: 1;
@@ -50,7 +50,7 @@
         .main-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: clamp(15px, 2.18vw, 56px);
+            gap: clamp(20px, 2.9vw, 56px); /* Восстановлено увеличение в 2 раза от оригинальных 10px, 1.45vw, 28px */
             justify-content: center;
             width: 100%;
             max-width: 900px; /* Ограничение максимальной ширины для красивого центрирования на ПК */
@@ -74,43 +74,35 @@
             align-items: center; /* Центрирование текста по вертикали */
         }
         button {
-            padding: clamp(15px, 1.67vw, 38px) clamp(30px, 3.57vw, 82px);
-            font-size: clamp(18px, 1.74vw, 40px);
+            padding: clamp(16px, 1.77vw, 38px) clamp(34px, 3.77vw, 82px); /* Восстановлено увеличение в 2 раза от оригинальных 8px 17vw, 19px 41px */
+            font-size: clamp(18px, 1.74vw, 40px); /* Восстановлено увеличение в 2 раза от оригинальных 9px 0.87vw, 20px */
             font-family: 'Poppins', sans-serif;
             font-weight: 800; /* Более широкий (жирный) шрифт для кнопок */
             color: #ffffff;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.4);
-            background: linear-gradient(45deg, #3c6e31, #5a9e4b);
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.4); /* Сохраняем базовое свечение текста */
+            background: linear-gradient(45deg, #3c6e31, #5a9e4b); /* Восстановлен оригинальный градиент */
             border: none;
-            border-radius: clamp(30px, 4.62vw, 106px);
+            border-radius: clamp(22px, 3.27vw, 106px); /* Восстановлено увеличение в 2 раза от оригинальных 11px 1.64vw, 53px */
             cursor: pointer;
-            box-shadow: 0 clamp(15px, 1.4vw, 32px) clamp(30px, 3.5vw, 80px) rgba(60, 110, 49, 0.6), 0 0 20px rgba(90, 158, 75, 0.8), 0 0 40px rgba(60, 110, 49, 0.6);
+            box-shadow: 0 clamp(13px, 1.16vw, 32px) clamp(33px, 3.89vw, 80px) rgba(60, 110, 49, 0.6); /* Восстановлено увеличение в 2 раза от оригинальных 6.5px 0.58vw, 16px 40px, убрано дополнительное свечение */
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: clamp(1.5px, 0.18vw, 4px);
+            letter-spacing: clamp(1px, 0.12vw, 2px); /* Восстановлено увеличение в 2 раза от оригинальных 0.5px, 0.06vw, 1px */
             width: 100%;
-            max-width: 300px; /* Увеличено максимальную ширину кнопок на ПК для лучшего центрирования и пропорций */
-            animation: pulse 2s infinite ease-in-out;
+            max-width: 300px; /* Сохраняем максимальную ширину для ПК, адаптированную под старые кнопки */
             text-align: center; /* Выравнивание текста внутри кнопок по центру */
             display: flex; /* Используем flex для идеального центрирования текста */
             justify-content: center; /* Центрирование текста по горизонтали */
             align-items: center; /* Центрирование текста по вертикали */
         }
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 clamp(15px, 1.4vw, 32px) clamp(30px, 3.5vw, 80px) rgba(60, 110, 49, 0.6), 0 0 20px rgba(90, 158, 75, 0.8), 0 0 40px rgba(60, 110, 49, 0.6); }
-            50% { transform: scale(1.05); box-shadow: 0 clamp(18.75px, 1.75vw, 40px) clamp(37.5px, 4.38vw, 100px) rgba(60, 110, 49, 0.7), 0 0 25px rgba(90, 158, 75, 1.0), 0 0 50px rgba(60, 110, 49, 0.7); }
-            100% { transform: scale(1); box-shadow: 0 clamp(15px, 1.4vw, 32px) clamp(30px, 3.5vw, 80px) rgba(60, 110, 49, 0.6), 0 0 20px rgba(90, 158, 75, 0.8), 0 0 40px rgba(60, 110, 49, 0.6); }
-        }
         button:hover {
-            background: linear-gradient(45deg, #5a9e4b, #3c6e31);
-            transform: translateY(clamp(-20px, -1.86vw, -32px)) scale(1.05);
-            box-shadow: 0 clamp(30px, 2.78vw, 48px) clamp(60px, 6.16vw, 106px) rgba(60, 110, 49, 0.8), 0 0 30px rgba(90, 158, 75, 1.0), 0 0 60px rgba(60, 110, 49, 0.8);
-            animation: none;
+            background: linear-gradient(45deg, #5a9e4b, #3c6e31); /* Восстановлен оригинальный градиент при наведении */
+            transform: translateY(clamp(-13px, -0.93vw, -32px)); /* Восстановлено увеличение в 2 раза от оригинальных -6.5px, -0.465vw, -16px */
+            box-shadow: 0 clamp(20px, 1.74vw, 48px) clamp(44px, 5.83vw, 106px) rgba(60, 110, 49, 0.8); /* Восстановлено увеличение в 2 раза от оригинальных 10px 0.87vw, 24px 53px, убрано дополнительное свечение */
         }
         button:active {
-            transform: translateY(clamp(10px, 0.82vw, 14px)) scale(0.98);
-            box-shadow: 0 clamp(10px, 0.82vw, 14px) clamp(20px, 2.78vw, 48px) rgba(60, 110, 49, 0.4), 0 0 15px rgba(90, 158, 75, 0.6), 0 0 30px rgba(60, 110, 49, 0.4);
-            animation: none;
+            transform: translateY(clamp(7px, 0.41vw, 14px)); /* Восстановлено увеличение в 2 раза от оригинальных 3.5px, 0.205vw, 7px */
+            box-shadow: 0 clamp(6px, 0.41vw, 14px) clamp(20px, 2.78vw, 48px) rgba(60, 110, 49, 0.4); /* Восстановлено увеличение в 2 раза от оригинальных 3px 0.205vw, 10px 24px, убрано дополнительное свечение */
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
