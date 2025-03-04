@@ -45,8 +45,8 @@
         /* Состояние кнопки после клика — круглая картинка без текста и интерактивности */
         .inactive-image {
             position: relative;
-            width: clamp(250px, 27.78vw, 500px); /* Увеличен размер круга на ПК */
-            height: clamp(250px, 27.78vw, 500px); /* Увеличен размер круга на ПК */
+            width: clamp(200px, 22.22vw, 400px); /* Уменьшен размер круга на ПК для new-texture.jpg */
+            height: clamp(200px, 22.22vw, 400px); /* Уменьшен размер круга на ПК для new-texture.jpg */
             border-radius: 50%; /* Обрезаем под круг */
             background: url('new-texture.jpg') no-repeat center center;
             background-size: cover; /* Растягивает изображение на весь размер кнопки, сохраняя пропорции */
@@ -54,28 +54,28 @@
             cursor: default;
             pointer-events: none; /* Отключаем интерактивность */
         }
-        /* Анимация вращения, синхронизированная с 113 BPM (19 оборотов за 10 секунд) */
+        /* Анимация вращения, медленнее (5 секунд на полный оборот, вместо 10) */
         @keyframes spin {
             0% { transform: rotate(0deg); }
-            100% { transform: rotate(6840deg); } /* 19 оборотов = 6840° за 10 секунд */
+            100% { transform: rotate(360deg); } /* Один полный оборот */
         }
         .spinning {
-            animation: spin 10s linear infinite; /* Вращение за 10 секунд, бесконечно */
+            animation: spin 5s linear infinite; /* Вращение за 5 секунд, бесконечно */
         }
         /* Новый фон в формате GIF после клика */
         .new-background {
             background: url('your-background.gif') no-repeat center center fixed;
             background-size: cover;
         }
-        /* Адаптивность для телефонов: увеличение размера круга для default-texture.png и new-texture.jpg */
+        /* Адаптивность для телефонов: ещё больше увеличение размера круга для default-texture.png и new-texture.jpg */
         @media (max-width: 768px) {
             .main-button {
-                width: clamp(150px, 16.67vw, 300px); /* Увеличен размер круга на телефоне для default-texture.png */
-                height: clamp(150px, 16.67vw, 300px); /* Увеличен размер круга на телефоне для default-texture.png */
+                width: clamp(200px, 22.22vw, 400px); /* Ещё больше увеличен размер круга на телефоне для default-texture.png */
+                height: clamp(200px, 22.22vw, 400px); /* Ещё больше увеличен размер круга на телефоне для default-texture.png */
             }
             .inactive-image {
-                width: clamp(150px, 16.67vw, 300px); /* Увеличен размер круга на телефоне для new-texture.jpg */
-                height: clamp(150px, 16.67vw, 300px); /* Увеличен размер круга на телефоне для new-texture.jpg */
+                width: clamp(200px, 22.22vw, 400px); /* Ещё больше увеличен размер круга на телефоне для new-texture.jpg */
+                height: clamp(200px, 22.22vw, 400px); /* Ещё больше увеличен размер круга на телефоне для new-texture.jpg */
             }
         }
     </style>
@@ -89,6 +89,12 @@
     <audio id="clickSound" src="click-sound.mp3" preload="auto"></audio>
 
     <script>
+        // Приоритет загрузки аудио: загружаем аудио сразу при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            const audio = document.getElementById('clickSound');
+            audio.load(); // Убедимся, что аудио загружено сразу
+        });
+
         const button = document.querySelector('.main-button');
         const body = document.body;
         const audio = document.getElementById('clickSound');
@@ -96,13 +102,22 @@
 
         button.addEventListener('click', () => {
             if (isActive) {
-                // Меняем фон на GIF
-                body.classList.add('new-background');
-                // Преобразуем кнопку в неинтерактивную картинку с новой текстурой
-                button.classList.remove('main-button');
-                button.classList.add('inactive-image', 'spinning');
-                // Включаем аудио
-                audio.play();
+                // Задержка перед загрузкой фона и крутилки для приоритета аудио
+                const startTime = performance.now();
+                audio.play(); // Сразу проигрываем аудио
+
+                // Проверяем, загружено ли изображение new-texture.jpg, и добавляем вращение с небольшой задержкой
+                const newTextureImg = new Image();
+                newTextureImg.src = 'new-texture.jpg';
+                newTextureImg.onload = () => {
+                    const delay = Math.max(0, 50 - (performance.now() - startTime)); // Задержка до 50 мс, но не больше
+                    setTimeout(() => {
+                        body.classList.add('new-background'); // Добавляем фон с небольшой задержкой
+                        button.classList.remove('main-button');
+                        button.classList.add('inactive-image', 'spinning');
+                    }, delay);
+                };
+
                 // После окончания аудио возвращаем начальное состояние
                 audio.onended = () => {
                     body.classList.remove('new-background');
